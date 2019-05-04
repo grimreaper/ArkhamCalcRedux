@@ -1,4 +1,4 @@
-package com.example.arkhamcalcredux;
+package com.eitanadler.arkhamcalcredux;
 
 import org.junit.Test;
 
