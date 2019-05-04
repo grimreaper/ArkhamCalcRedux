@@ -369,7 +369,7 @@ public class ArkhamCalc extends Activity
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.cancel();
 					
-					sharedPrefs.edit().putString(PREFS_KEY_FIRST_TIME_16, "a").commit();
+					sharedPrefs.edit().putString(PREFS_KEY_FIRST_TIME_16, "a").apply();
 				}
 			});
 		builder.create().show();
