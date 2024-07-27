@@ -9,4 +9,5 @@
     <item android:id="@+id/menu_item_help"
           android:title="@string/menu_item_string_help"
           android:icon="@android:drawable/ic_menu_help" />
+    <item android:title="Item" />
 </menu>

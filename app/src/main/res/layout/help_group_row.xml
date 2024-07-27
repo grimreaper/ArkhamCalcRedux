@@ -3,7 +3,7 @@
     android:id="@+id/helpTopicTextView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:paddingLeft="40dp"
+    android:paddingStart="40dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:textIsSelectable="true"
