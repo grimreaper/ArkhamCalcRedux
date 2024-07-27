@@ -19,6 +19,8 @@ package com.eitanadler.arkhamcalcredux2;
 
 import junit.framework.TestCase;
 
+import org.junit.Assert;
+
 import java.util.Random;
 
 public class TestCalculator extends TestCase {
@@ -53,7 +55,7 @@ public class TestCalculator extends TestCase {
         }
 
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
-        assertEquals(percentageWins, new Calculator(requiredDice, requiredSuccesses, false, false).calculate(), EPS);
+        Assert.assertEquals(percentageWins, new Calculator(requiredDice, requiredSuccesses, false, false).calculate(), EPS);
     }
 
     public void testCalculateBlessed() {
@@ -75,7 +77,7 @@ public class TestCalculator extends TestCase {
         }
 
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
-        assertEquals(percentageWins, new Calculator(requiredDice, requiredSuccesses, true, false).calculate(), EPS);
+        Assert.assertEquals(percentageWins, new Calculator(requiredDice, requiredSuccesses, true, false).calculate(), EPS);
     }
     
     public void testCalculateBlessedProperty() {
@@ -99,7 +101,7 @@ public class TestCalculator extends TestCase {
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
         Calculator calc = new Calculator(requiredDice, requiredSuccesses);
         calc.setIsBlessed(true);
-        assertEquals(percentageWins, calc.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calc.calculate(), EPS);
     }    
 
     public void testCalculateCursed() {
@@ -121,7 +123,7 @@ public class TestCalculator extends TestCase {
         }
 
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
-        assertEquals(percentageWins, new Calculator(requiredDice, requiredSuccesses, false, true).calculate(), EPS);
+        Assert.assertEquals(percentageWins, new Calculator(requiredDice, requiredSuccesses, false, true).calculate(), EPS);
     }
     
     public void testCalculateCursedProperty() {
@@ -145,11 +147,11 @@ public class TestCalculator extends TestCase {
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
         Calculator calc = new Calculator(requiredDice, requiredSuccesses);
         calc.setIsCursed(true);
-        assertEquals(percentageWins, calc.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calc.calculate(), EPS);
     }    
 
     public void testCalculateNoSuccesses() {
-        assertEquals(0.0, new Calculator(2, 3, false, false).calculate(), 0.0);
+        Assert.assertEquals(0.0, new Calculator(2, 3, false, false).calculate(), 0.0);
     }
 
     public void testCalculateChances() {
@@ -177,7 +179,7 @@ public class TestCalculator extends TestCase {
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
         Calculator calc = new Calculator(requiredDice, requiredSuccesses);
         calc.setNumberOfChances(requiredChances);
-        assertEquals(percentageWins, calc.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calc.calculate(), EPS);
     }
 
     public void testCalculateShotgun() {
@@ -203,7 +205,7 @@ public class TestCalculator extends TestCase {
 
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setIsShotgun(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testCalculateShotgunBlessed() {
@@ -229,7 +231,7 @@ public class TestCalculator extends TestCase {
 
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, true, false);
         calculator.setIsShotgun(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testCalculateShotgunCursed() {
@@ -253,7 +255,7 @@ public class TestCalculator extends TestCase {
 
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, true);
         calculator.setIsShotgun(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testCalculateShotgunHuge() {
@@ -279,13 +281,13 @@ public class TestCalculator extends TestCase {
 
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setIsShotgun(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testCalculateShotgunOneSuccess() {
         Calculator shotgunCalc = new Calculator(4, 1, false, false);
         shotgunCalc.setIsShotgun(true);
-        assertEquals(new Calculator(4, 1, false, false).calculate(), shotgunCalc.calculate());
+        Assert.assertEquals(new Calculator(4, 1, false, false).calculate(), shotgunCalc.calculate(), 0.0);
     }
 
     public void testCalculateShotgunImpossible() {
@@ -311,7 +313,7 @@ public class TestCalculator extends TestCase {
 
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setIsShotgun(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testCalculateShotgunAlmostImpossible() {
@@ -337,7 +339,7 @@ public class TestCalculator extends TestCase {
 
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setIsShotgun(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testCalcMandy() {
@@ -368,7 +370,7 @@ public class TestCalculator extends TestCase {
 
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setIsMandy(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);		
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testCalcMandyCursed() {
@@ -399,7 +401,7 @@ public class TestCalculator extends TestCase {
 
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, true);
         calculator.setIsMandy(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);		
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testCalcMandyShotgun() {
@@ -437,7 +439,7 @@ public class TestCalculator extends TestCase {
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setIsMandy(true);
         calculator.setIsShotgun(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);		
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testMandyImpossible() {
@@ -447,7 +449,7 @@ public class TestCalculator extends TestCase {
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setIsMandy(true);
 
-        assertEquals(0.0, calculator.calculate(), 0.0);
+        Assert.assertEquals(0.0, calculator.calculate(), 0.0);
     }
 
     public void testMandySameAsChances() {
@@ -458,7 +460,7 @@ public class TestCalculator extends TestCase {
         twoChancesCalc.setNumberOfChances(2);
         Calculator mandyCalc = new Calculator(requiredDice, requiredSuccesses, false, false);
         mandyCalc.setIsMandy(true);
-        assertEquals(twoChancesCalc.calculate(), mandyCalc.calculate(), EPS);
+        Assert.assertEquals(twoChancesCalc.calculate(), mandyCalc.calculate(), EPS);
     }
 
     public void testMandyMultipleChances() {
@@ -501,7 +503,7 @@ public class TestCalculator extends TestCase {
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setNumberOfChances(2);
         calculator.setIsMandy(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS); //two chances
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS); //two chances
     }
 
     public void testRerollOnes() {
@@ -534,7 +536,7 @@ public class TestCalculator extends TestCase {
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setIsRerollOnes(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
     
     public void testSkidsOnes() {
@@ -567,7 +569,7 @@ public class TestCalculator extends TestCase {
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setIsSkids(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testRerollOnesCursed() {
@@ -600,7 +602,7 @@ public class TestCalculator extends TestCase {
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, true);
         calculator.setIsRerollOnes(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testRerollOnesBlessed() {
@@ -633,7 +635,7 @@ public class TestCalculator extends TestCase {
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, true, false);
         calculator.setIsRerollOnes(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
     
     public void testSkidsOnesBlessed() {
@@ -666,7 +668,7 @@ public class TestCalculator extends TestCase {
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, true, false);
         calculator.setIsSkids(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testRerollOnesMultipleChances() {
@@ -712,7 +714,7 @@ public class TestCalculator extends TestCase {
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setNumberOfChances(2);
         calculator.setIsRerollOnes(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS); //two chances
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS); //two chances
     }
 
     public void testRerollOnesShotgun() {
@@ -750,7 +752,7 @@ public class TestCalculator extends TestCase {
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setIsRerollOnes(true);
         calculator.setIsShotgun(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
     
     public void testSkidsOnesAlmostImpossible() {
@@ -781,10 +783,10 @@ public class TestCalculator extends TestCase {
         }
 
         double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
-        assertTrue(percentageWins > 0);
+        Assert.assertTrue(percentageWins > 0);
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, false);
         calculator.setIsSkids(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     //	Note - this functionality is not currently supported (reroll ones skill + mandy ability)
@@ -838,7 +840,7 @@ public class TestCalculator extends TestCase {
         Calculator blessedCalc = new Calculator(requiredDice, requiredSuccesses, true, false);
         Calculator addOneCalc = new Calculator(requiredDice, requiredSuccesses, false, false);
         addOneCalc.setIsAddOne(true);
-        assertEquals(blessedCalc.calculate(), addOneCalc.calculate(), 0.0);
+        Assert.assertEquals(blessedCalc.calculate(), addOneCalc.calculate(), 0.0);
     }
 
     public void testAddOneAndBlessed()
@@ -863,7 +865,7 @@ public class TestCalculator extends TestCase {
 
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, true, false);
         calculator.setIsAddOne(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);		
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testAddOneCursed()
@@ -888,7 +890,7 @@ public class TestCalculator extends TestCase {
 
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, true);
         calculator.setIsAddOne(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);		
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testAddOneShotgunCursed()
@@ -917,7 +919,7 @@ public class TestCalculator extends TestCase {
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, true);
         calculator.setIsShotgun(true);
         calculator.setIsAddOne(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);			
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testRerollOnesAddOneBlessed()
@@ -952,7 +954,7 @@ public class TestCalculator extends TestCase {
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, true, false);
         calculator.setIsRerollOnes(true);
         calculator.setIsAddOne(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     public void testCalcMandyCursedAddOne() {
@@ -984,7 +986,7 @@ public class TestCalculator extends TestCase {
         Calculator calculator = new Calculator(requiredDice, requiredSuccesses, false, true);
         calculator.setIsMandy(true);
         calculator.setIsAddOne(true);
-        assertEquals(percentageWins, calculator.calculate(), EPS);		
+        Assert.assertEquals(percentageWins, calculator.calculate(), EPS);
     }
 
     private int getRandomDieValue() {
