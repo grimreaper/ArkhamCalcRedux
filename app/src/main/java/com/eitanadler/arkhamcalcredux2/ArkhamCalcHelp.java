@@ -60,7 +60,7 @@ public class ArkhamCalcHelp extends ExpandableListActivity
         CharSequence bundleTopic = getIntent().getCharSequenceExtra(BUNDLE_TOPIC);
         if (bundleTopic != null) {
             int topicIndex = topics.indexOf(bundleTopic.toString());
-            ExpandableListView view = (ExpandableListView)findViewById(android.R.id.list);
+            ExpandableListView view = findViewById(android.R.id.list);
             view.expandGroup(topicIndex);
             view.setSelectionFromTop(topicIndex, 0);
         }
