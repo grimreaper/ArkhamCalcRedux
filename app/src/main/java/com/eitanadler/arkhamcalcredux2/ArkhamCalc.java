@@ -289,8 +289,7 @@ public class ArkhamCalc extends Activity
 	/**
 	 * Start the help activity with the specified topic opened. The topic passed
 	 * into this method must exist in the help.xml 'topics' array.
-	 * @param topic
-	 */
+     */
 	private void startHelpActivity(String topic)
 	{
 		Intent helpIntent = new Intent(this, ArkhamCalcHelp.class);

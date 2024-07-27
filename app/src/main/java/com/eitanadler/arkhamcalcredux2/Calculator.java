@@ -21,7 +21,7 @@ package com.eitanadler.arkhamcalcredux2;
  * The probability engine. Using a combination of constructor and property
  * inputs, calculates the probability of a successful encounter.
  */
-public class Calculator
+public final class Calculator
 {
     private int mDice;
     private int mTough;
@@ -33,40 +33,20 @@ public class Calculator
     private boolean mIsRerollOnes;
     private boolean mIsSkids;
     private boolean mIsAddOne;
-    
-    public int getNumberOfChances()
-    {
-        return mNumberOfChances;
-    }
-    
+
     public void setNumberOfChances(int value)
     {
         mNumberOfChances = value;
     }
-    
-    public boolean getIsBlessed()
-    {
-        return mIsBlessed;
-    }
-    
+
     public void setIsBlessed(boolean value)
     {
         mIsBlessed = value;
     }
-    
-    public boolean getIsCursed()
-    {
-        return mIsCursed;
-    }
-    
+
     public void setIsCursed(boolean value)
     {
         mIsCursed = value;
-    }
-
-    public boolean getIsShotgun()
-    {
-        return mIsShotgun;
     }
 
     public void setIsShotgun(boolean value)
@@ -74,39 +54,19 @@ public class Calculator
         mIsShotgun = value;
     }
 
-    public boolean getIsMandy()
-    {
-        return mIsMandy;
-    }
-
     public void setIsMandy(boolean value)
     {
         mIsMandy = value;
-    }
-
-    public boolean getIsRerollOnes()
-    {
-        return mIsRerollOnes;
     }
 
     public void setIsRerollOnes(boolean value)
     {
         mIsRerollOnes = value;
     }
-    
-    public boolean getIsSkids()
-    {
-        return mIsSkids;
-    }
-    
+
     public void setIsSkids(boolean value)
     {
         mIsSkids = value;
-    }
-
-    public boolean getIsAddOne()
-    {
-        return mIsAddOne;
     }
 
     public void setIsAddOne(boolean value)
