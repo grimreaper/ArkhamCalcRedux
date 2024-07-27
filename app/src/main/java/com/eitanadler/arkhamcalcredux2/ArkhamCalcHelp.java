@@ -75,10 +75,10 @@ public class ArkhamCalcHelp extends ExpandableListActivity
     
     private static List<Map<String, String>> getGroupData(List<String> topics)
     {
-        List<Map<String, String>> groupList = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> groupList = new ArrayList<>();
         
         for (String topic : topics) {
-            Map<String, String> groupMap = new HashMap<String, String>();
+            Map<String, String> groupMap = new HashMap<>();
             groupMap.put("helpTopic", topic);
             groupList.add(groupMap);            
         }
@@ -88,11 +88,11 @@ public class ArkhamCalcHelp extends ExpandableListActivity
     
     private static List<List<Map<String, String>>> getChildData(List<String> contents)
     {
-        List<List<Map<String, String>>> childrenList = new ArrayList<List<Map<String, String>>>();
+        List<List<Map<String, String>>> childrenList = new ArrayList<>();
         
         for (String content : contents) {
-            List<Map<String, String>> childList = new ArrayList<Map<String, String>>();
-            Map<String, String> childMap = new HashMap<String, String>();
+            List<Map<String, String>> childList = new ArrayList<>();
+            Map<String, String> childMap = new HashMap<>();
             childMap.put("helpContent", content);
             childList.add(childMap);
             childrenList.add(childList);            
