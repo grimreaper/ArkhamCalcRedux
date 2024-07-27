@@ -6,4 +6,5 @@
     android:paddingLeft="40dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
+    android:textIsSelectable="true"
     android:textSize="18sp" />
