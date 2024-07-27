@@ -17,9 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*
 
 package com.eitanadler.arkhamcalcredux2;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -70,22 +67,6 @@ public class ArkhamCalc extends Activity
 
 	private int mPreviousChanceValue;
 	private boolean mRestoringState;
-	private static Method mMenuItemShowAsAction;
-	
-	static
-	{
-		initCompatibility();
-	}
-	
-	private static void initCompatibility() throws SecurityException
-	{
-		try {
-			mMenuItemShowAsAction = MenuItem.class.getMethod("setShowAsAction", new Class[] { int.class });
-		} catch (NoSuchMethodException e) {
-			//occurs if android 1.x or 2.x
-			mMenuItemShowAsAction = null;
-		}
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -258,20 +239,14 @@ public class ArkhamCalc extends Activity
 	{
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
-		
-		if (mMenuItemShowAsAction != null) {
-			MenuItem mi = menu.findItem(R.id.menu_item_help);
-			try {
-				mMenuItemShowAsAction.invoke(mi, 1); //ifRoom
-			} catch (IllegalArgumentException e) {
-				throw new RuntimeException(e);
-			} catch (IllegalAccessException e) {
-				throw new RuntimeException(e);
-			} catch (InvocationTargetException e) {
-				throw new RuntimeException(e);
-			}
+
+		MenuItem mi = menu.findItem(R.id.menu_item_help);
+		try {
+			mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException(e);
 		}
-		
+
 		return true;
 	}
 
