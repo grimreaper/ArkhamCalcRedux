@@ -153,148 +153,93 @@ public class ArkhamCalc extends Activity
 		});
 		
 		//attach setOnCheckedChangeListener
-		mBlessCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked){
-					//can't be cursed and blessed at the same time
-					mCurseCheckBox.setChecked(false);
-				}
-				recalculate();
+		mBlessCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                //can't be cursed and blessed at the same time
+                mCurseCheckBox.setChecked(false);
+            }
+            recalculate();
 
-			}
-		});
-		mCurseCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked){
-					//can't be cursed and blessed at the same time
-					mBlessCheckBox.setChecked(false);
-				}
-				recalculate();
+        });
+		mCurseCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                //can't be cursed and blessed at the same time
+                mBlessCheckBox.setChecked(false);
+            }
+            recalculate();
 
-			}
-		});
-		mShotgunCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				recalculate();
-			}
-		});
-		mMandyCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					//both Mandy and Reroll ones on at same time not supported
-					mRerollOnesCheckBox.setChecked(false);
-					mSkidsOnesCheckBox.setChecked(false);
-				}
-				recalculate();
-				handleOneTimeAbilityOptionChanged(mMandyCheckBox.isChecked(), R.string.mandy_chances_toast);
-			}
-		});
-		mRerollOnesCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					//both Mandy and Reroll ones on at same time not supported
-					mMandyCheckBox.setChecked(false);
-					mSkidsOnesCheckBox.setChecked(false);
-				}
-				recalculate();
-				handleOneTimeAbilityOptionChanged(mRerollOnesCheckBox.isChecked(), R.string.reroll_ones_chances_toast);
-			}
-		});
-		mSkidsOnesCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					//both Mandy and Reroll ones on at same time not supported
-					mMandyCheckBox.setChecked(false);
-					mRerollOnesCheckBox.setChecked(false);
-				}
-				recalculate();
-				handleOneTimeAbilityOptionChanged(mSkidsOnesCheckBox.isChecked(), R.string.skids_chances_toast);
-			}
-		});		
-		mAddOneCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				recalculate();
-			}
-		});
+        });
+		mShotgunCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> recalculate());
+		mMandyCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                //both Mandy and Reroll ones on at same time not supported
+                mRerollOnesCheckBox.setChecked(false);
+                mSkidsOnesCheckBox.setChecked(false);
+            }
+            recalculate();
+            handleOneTimeAbilityOptionChanged(mMandyCheckBox.isChecked(), R.string.mandy_chances_toast);
+        });
+		mRerollOnesCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                //both Mandy and Reroll ones on at same time not supported
+                mMandyCheckBox.setChecked(false);
+                mSkidsOnesCheckBox.setChecked(false);
+            }
+            recalculate();
+            handleOneTimeAbilityOptionChanged(mRerollOnesCheckBox.isChecked(), R.string.reroll_ones_chances_toast);
+        });
+		mSkidsOnesCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                //both Mandy and Reroll ones on at same time not supported
+                mMandyCheckBox.setChecked(false);
+                mRerollOnesCheckBox.setChecked(false);
+            }
+            recalculate();
+            handleOneTimeAbilityOptionChanged(mSkidsOnesCheckBox.isChecked(), R.string.skids_chances_toast);
+        });
+		mAddOneCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> recalculate());
 		
 		//attach setOnLongClickListener
-		mDiceLabel.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				startHelpActivity("Dice / Difficulty");
-				return true;
-			}
-		});
-		mToughLabel.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				startHelpActivity("Dice / Difficulty");
-				return true;
-			}
-		});
-		mChanceLabel.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				startHelpActivity("Chances");
-				return true;
-			}
-		});		
-		mBlessCheckBox.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				startHelpActivity("Blessed / Cursed");
-				return true;
-			}
-		});
-		mCurseCheckBox.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				startHelpActivity("Blessed / Cursed");
-				return true;
-			}
-		});
-		mMandyCheckBox.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				startHelpActivity("Mandy");
-				return true;
-			}
-		});
-		mSkidsOnesCheckBox.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				startHelpActivity("Skids");
-				return true;
-			}
-		});
-		mRerollOnesCheckBox.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				startHelpActivity("Reroll Ones");
-				return true;
-			}
-		});
-		mAddOneCheckBox.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				startHelpActivity("Add One");
-				return true;
-			}
-		});		
-		mShotgunCheckBox.setOnLongClickListener(new OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				startHelpActivity("Shotgun");
-				return true;
-			}
-		});		
+		mDiceLabel.setOnLongClickListener(v -> {
+            startHelpActivity("Dice / Difficulty");
+            return true;
+        });
+		mToughLabel.setOnLongClickListener(v -> {
+            startHelpActivity("Dice / Difficulty");
+            return true;
+        });
+		mChanceLabel.setOnLongClickListener(v -> {
+            startHelpActivity("Chances");
+            return true;
+        });
+		mBlessCheckBox.setOnLongClickListener(v -> {
+            startHelpActivity("Blessed / Cursed");
+            return true;
+        });
+		mCurseCheckBox.setOnLongClickListener(v -> {
+            startHelpActivity("Blessed / Cursed");
+            return true;
+        });
+		mMandyCheckBox.setOnLongClickListener(v -> {
+            startHelpActivity("Mandy");
+            return true;
+        });
+		mSkidsOnesCheckBox.setOnLongClickListener(v -> {
+            startHelpActivity("Skids");
+            return true;
+        });
+		mRerollOnesCheckBox.setOnLongClickListener(v -> {
+            startHelpActivity("Reroll Ones");
+            return true;
+        });
+		mAddOneCheckBox.setOnLongClickListener(v -> {
+            startHelpActivity("Add One");
+            return true;
+        });
+		mShotgunCheckBox.setOnLongClickListener(v -> {
+            startHelpActivity("Shotgun");
+            return true;
+        });
 
 		//first calculation
 		setSeekBarValues();
@@ -364,14 +309,11 @@ public class ArkhamCalc extends Activity
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this)
 			.setMessage(R.string.first_dialog_message)
-			.setNeutralButton(R.string.first_dialog_button, new OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.cancel();
-					
-					sharedPrefs.edit().putString(PREFS_KEY_FIRST_TIME_16, "a").apply();
-				}
-			});
+			.setNeutralButton(R.string.first_dialog_button, (dialog, which) -> {
+                dialog.cancel();
+
+                sharedPrefs.edit().putString(PREFS_KEY_FIRST_TIME_16, "a").apply();
+            });
 		builder.create().show();
 	}	
 	
