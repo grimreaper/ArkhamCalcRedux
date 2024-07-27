@@ -23,8 +23,8 @@ package com.eitanadler.arkhamcalcredux2;
  */
 public final class Calculator
 {
-    private int mDice;
-    private int mTough;
+    private final int mDice;
+    private final int mTough;
     private int mNumberOfChances;
     private boolean mIsBlessed;
     private boolean mIsCursed;

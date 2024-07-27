@@ -20,7 +20,7 @@ package com.eitanadler.arkhamcalcredux2;
 /**
  * Static class that contains math functions not specific to Arkham Horror.
  */
-public final class MathHelper
+final class MathHelper
 {
     private MathHelper()
     {
