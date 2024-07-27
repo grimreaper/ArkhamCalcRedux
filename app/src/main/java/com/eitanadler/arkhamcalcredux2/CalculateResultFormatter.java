@@ -29,7 +29,7 @@ public class CalculateResultFormatter
     private static final int COLOR_YELLOW = 0xFFFFFF00;
     private static final int COLOR_RED = 0xFFFF0000;
 
-    private double mResult;
+    private final double mResult;
 
     public CalculateResultFormatter(double result)
     {

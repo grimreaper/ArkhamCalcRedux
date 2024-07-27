@@ -73,7 +73,7 @@ public class ArkhamCalcHelp extends ExpandableListActivity
         return Arrays.asList(helpStringArray);
     }
     
-    private static List<Map<String, String>> getGroupData(List<String> topics)
+    private static List<Map<String, String>> getGroupData(Iterable<String> topics)
     {
         List<Map<String, String>> groupList = new ArrayList<>();
         
@@ -86,7 +86,7 @@ public class ArkhamCalcHelp extends ExpandableListActivity
         return groupList;
     }
     
-    private static List<List<Map<String, String>>> getChildData(List<String> contents)
+    private static List<List<Map<String, String>>> getChildData(Iterable<String> contents)
     {
         List<List<Map<String, String>>> childrenList = new ArrayList<>();
         
