@@ -254,16 +254,16 @@ public class ArkhamCalc extends Activity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);
 
-		switch (item.getItemId()) {
-			case R.id.menu_item_feedback:
-				sendFeedbackEmail();
-				return true;
-			case R.id.menu_item_help:
-				startActivity(new Intent(this, ArkhamCalcHelp.class));
-				return true;
-			case R.id.menu_item_wiki:
-				openWiki();
-		}
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_item_feedback) {
+            sendFeedbackEmail();
+            return true;
+        } else if (itemId == R.id.menu_item_help) {
+            startActivity(new Intent(this, ArkhamCalcHelp.class));
+            return true;
+        } else if (itemId == R.id.menu_item_wiki) {
+            openWiki();
+        }
 		return false;
 	}
 	
