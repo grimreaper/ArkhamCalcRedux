@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 34
+    compileSdk 36
     defaultConfig {
         applicationId "com.eitanadler.arkhamcalcredux2"
-        minSdk 34
-        targetSdk 34
+        minSdk 26
+        targetSdk 36
         versionCode 8
         versionName '8.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
