@@ -6,7 +6,7 @@ android {
         applicationId "com.eitanadler.arkhamcalcredux2"
         minSdk 26
         targetSdk 36
-        versionCode 8
+        versionCode 9
         versionName '8.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
