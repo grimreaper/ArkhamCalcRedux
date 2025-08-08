@@ -89,7 +89,7 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 4) {
                     totalSuccesses++
@@ -113,7 +113,7 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 6) {
                     totalSuccesses++
@@ -139,7 +139,7 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 6) {
                     totalSuccesses++
@@ -157,7 +157,11 @@ public class TestCalculator : TestCase() {
     }
 
     fun testCalculateNoSuccesses() {
-        Assert.assertEquals(0.0, Calculator(2, 3, isBlessed = false, isCursed = false).calculate(), 0.0)
+        Assert.assertEquals(
+            0.0,
+            Calculator(2, 3, isBlessed = false, isCursed = false).calculate(),
+            0.0
+        )
     }
 
     fun testCalculateChances() {
@@ -166,17 +170,19 @@ public class TestCalculator : TestCase() {
         val requiredChances = 3
 
         var totalWins = 0
-        for (i in 0..<NUMBER_ITERATIONS) for (j in 0..<requiredChances) {
-            var totalSuccesses = 0
-            (0..<requiredDice).forEach { k ->
-                val dieValue = this.randomDieValue
-                if (dieValue >= 5) {
-                    totalSuccesses++
+        (0..<NUMBER_ITERATIONS).forEach { i ->
+            for (j in 0..<requiredChances) {
+                var totalSuccesses = 0
+                (0..<requiredDice).forEach { k ->
+                    val dieValue = this.randomDieValue
+                    if (dieValue >= 5) {
+                        totalSuccesses++
+                    }
                 }
-            }
-            if (totalSuccesses >= requiredSuccesses) {
-                totalWins++
-                break
+                if (totalSuccesses >= requiredSuccesses) {
+                    totalWins++
+                    break
+                }
             }
         }
 
@@ -193,7 +199,7 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 6) {
                     totalSuccesses += 2
@@ -251,7 +257,7 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 6) {
                     totalSuccesses += 2
@@ -278,7 +284,7 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 6) {
                     totalSuccesses += 2
@@ -317,7 +323,7 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 6) {
                     totalSuccesses += 2
@@ -346,7 +352,7 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 6) {
                     totalSuccesses += 2
@@ -375,14 +381,14 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 5 || dieValue == 6) {
                     totalSuccesses++
                 }
             }
             val firstRollSuccesses = totalSuccesses
-            for (j in 0..<requiredDice - firstRollSuccesses) {
+            (0..<requiredDice - firstRollSuccesses).forEach { j ->
                 val rerollDieValue = this.randomDieValue
                 if (rerollDieValue == 5 || rerollDieValue == 6) {
                     totalSuccesses++
@@ -409,14 +415,14 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 6) {
                     totalSuccesses++
                 }
             }
             val firstRollSuccesses = totalSuccesses
-            for (j in 0..<requiredDice - firstRollSuccesses) {
+            (0..<requiredDice - firstRollSuccesses).forEach { j ->
                 val rerollDieValue = this.randomDieValue
                 if (rerollDieValue == 6) {
                     totalSuccesses++
@@ -444,7 +450,7 @@ public class TestCalculator : TestCase() {
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
             var secondRollDice = requiredDice
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 6) {
                     totalSuccesses += 2
@@ -454,7 +460,7 @@ public class TestCalculator : TestCase() {
                     secondRollDice--
                 }
             }
-            for (j in 0..<secondRollDice) {
+            (0..<secondRollDice).forEach { j ->
                 val rerollDieValue = this.randomDieValue
                 if (rerollDieValue == 6) {
                     totalSuccesses += 2
@@ -514,14 +520,14 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 5 || dieValue == 6) {
                     totalSuccesses++
                 }
             }
             val firstRollSuccesses = totalSuccesses
-            for (j in 0..<requiredDice - firstRollSuccesses) {
+            (0..<requiredDice - firstRollSuccesses).forEach { j ->
                 val rerollDieValue = this.randomDieValue
                 if (rerollDieValue == 5 || rerollDieValue == 6) {
                     totalSuccesses++
@@ -531,7 +537,7 @@ public class TestCalculator : TestCase() {
                 totalWins++
             } else { //try again w/o mandy's ability
                 totalSuccesses = 0
-                for (j in 0..<requiredDice) {
+                (0..<requiredDice).forEach { j ->
                     val dieValue = this.randomDieValue
                     if (dieValue >= 5) {
                         totalSuccesses++
@@ -597,7 +603,7 @@ public class TestCalculator : TestCase() {
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
             var numberOfOnes = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 5) {
                     totalSuccesses++
@@ -605,7 +611,7 @@ public class TestCalculator : TestCase() {
                     numberOfOnes++
                 }
             }
-            for (j in 0..<numberOfOnes * 2) {
+            (0..<numberOfOnes * 2).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 5) {
                     totalSuccesses++
@@ -633,7 +639,7 @@ public class TestCalculator : TestCase() {
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
             var numberOfOnes = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 6) {
                     totalSuccesses++
@@ -641,7 +647,7 @@ public class TestCalculator : TestCase() {
                     numberOfOnes++
                 }
             }
-            for (j in 0..<numberOfOnes) {
+            (0..<numberOfOnes).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 6) {
                     totalSuccesses++
@@ -669,7 +675,7 @@ public class TestCalculator : TestCase() {
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
             var numberOfOnes = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 4) {
                     totalSuccesses++
@@ -677,7 +683,7 @@ public class TestCalculator : TestCase() {
                     numberOfOnes++
                 }
             }
-            for (j in 0..<numberOfOnes) {
+            (0..<numberOfOnes).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 4) {
                     totalSuccesses++
@@ -705,7 +711,7 @@ public class TestCalculator : TestCase() {
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
             var numberOfOnes = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 4) {
                     totalSuccesses++
@@ -713,7 +719,7 @@ public class TestCalculator : TestCase() {
                     numberOfOnes++
                 }
             }
-            for (j in 0..<numberOfOnes * 2) {
+            (0..<numberOfOnes * 2).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 4) {
                     totalSuccesses++
@@ -741,7 +747,7 @@ public class TestCalculator : TestCase() {
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
             var numberOfOnes = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 5 || dieValue == 6) {
                     totalSuccesses++
@@ -749,7 +755,7 @@ public class TestCalculator : TestCase() {
                     numberOfOnes++
                 }
             }
-            for (j in 0..<numberOfOnes) {
+            (0..<numberOfOnes).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 5 || dieValue == 6) {
                     totalSuccesses++
@@ -760,7 +766,7 @@ public class TestCalculator : TestCase() {
                 totalWins++
             } else { //try again w/o reroll ability
                 totalSuccesses = 0
-                for (j in 0..<requiredDice) {
+                (0..<requiredDice).forEach { j ->
                     val dieValue = this.randomDieValue
                     if (dieValue >= 5) {
                         totalSuccesses++
@@ -837,7 +843,7 @@ public class TestCalculator : TestCase() {
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
             var numberOfOnes = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 5) {
                     totalSuccesses++
@@ -845,7 +851,7 @@ public class TestCalculator : TestCase() {
                     numberOfOnes++
                 }
             }
-            for (j in 0..<numberOfOnes * 2) {
+            (0..<numberOfOnes * 2).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 5) {
                     totalSuccesses++
@@ -931,7 +937,7 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 3) {
                     totalSuccesses++
@@ -958,7 +964,7 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 5) {
                     totalSuccesses++
@@ -985,7 +991,7 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue == 6) {
                     totalSuccesses += 2
@@ -1017,7 +1023,7 @@ public class TestCalculator : TestCase() {
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
             var numberOfOnes = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 3) {
                     totalSuccesses++
@@ -1025,7 +1031,7 @@ public class TestCalculator : TestCase() {
                     numberOfOnes++
                 }
             }
-            for (j in 0..<numberOfOnes) {
+            (0..<numberOfOnes).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 3) {
                     totalSuccesses++
@@ -1053,14 +1059,14 @@ public class TestCalculator : TestCase() {
         var totalWins = 0
         (0..<NUMBER_ITERATIONS).forEach { i ->
             var totalSuccesses = 0
-            for (j in 0..<requiredDice) {
+            (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
                 if (dieValue >= 5) {
                     totalSuccesses++
                 }
             }
             val firstRollSuccesses = totalSuccesses
-            for (j in 0..<requiredDice - firstRollSuccesses) {
+            (0..<requiredDice - firstRollSuccesses).forEach { j ->
                 val rerollDieValue = this.randomDieValue
                 if (rerollDieValue >= 5) {
                     totalSuccesses++
