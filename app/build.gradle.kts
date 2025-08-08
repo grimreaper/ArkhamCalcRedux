@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -25,12 +26,17 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
     namespace = "com.eitanadler.arkhamcalcredux2"
+    kotlin {
+        jvmToolchain(21)
+        explicitApi()
+    }
 }
 
 dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
+    implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.androidx.espresso.core)
