@@ -38,23 +38,23 @@ import androidx.core.net.toUri
  * The main activity. Routes user input to Calculator and prints its results.
  */
 public class ArkhamCalc : Activity() {
-    private var mDiceLabel: TextView? = null
-    private var mDiceSeekBar: SeekBar? = null
-    private var mDiceValue: TextView? = null
-    private var mToughLabel: TextView? = null
-    private var mToughSeekBar: SeekBar? = null
-    private var mToughValue: TextView? = null
-    private var mChanceLabel: TextView? = null
-    private var mChanceSeekBar: SeekBar? = null
-    private var mChanceValue: TextView? = null
-    private var mBlessCheckBox: CheckBox? = null
-    private var mCurseCheckBox: CheckBox? = null
-    private var mShotgunCheckBox: CheckBox? = null
-    private var mMandyCheckBox: CheckBox? = null
-    private var mRerollOnesCheckBox: CheckBox? = null
-    private var mSkidsOnesCheckBox: CheckBox? = null
-    private var mAddOneCheckBox: CheckBox? = null
-    private var mResultTextView: TextView? = null
+    private lateinit var mDiceLabel: TextView
+    private lateinit var mDiceSeekBar: SeekBar
+    private lateinit var mDiceValue: TextView
+    private lateinit var mToughLabel: TextView
+    private lateinit var mToughSeekBar: SeekBar
+    private lateinit var mToughValue: TextView
+    private lateinit var mChanceLabel: TextView
+    private lateinit var mChanceSeekBar: SeekBar
+    private lateinit var mChanceValue: TextView
+    private lateinit var mBlessCheckBox: CheckBox
+    private lateinit var mCurseCheckBox: CheckBox
+    private lateinit var mShotgunCheckBox: CheckBox
+    private lateinit var mMandyCheckBox: CheckBox
+    private lateinit var mRerollOnesCheckBox: CheckBox
+    private lateinit var mSkidsOnesCheckBox: CheckBox
+    private lateinit var mAddOneCheckBox: CheckBox
+    private lateinit var mResultTextView: TextView
 
     private var mPreviousChanceValue = 0
     private var mRestoringState = false
@@ -84,12 +84,12 @@ public class ArkhamCalc : Activity() {
         mResultTextView = findViewById<View?>(R.id.resultTextView) as TextView
 
         //setup controls
-        mDiceSeekBar!!.setMax(DICE_MAX - 1)
-        mToughSeekBar!!.setMax(TOUGH_MAX - 1)
-        mChanceSeekBar!!.setMax(CHANCE_MAX - 1)
+        mDiceSeekBar.setMax(DICE_MAX - 1)
+        mToughSeekBar.setMax(TOUGH_MAX - 1)
+        mChanceSeekBar.setMax(CHANCE_MAX - 1)
 
         //attach setOnSeekBarChangeListener
-        mDiceSeekBar!!.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
+        mDiceSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
             public override fun onProgressChanged(
                 seekBar: SeekBar?,
                 progress: Int,
@@ -99,7 +99,7 @@ public class ArkhamCalc : Activity() {
                 recalculate()
             }
         })
-        mToughSeekBar!!.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
+        mToughSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
             public override fun onProgressChanged(
                 seekBar: SeekBar?,
                 progress: Int,
@@ -109,7 +109,7 @@ public class ArkhamCalc : Activity() {
                 recalculate()
             }
         })
-        mChanceSeekBar!!.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
+        mChanceSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
             public override fun onProgressChanged(
                 seekBar: SeekBar?,
                 progress: Int,
@@ -120,112 +120,112 @@ public class ArkhamCalc : Activity() {
 
                 mPreviousChanceValue = this.previousProgress
                 handleOneTimeAbilityChancesChanged(
-                    mMandyCheckBox!!.isChecked,
+                    mMandyCheckBox.isChecked,
                     R.string.mandy_chances_toast
                 )
                 handleOneTimeAbilityChancesChanged(
-                    mRerollOnesCheckBox!!.isChecked,
+                    mRerollOnesCheckBox.isChecked,
                     R.string.reroll_ones_chances_toast
                 )
                 handleOneTimeAbilityChancesChanged(
-                    mSkidsOnesCheckBox!!.isChecked,
+                    mSkidsOnesCheckBox.isChecked,
                     R.string.skids_chances_toast
                 )
             }
         })
 
         //attach setOnCheckedChangeListener
-        mBlessCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        mBlessCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 //can't be cursed and blessed at the same time
-                mCurseCheckBox!!.setChecked(false)
+                mCurseCheckBox.setChecked(false)
             }
             recalculate()
         }
-        mCurseCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        mCurseCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 //can't be cursed and blessed at the same time
-                mBlessCheckBox!!.setChecked(false)
+                mBlessCheckBox.setChecked(false)
             }
             recalculate()
         }
-        mShotgunCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> recalculate() }
-        mMandyCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        mShotgunCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> recalculate() }
+        mMandyCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 //both Mandy and Reroll ones on at same time not supported
-                mRerollOnesCheckBox!!.setChecked(false)
-                mSkidsOnesCheckBox!!.setChecked(false)
+                mRerollOnesCheckBox.setChecked(false)
+                mSkidsOnesCheckBox.setChecked(false)
             }
             recalculate()
             handleOneTimeAbilityOptionChanged(
-                mMandyCheckBox!!.isChecked,
+                mMandyCheckBox.isChecked,
                 R.string.mandy_chances_toast
             )
         }
-        mRerollOnesCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        mRerollOnesCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 //both Mandy and Reroll ones on at same time not supported
-                mMandyCheckBox!!.setChecked(false)
-                mSkidsOnesCheckBox!!.setChecked(false)
+                mMandyCheckBox.setChecked(false)
+                mSkidsOnesCheckBox.setChecked(false)
             }
             recalculate()
             handleOneTimeAbilityOptionChanged(
-                mRerollOnesCheckBox!!.isChecked,
+                mRerollOnesCheckBox.isChecked,
                 R.string.reroll_ones_chances_toast
             )
         }
-        mSkidsOnesCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        mSkidsOnesCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 //both Mandy and Reroll ones on at same time not supported
-                mMandyCheckBox!!.setChecked(false)
-                mRerollOnesCheckBox!!.setChecked(false)
+                mMandyCheckBox.setChecked(false)
+                mRerollOnesCheckBox.setChecked(false)
             }
             recalculate()
             handleOneTimeAbilityOptionChanged(
-                mSkidsOnesCheckBox!!.isChecked,
+                mSkidsOnesCheckBox.isChecked,
                 R.string.skids_chances_toast
             )
         }
-        mAddOneCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> recalculate() }
+        mAddOneCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> recalculate() }
 
         //attach setOnLongClickListener
-        mDiceLabel!!.setOnLongClickListener { v: View? ->
+        mDiceLabel.setOnLongClickListener { v: View? ->
             startHelpActivity("Dice / Difficulty")
             true
         }
-        mToughLabel!!.setOnLongClickListener { v: View? ->
+        mToughLabel.setOnLongClickListener { v: View? ->
             startHelpActivity("Dice / Difficulty")
             true
         }
-        mChanceLabel!!.setOnLongClickListener { v: View? ->
+        mChanceLabel.setOnLongClickListener { v: View? ->
             startHelpActivity("Chances")
             true
         }
-        mBlessCheckBox!!.setOnLongClickListener { v: View? ->
+        mBlessCheckBox.setOnLongClickListener { v: View? ->
             startHelpActivity("Blessed / Cursed")
             true
         }
-        mCurseCheckBox!!.setOnLongClickListener { v: View? ->
+        mCurseCheckBox.setOnLongClickListener { v: View? ->
             startHelpActivity("Blessed / Cursed")
             true
         }
-        mMandyCheckBox!!.setOnLongClickListener { v: View? ->
+        mMandyCheckBox.setOnLongClickListener { v: View? ->
             startHelpActivity("Mandy")
             true
         }
-        mSkidsOnesCheckBox!!.setOnLongClickListener { v: View? ->
+        mSkidsOnesCheckBox.setOnLongClickListener { v: View? ->
             startHelpActivity("Skids")
             true
         }
-        mRerollOnesCheckBox!!.setOnLongClickListener { v: View? ->
+        mRerollOnesCheckBox.setOnLongClickListener { v: View? ->
             startHelpActivity("Reroll Ones")
             true
         }
-        mAddOneCheckBox!!.setOnLongClickListener { v: View? ->
+        mAddOneCheckBox.setOnLongClickListener { v: View? ->
             startHelpActivity("Add One")
             true
         }
-        mShotgunCheckBox!!.setOnLongClickListener { v: View? ->
+        mShotgunCheckBox.setOnLongClickListener { v: View? ->
             startHelpActivity("Shotgun")
             true
         }
@@ -288,8 +288,8 @@ public class ArkhamCalc : Activity() {
             .setMessage(R.string.first_dialog_message)
             .setNeutralButton(
                 R.string.first_dialog_button
-            ) { dialog: DialogInterface?, which: Int ->
-                dialog!!.cancel()
+            ) { dialog: DialogInterface, which: Int ->
+                dialog.cancel()
                 sharedPrefs.edit { putString(PREFS_KEY_FIRST_TIME_16, "a") }
             }
         builder.create().show()
@@ -309,7 +309,7 @@ public class ArkhamCalc : Activity() {
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.putExtra(
             Intent.EXTRA_EMAIL,
-            arrayOf<String>(getResourceString(R.string.email_to))
+            arrayOf(getResourceString(R.string.email_to))
         )
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, getResourceString(R.string.email_subject))
         emailIntent.setType("plain/text")
@@ -327,16 +327,16 @@ public class ArkhamCalc : Activity() {
 
     private fun recalculate() {
         //get input
-        val dice = mDiceSeekBar!!.progress + 1
-        val tough = mToughSeekBar!!.progress + 1
-        val chance = mChanceSeekBar!!.progress + 1
-        val isBlessed = mBlessCheckBox!!.isChecked
-        val isCursed = mCurseCheckBox!!.isChecked
-        val isShotgun = mShotgunCheckBox!!.isChecked
-        val isMandy = mMandyCheckBox!!.isChecked
-        val isRerollOnes = mRerollOnesCheckBox!!.isChecked
-        val isSkidsOnes = mSkidsOnesCheckBox!!.isChecked
-        val isAddOne = mAddOneCheckBox!!.isChecked
+        val dice = mDiceSeekBar.progress + 1
+        val tough = mToughSeekBar.progress + 1
+        val chance = mChanceSeekBar.progress + 1
+        val isBlessed = mBlessCheckBox.isChecked
+        val isCursed = mCurseCheckBox.isChecked
+        val isShotgun = mShotgunCheckBox.isChecked
+        val isMandy = mMandyCheckBox.isChecked
+        val isRerollOnes = mRerollOnesCheckBox.isChecked
+        val isSkidsOnes = mSkidsOnesCheckBox.isChecked
+        val isAddOne = mAddOneCheckBox.isChecked
 
         //calculate
         val calculator = Calculator(dice, tough)
@@ -354,16 +354,16 @@ public class ArkhamCalc : Activity() {
         val formatter = CalculateResultFormatter(result)
 
         val resultString = formatter.resultString
-        mResultTextView!!.text = resultString
+        mResultTextView.text = resultString
 
         val color = formatter.color
-        mResultTextView!!.setTextColor(color)
+        mResultTextView.setTextColor(color)
     }
 
     private fun setSeekBarValues() {
-        mDiceValue!!.text = (mDiceSeekBar!!.progress + 1).toString()
-        mToughValue!!.text = (mToughSeekBar!!.progress + 1).toString()
-        mChanceValue!!.text = (mChanceSeekBar!!.progress + 1).toString()
+        mDiceValue.text = (mDiceSeekBar.progress + 1).toString()
+        mToughValue.text = (mToughSeekBar.progress + 1).toString()
+        mChanceValue.text = (mChanceSeekBar.progress + 1).toString()
     }
 
     /**
@@ -376,7 +376,7 @@ public class ArkhamCalc : Activity() {
         isAbilityChecked: Boolean,
         resourceStringId: Int
     ) {
-        if (isAbilityChecked && mChanceSeekBar!!.progress > 0 && !mRestoringState) {
+        if (isAbilityChecked && mChanceSeekBar.progress > 0 && !mRestoringState) {
             showToast(getResourceString(resourceStringId))
         }
     }
@@ -392,7 +392,7 @@ public class ArkhamCalc : Activity() {
         isAbilityChecked: Boolean,
         resourceStringId: Int
     ) {
-        if (isAbilityChecked && mPreviousChanceValue <= 0 && mChanceSeekBar!!.progress > 0 && !mRestoringState) {
+        if (isAbilityChecked && mPreviousChanceValue <= 0 && mChanceSeekBar.progress > 0 && !mRestoringState) {
             showToast(getResourceString(resourceStringId))
         }
     }
