@@ -264,14 +264,22 @@ public class ArkhamCalc : Activity() {
         super.onOptionsItemSelected(item)
 
         val itemId = item.itemId
-        if (itemId == R.id.menu_item_feedback) {
-            sendFeedbackEmail()
-            return true
-        } else if (itemId == R.id.menu_item_help) {
-            startActivity(Intent(this, ArkhamCalcHelp::class.java))
-            return true
-        } else if (itemId == R.id.menu_item_wiki) {
-            openWiki()
+        when (itemId) {
+            R.id.menu_item_feedback -> {
+                sendFeedbackEmail()
+                return true
+            }
+
+            R.id.menu_item_help -> {
+                startActivity(Intent(this, ArkhamCalcHelp::class.java))
+                return true
+            }
+
+            R.id.menu_item_wiki -> {
+                openWiki()
+            }
+
+            else -> return false
         }
         return false
     }

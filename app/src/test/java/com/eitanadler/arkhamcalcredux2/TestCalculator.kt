@@ -51,7 +51,7 @@ public class TestCalculator : TestCase() {
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
         Assert.assertEquals(
             percentageWins,
-            Calculator(requiredDice, requiredSuccesses, false, false).calculate(),
+            Calculator(requiredDice, requiredSuccesses, isBlessed = false, isCursed = false).calculate(),
             EPS
         )
     }
@@ -77,7 +77,7 @@ public class TestCalculator : TestCase() {
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
         Assert.assertEquals(
             percentageWins,
-            Calculator(requiredDice, requiredSuccesses, true, false).calculate(),
+            Calculator(requiredDice, requiredSuccesses, isBlessed = true, isCursed = false).calculate(),
             EPS
         )
     }
@@ -127,7 +127,7 @@ public class TestCalculator : TestCase() {
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
         Assert.assertEquals(
             percentageWins,
-            Calculator(requiredDice, requiredSuccesses, false, true).calculate(),
+            Calculator(requiredDice, requiredSuccesses, isBlessed = false, isCursed = true).calculate(),
             EPS
         )
     }
@@ -157,7 +157,7 @@ public class TestCalculator : TestCase() {
     }
 
     fun testCalculateNoSuccesses() {
-        Assert.assertEquals(0.0, Calculator(2, 3, false, false).calculate(), 0.0)
+        Assert.assertEquals(0.0, Calculator(2, 3, isBlessed = false, isCursed = false).calculate(), 0.0)
     }
 
     fun testCalculateChances() {
@@ -207,7 +207,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setIsShotgun(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -233,7 +236,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, true, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = true,
+            isCursed = false
+        )
         calculator.setIsShotgun(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -257,7 +263,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, true)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = true
+        )
         calculator.setIsShotgun(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -283,16 +292,19 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setIsShotgun(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
     fun testCalculateShotgunOneSuccess() {
-        val shotgunCalc = Calculator(4, 1, false, false)
+        val shotgunCalc = Calculator(4, 1, isBlessed = false, isCursed = false)
         shotgunCalc.setIsShotgun(true)
         Assert.assertEquals(
-            Calculator(4, 1, false, false).calculate(),
+            Calculator(4, 1, isBlessed = false, isCursed = false).calculate(),
             shotgunCalc.calculate(),
             0.0
         )
@@ -319,7 +331,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setIsShotgun(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -345,7 +360,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setIsShotgun(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -376,7 +394,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setIsMandy(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -407,7 +428,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, true)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = true
+        )
         calculator.setIsMandy(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -444,7 +468,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setIsMandy(true)
         calculator.setIsShotgun(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -454,7 +481,10 @@ public class TestCalculator : TestCase() {
         val requiredDice = 2
         val requiredSuccesses = 3
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setIsMandy(true)
 
         Assert.assertEquals(0.0, calculator.calculate(), 0.0)
@@ -464,9 +494,15 @@ public class TestCalculator : TestCase() {
         val requiredDice = 3
         val requiredSuccesses = 1
 
-        val twoChancesCalc = Calculator(requiredDice, requiredSuccesses, false, false)
+        val twoChancesCalc = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         twoChancesCalc.setNumberOfChances(2)
-        val mandyCalc = Calculator(requiredDice, requiredSuccesses, false, false)
+        val mandyCalc = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         mandyCalc.setIsMandy(true)
         Assert.assertEquals(twoChancesCalc.calculate(), mandyCalc.calculate(), EPS)
     }
@@ -508,7 +544,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setNumberOfChances(2)
         calculator.setIsMandy(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS) //two chances
@@ -542,7 +581,10 @@ public class TestCalculator : TestCase() {
         }
 
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setIsRerollOnes(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -575,7 +617,10 @@ public class TestCalculator : TestCase() {
         }
 
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setIsSkids(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -608,7 +653,10 @@ public class TestCalculator : TestCase() {
         }
 
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, true)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = true
+        )
         calculator.setIsRerollOnes(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -641,7 +689,10 @@ public class TestCalculator : TestCase() {
         }
 
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
-        val calculator = Calculator(requiredDice, requiredSuccesses, true, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = true,
+            isCursed = false
+        )
         calculator.setIsRerollOnes(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -674,7 +725,10 @@ public class TestCalculator : TestCase() {
         }
 
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
-        val calculator = Calculator(requiredDice, requiredSuccesses, true, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = true,
+            isCursed = false
+        )
         calculator.setIsSkids(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -719,7 +773,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setNumberOfChances(2)
         calculator.setIsRerollOnes(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS) //two chances
@@ -735,12 +792,18 @@ public class TestCalculator : TestCase() {
             var numberOfOnes = 0
             (0..<requiredDice).forEach { j ->
                 val dieValue = this.randomDieValue
-                if (dieValue == 5) {
-                    totalSuccesses++
-                } else if (dieValue == 6) {
-                    totalSuccesses += 2
-                } else if (dieValue == 1) {
-                    numberOfOnes++
+                when (dieValue) {
+                    5 -> {
+                        totalSuccesses++
+                    }
+
+                    6 -> {
+                        totalSuccesses += 2
+                    }
+
+                    1 -> {
+                        numberOfOnes++
+                    }
                 }
             }
             (0..<numberOfOnes).forEach { j ->
@@ -757,7 +820,10 @@ public class TestCalculator : TestCase() {
         }
 
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setIsRerollOnes(true)
         calculator.setIsShotgun(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -792,7 +858,10 @@ public class TestCalculator : TestCase() {
 
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
         Assert.assertTrue(percentageWins > 0)
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         calculator.setIsSkids(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -843,8 +912,14 @@ public class TestCalculator : TestCase() {
     fun testAddOneComparedToBlessed() {
         val requiredDice = 5
         val requiredSuccesses = 4
-        val blessedCalc = Calculator(requiredDice, requiredSuccesses, true, false)
-        val addOneCalc = Calculator(requiredDice, requiredSuccesses, false, false)
+        val blessedCalc = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = true,
+            isCursed = false
+        )
+        val addOneCalc = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = false
+        )
         addOneCalc.setIsAddOne(true)
         Assert.assertEquals(blessedCalc.calculate(), addOneCalc.calculate(), 0.0)
     }
@@ -868,7 +943,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, true, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = true,
+            isCursed = false
+        )
         calculator.setIsAddOne(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -892,7 +970,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, true)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = true
+        )
         calculator.setIsAddOne(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -919,7 +1000,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, true)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = true
+        )
         calculator.setIsShotgun(true)
         calculator.setIsAddOne(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -953,7 +1037,10 @@ public class TestCalculator : TestCase() {
         }
 
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
-        val calculator = Calculator(requiredDice, requiredSuccesses, true, false)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = true,
+            isCursed = false
+        )
         calculator.setIsRerollOnes(true)
         calculator.setIsAddOne(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -985,7 +1072,10 @@ public class TestCalculator : TestCase() {
         }
         val percentageWins: Double = totalWins.toDouble() / NUMBER_ITERATIONS
 
-        val calculator = Calculator(requiredDice, requiredSuccesses, false, true)
+        val calculator = Calculator(requiredDice, requiredSuccesses,
+            isBlessed = false,
+            isCursed = true
+        )
         calculator.setIsMandy(true)
         calculator.setIsAddOne(true)
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)

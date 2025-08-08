@@ -21,7 +21,6 @@ import android.os.Bundle
 import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
 import android.widget.SimpleExpandableListAdapter
-import java.util.Arrays
 
 /**
  * An activity that displays help topics and content. Strings are stored in the
@@ -57,7 +56,7 @@ public class ArkhamCalcHelp : ExpandableListActivity() {
     }
 
     private fun getHelp(helpId: Int): List<String> {
-        val res = getResources()
+        val res = resources
         val helpStringArray = res.getStringArray(helpId)
         return listOf(*helpStringArray)
     }
