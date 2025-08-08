@@ -21,18 +21,18 @@ import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.View.OnLongClickListener
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.edit
+import androidx.core.net.toUri
 
 /**
  * The main activity. Routes user input to Calculator and prints its results.
@@ -135,22 +135,22 @@ public class ArkhamCalc : Activity() {
         })
 
         //attach setOnCheckedChangeListener
-        mBlessCheckBox!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        mBlessCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 //can't be cursed and blessed at the same time
                 mCurseCheckBox!!.setChecked(false)
             }
             recalculate()
-        })
-        mCurseCheckBox!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        }
+        mCurseCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 //can't be cursed and blessed at the same time
                 mBlessCheckBox!!.setChecked(false)
             }
             recalculate()
-        })
-        mShotgunCheckBox!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> recalculate() })
-        mMandyCheckBox!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        }
+        mShotgunCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> recalculate() }
+        mMandyCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 //both Mandy and Reroll ones on at same time not supported
                 mRerollOnesCheckBox!!.setChecked(false)
@@ -161,8 +161,8 @@ public class ArkhamCalc : Activity() {
                 mMandyCheckBox!!.isChecked,
                 R.string.mandy_chances_toast
             )
-        })
-        mRerollOnesCheckBox!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        }
+        mRerollOnesCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 //both Mandy and Reroll ones on at same time not supported
                 mMandyCheckBox!!.setChecked(false)
@@ -173,8 +173,8 @@ public class ArkhamCalc : Activity() {
                 mRerollOnesCheckBox!!.isChecked,
                 R.string.reroll_ones_chances_toast
             )
-        })
-        mSkidsOnesCheckBox!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        }
+        mSkidsOnesCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
             if (isChecked) {
                 //both Mandy and Reroll ones on at same time not supported
                 mMandyCheckBox!!.setChecked(false)
@@ -185,50 +185,50 @@ public class ArkhamCalc : Activity() {
                 mSkidsOnesCheckBox!!.isChecked,
                 R.string.skids_chances_toast
             )
-        })
-        mAddOneCheckBox!!.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> recalculate() })
+        }
+        mAddOneCheckBox!!.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> recalculate() }
 
         //attach setOnLongClickListener
-        mDiceLabel!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+        mDiceLabel!!.setOnLongClickListener { v: View? ->
             startHelpActivity("Dice / Difficulty")
             true
-        })
-        mToughLabel!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+        }
+        mToughLabel!!.setOnLongClickListener { v: View? ->
             startHelpActivity("Dice / Difficulty")
             true
-        })
-        mChanceLabel!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+        }
+        mChanceLabel!!.setOnLongClickListener { v: View? ->
             startHelpActivity("Chances")
             true
-        })
-        mBlessCheckBox!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+        }
+        mBlessCheckBox!!.setOnLongClickListener { v: View? ->
             startHelpActivity("Blessed / Cursed")
             true
-        })
-        mCurseCheckBox!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+        }
+        mCurseCheckBox!!.setOnLongClickListener { v: View? ->
             startHelpActivity("Blessed / Cursed")
             true
-        })
-        mMandyCheckBox!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+        }
+        mMandyCheckBox!!.setOnLongClickListener { v: View? ->
             startHelpActivity("Mandy")
             true
-        })
-        mSkidsOnesCheckBox!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+        }
+        mSkidsOnesCheckBox!!.setOnLongClickListener { v: View? ->
             startHelpActivity("Skids")
             true
-        })
-        mRerollOnesCheckBox!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+        }
+        mRerollOnesCheckBox!!.setOnLongClickListener { v: View? ->
             startHelpActivity("Reroll Ones")
             true
-        })
-        mAddOneCheckBox!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+        }
+        mAddOneCheckBox!!.setOnLongClickListener { v: View? ->
             startHelpActivity("Add One")
             true
-        })
-        mShotgunCheckBox!!.setOnLongClickListener(OnLongClickListener { v: View? ->
+        }
+        mShotgunCheckBox!!.setOnLongClickListener { v: View? ->
             startHelpActivity("Shotgun")
             true
-        })
+        }
 
         //first calculation
         setSeekBarValues()
@@ -287,11 +287,11 @@ public class ArkhamCalc : Activity() {
         val builder = AlertDialog.Builder(this)
             .setMessage(R.string.first_dialog_message)
             .setNeutralButton(
-                R.string.first_dialog_button,
-                DialogInterface.OnClickListener { dialog: DialogInterface?, which: Int ->
-                    dialog!!.cancel()
-                    sharedPrefs.edit().putString(PREFS_KEY_FIRST_TIME_16, "a").apply()
-                })
+                R.string.first_dialog_button
+            ) { dialog: DialogInterface?, which: Int ->
+                dialog!!.cancel()
+                sharedPrefs.edit { putString(PREFS_KEY_FIRST_TIME_16, "a") }
+            }
         builder.create().show()
     }
 
@@ -315,13 +315,13 @@ public class ArkhamCalc : Activity() {
         emailIntent.setType("plain/text")
         try {
             startActivity(emailIntent)
-        } catch (e: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             showToast(getResourceString(R.string.toast_exception_email))
         }
     }
 
     private fun openWiki() {
-        val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(URL_WIKI))
+        val webIntent = Intent(Intent.ACTION_VIEW, URL_WIKI.toUri())
         startActivity(webIntent)
     }
 

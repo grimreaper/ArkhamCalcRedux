@@ -37,9 +37,9 @@ public class ArkhamCalcHelp : ExpandableListActivity() {
 
         val adapter: ExpandableListAdapter = SimpleExpandableListAdapter(
             this, getGroupData(topics), R.layout.help_group_row,
-            arrayOf<String>("helpTopic"), intArrayOf(R.id.helpTopicTextView),
+            arrayOf("helpTopic"), intArrayOf(R.id.helpTopicTextView),
             getChildData(contents), R.layout.help_child_row,
-            arrayOf<String>("helpContent"), intArrayOf(R.id.helpContentTextView)
+            arrayOf("helpContent"), intArrayOf(R.id.helpContentTextView)
         )
         setListAdapter(adapter)
 
@@ -67,10 +67,10 @@ public class ArkhamCalcHelp : ExpandableListActivity() {
 
         private fun getGroupData(topics: Iterable<String?>): MutableList<MutableMap<String?, String?>?> {
             val groupList: MutableList<MutableMap<String?, String?>?> =
-                ArrayList<MutableMap<String?, String?>?>()
+                ArrayList()
 
             for (topic in topics) {
-                val groupMap: MutableMap<String?, String?> = HashMap<String?, String?>()
+                val groupMap: MutableMap<String?, String?> = HashMap()
                 groupMap.put("helpTopic", topic)
                 groupList.add(groupMap)
             }
@@ -80,12 +80,12 @@ public class ArkhamCalcHelp : ExpandableListActivity() {
 
         private fun getChildData(contents: Iterable<String?>): MutableList<MutableList<MutableMap<String?, String?>?>?> {
             val childrenList: MutableList<MutableList<MutableMap<String?, String?>?>?> =
-                ArrayList<MutableList<MutableMap<String?, String?>?>?>()
+                ArrayList()
 
             for (content in contents) {
                 val childList: MutableList<MutableMap<String?, String?>?> =
-                    ArrayList<MutableMap<String?, String?>?>()
-                val childMap: MutableMap<String?, String?> = HashMap<String?, String?>()
+                    ArrayList()
+                val childMap: MutableMap<String?, String?> = HashMap()
                 childMap.put("helpContent", content)
                 childList.add(childMap)
                 childrenList.add(childList)
