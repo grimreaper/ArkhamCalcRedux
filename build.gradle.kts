@@ -1,0 +1,17 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath(libs.gradle)
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+
+    }
+}

@@ -1,6 +1,7 @@
 [versions]
 appcompat = "1.7.1"
 constraintlayout = "2.2.1"
+gradle = "8.12.0"
 material = "1.12.0"
 junit = "4.13.2"
 runner = "1.7.0"
@@ -9,6 +10,7 @@ espressoCore = "3.7.0"
 [libraries]
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 junit = { module = "junit:junit", version.ref = "junit" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
