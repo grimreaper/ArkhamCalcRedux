@@ -47,7 +47,7 @@ public class ArkhamCalcHelp : ExpandableListActivity() {
         //if this activity was started with the extra BUNDLE_TOPIC, expand and focus
         //on the passed in topic. Assumes that the topic passed in is part of the
         //help.xml 'topic' String array.
-        val bundleTopic = getIntent().getCharSequenceExtra(BUNDLE_TOPIC)
+        val bundleTopic = intent.getCharSequenceExtra(BUNDLE_TOPIC)
         if (bundleTopic != null) {
             val topicIndex = topics.indexOf(bundleTopic.toString())
             val view = findViewById<ExpandableListView>(android.R.id.list)
@@ -56,21 +56,21 @@ public class ArkhamCalcHelp : ExpandableListActivity() {
         }
     }
 
-    private fun getHelp(helpId: Int): MutableList<String?> {
+    private fun getHelp(helpId: Int): List<String> {
         val res = getResources()
         val helpStringArray = res.getStringArray(helpId)
-        return Arrays.asList<String?>(*helpStringArray)
+        return listOf(*helpStringArray)
     }
 
     internal companion object {
         const val BUNDLE_TOPIC: String = "BUNDLE_TOPIC"
 
-        private fun getGroupData(topics: Iterable<String?>): MutableList<MutableMap<String?, String?>?> {
-            val groupList: MutableList<MutableMap<String?, String?>?> =
+        private fun getGroupData(topics: Iterable<String>): MutableList<MutableMap<String, String>> {
+            val groupList: MutableList<MutableMap<String, String>> =
                 ArrayList()
 
             for (topic in topics) {
-                val groupMap: MutableMap<String?, String?> = HashMap()
+                val groupMap: MutableMap<String, String> = HashMap()
                 groupMap.put("helpTopic", topic)
                 groupList.add(groupMap)
             }
