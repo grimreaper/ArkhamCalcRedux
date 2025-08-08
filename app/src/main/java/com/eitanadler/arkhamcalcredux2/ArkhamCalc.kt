@@ -65,23 +65,23 @@ public class ArkhamCalc : Activity() {
         setContentView(R.layout.main)
 
         //find controls
-        mDiceLabel = findViewById<View?>(R.id.diceLabel) as TextView
-        mDiceSeekBar = findViewById<View?>(R.id.diceSeekBar) as SeekBar
-        mDiceValue = findViewById<View?>(R.id.diceValue) as TextView
-        mToughLabel = findViewById<View?>(R.id.toughLabel) as TextView
-        mToughSeekBar = findViewById<View?>(R.id.toughSeekBar) as SeekBar
-        mToughValue = findViewById<View?>(R.id.toughValue) as TextView
-        mChanceLabel = findViewById<View?>(R.id.chanceLabel) as TextView
-        mChanceSeekBar = findViewById<View?>(R.id.chanceSeekBar) as SeekBar
-        mChanceValue = findViewById<View?>(R.id.chanceValue) as TextView
-        mBlessCheckBox = findViewById<View?>(R.id.blessCheckBox) as CheckBox
-        mCurseCheckBox = findViewById<View?>(R.id.curseCheckBox) as CheckBox
-        mShotgunCheckBox = findViewById<View?>(R.id.shotgunCheckBox) as CheckBox
-        mMandyCheckBox = findViewById<View?>(R.id.mandyCheckBox) as CheckBox
-        mRerollOnesCheckBox = findViewById<View?>(R.id.rerollOnesCheckBox) as CheckBox
-        mSkidsOnesCheckBox = findViewById<View?>(R.id.skidsOnesCheckBox) as CheckBox
-        mAddOneCheckBox = findViewById<View?>(R.id.addOneCheckBox) as CheckBox
-        mResultTextView = findViewById<View?>(R.id.resultTextView) as TextView
+        mDiceLabel = findViewById<View>(R.id.diceLabel) as TextView
+        mDiceSeekBar = findViewById<View>(R.id.diceSeekBar) as SeekBar
+        mDiceValue = findViewById<View>(R.id.diceValue) as TextView
+        mToughLabel = findViewById<View>(R.id.toughLabel) as TextView
+        mToughSeekBar = findViewById<View>(R.id.toughSeekBar) as SeekBar
+        mToughValue = findViewById<View>(R.id.toughValue) as TextView
+        mChanceLabel = findViewById<View>(R.id.chanceLabel) as TextView
+        mChanceSeekBar = findViewById<View>(R.id.chanceSeekBar) as SeekBar
+        mChanceValue = findViewById<View>(R.id.chanceValue) as TextView
+        mBlessCheckBox = findViewById<View>(R.id.blessCheckBox) as CheckBox
+        mCurseCheckBox = findViewById<View>(R.id.curseCheckBox) as CheckBox
+        mShotgunCheckBox = findViewById<View>(R.id.shotgunCheckBox) as CheckBox
+        mMandyCheckBox = findViewById<View>(R.id.mandyCheckBox) as CheckBox
+        mRerollOnesCheckBox = findViewById<View>(R.id.rerollOnesCheckBox) as CheckBox
+        mSkidsOnesCheckBox = findViewById<View>(R.id.skidsOnesCheckBox) as CheckBox
+        mAddOneCheckBox = findViewById<View>(R.id.addOneCheckBox) as CheckBox
+        mResultTextView = findViewById<View>(R.id.resultTextView) as TextView
 
         //setup controls
         mDiceSeekBar.setMax(DICE_MAX - 1)
@@ -91,7 +91,7 @@ public class ArkhamCalc : Activity() {
         //attach setOnSeekBarChangeListener
         mDiceSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
             public override fun onProgressChanged(
-                seekBar: SeekBar?,
+                seekBar: SeekBar,
                 progress: Int,
                 fromUser: Boolean
             ) {
@@ -101,7 +101,7 @@ public class ArkhamCalc : Activity() {
         })
         mToughSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
             public override fun onProgressChanged(
-                seekBar: SeekBar?,
+                seekBar: SeekBar,
                 progress: Int,
                 fromUser: Boolean
             ) {
@@ -111,7 +111,7 @@ public class ArkhamCalc : Activity() {
         })
         mChanceSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
             public override fun onProgressChanged(
-                seekBar: SeekBar?,
+                seekBar: SeekBar,
                 progress: Int,
                 fromUser: Boolean
             ) {
@@ -135,22 +135,22 @@ public class ArkhamCalc : Activity() {
         })
 
         //attach setOnCheckedChangeListener
-        mBlessCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        mBlessCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
             if (isChecked) {
                 //can't be cursed and blessed at the same time
                 mCurseCheckBox.setChecked(false)
             }
             recalculate()
         }
-        mCurseCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        mCurseCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
             if (isChecked) {
                 //can't be cursed and blessed at the same time
                 mBlessCheckBox.setChecked(false)
             }
             recalculate()
         }
-        mShotgunCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> recalculate() }
-        mMandyCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        mShotgunCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean -> recalculate() }
+        mMandyCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
             if (isChecked) {
                 //both Mandy and Reroll ones on at same time not supported
                 mRerollOnesCheckBox.setChecked(false)
@@ -162,7 +162,7 @@ public class ArkhamCalc : Activity() {
                 R.string.mandy_chances_toast
             )
         }
-        mRerollOnesCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        mRerollOnesCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
             if (isChecked) {
                 //both Mandy and Reroll ones on at same time not supported
                 mMandyCheckBox.setChecked(false)
@@ -174,7 +174,7 @@ public class ArkhamCalc : Activity() {
                 R.string.reroll_ones_chances_toast
             )
         }
-        mSkidsOnesCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean ->
+        mSkidsOnesCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
             if (isChecked) {
                 //both Mandy and Reroll ones on at same time not supported
                 mMandyCheckBox.setChecked(false)
@@ -186,46 +186,46 @@ public class ArkhamCalc : Activity() {
                 R.string.skids_chances_toast
             )
         }
-        mAddOneCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton?, isChecked: Boolean -> recalculate() }
+        mAddOneCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean -> recalculate() }
 
         //attach setOnLongClickListener
-        mDiceLabel.setOnLongClickListener { v: View? ->
+        mDiceLabel.setOnLongClickListener { v: View ->
             startHelpActivity("Dice / Difficulty")
             true
         }
-        mToughLabel.setOnLongClickListener { v: View? ->
+        mToughLabel.setOnLongClickListener { v: View ->
             startHelpActivity("Dice / Difficulty")
             true
         }
-        mChanceLabel.setOnLongClickListener { v: View? ->
+        mChanceLabel.setOnLongClickListener { v: View ->
             startHelpActivity("Chances")
             true
         }
-        mBlessCheckBox.setOnLongClickListener { v: View? ->
+        mBlessCheckBox.setOnLongClickListener { v: View ->
             startHelpActivity("Blessed / Cursed")
             true
         }
-        mCurseCheckBox.setOnLongClickListener { v: View? ->
+        mCurseCheckBox.setOnLongClickListener { v: View ->
             startHelpActivity("Blessed / Cursed")
             true
         }
-        mMandyCheckBox.setOnLongClickListener { v: View? ->
+        mMandyCheckBox.setOnLongClickListener { v: View ->
             startHelpActivity("Mandy")
             true
         }
-        mSkidsOnesCheckBox.setOnLongClickListener { v: View? ->
+        mSkidsOnesCheckBox.setOnLongClickListener { v: View ->
             startHelpActivity("Skids")
             true
         }
-        mRerollOnesCheckBox.setOnLongClickListener { v: View? ->
+        mRerollOnesCheckBox.setOnLongClickListener { v: View ->
             startHelpActivity("Reroll Ones")
             true
         }
-        mAddOneCheckBox.setOnLongClickListener { v: View? ->
+        mAddOneCheckBox.setOnLongClickListener { v: View ->
             startHelpActivity("Add One")
             true
         }
-        mShotgunCheckBox.setOnLongClickListener { v: View? ->
+        mShotgunCheckBox.setOnLongClickListener { v: View ->
             startHelpActivity("Shotgun")
             true
         }
@@ -307,7 +307,7 @@ public class ArkhamCalc : Activity() {
      * Start the help activity with the specified topic opened. The topic passed
      * into this method must exist in the help.xml 'topics' array.
      */
-    private fun startHelpActivity(topic: String?) {
+    private fun startHelpActivity(topic: String) {
         val helpIntent = Intent(this, ArkhamCalcHelp::class.java)
         helpIntent.putExtra(ArkhamCalcHelp.Companion.BUNDLE_TOPIC, topic)
         startActivity(helpIntent)
@@ -405,7 +405,7 @@ public class ArkhamCalc : Activity() {
         }
     }
 
-    private fun showToast(toastText: String?) {
+    private fun showToast(toastText: String) {
         Toast.makeText(baseContext, toastText, Toast.LENGTH_LONG).show()
     }
 
@@ -418,7 +418,7 @@ public class ArkhamCalc : Activity() {
             private set
 
         abstract override fun onProgressChanged(
-            seekBar: SeekBar?, progress: Int,
+            seekBar: SeekBar, progress: Int,
             fromUser: Boolean
         )
 
@@ -426,7 +426,7 @@ public class ArkhamCalc : Activity() {
             this.previousProgress = seekBar.progress
         }
 
-        override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        override fun onStopTrackingTouch(seekBar: SeekBar) {
         }
     }
 
