@@ -77,14 +77,14 @@ public class ArkhamCalcHelp : ExpandableListActivity() {
             return groupList
         }
 
-        private fun getChildData(contents: Iterable<String?>): MutableList<MutableList<MutableMap<String?, String?>?>?> {
-            val childrenList: MutableList<MutableList<MutableMap<String?, String?>?>?> =
+        private fun getChildData(contents: Iterable<String>): MutableList<MutableList<MutableMap<String, String>>> {
+            val childrenList: MutableList<MutableList<MutableMap<String, String>>> =
                 ArrayList()
 
             for (content in contents) {
-                val childList: MutableList<MutableMap<String?, String?>?> =
+                val childList: MutableList<MutableMap<String, String>> =
                     ArrayList()
-                val childMap: MutableMap<String?, String?> = HashMap()
+                val childMap: MutableMap<String, String> = HashMap()
                 childMap.put("helpContent", content)
                 childList.add(childMap)
                 childrenList.add(childList)
