@@ -16,7 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
 package com.eitanadler.arkhamcalcredux2
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
@@ -31,13 +30,14 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.core.content.edit
 import androidx.core.net.toUri
 
 /**
  * The main activity. Routes user input to Calculator and prints its results.
  */
-public class ArkhamCalc : Activity() {
+public class ArkhamCalc : ComponentActivity() {
     private lateinit var mDiceLabel: TextView
     private lateinit var mDiceSeekBar: SeekBar
     private lateinit var mDiceValue: TextView

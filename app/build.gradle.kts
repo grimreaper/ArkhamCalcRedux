@@ -33,9 +33,18 @@ android {
 }
 
 dependencies {
+    androidTestImplementation(libs.androidx.runner)
+
+    implementation (libs.androidx.foundation)
+    implementation (libs.androidx.foundation.layout)
+    implementation (libs.androidx.material3)
+    implementation (libs.androidx.runtime)
+    implementation (libs.androidx.runtime.livedata)
+    implementation (libs.androidx.ui)
+    implementation (libs.androidx.ui.tooling)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
+
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.runner)
 }
