@@ -10,6 +10,7 @@ buildscript {
 plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.sortDependencies) apply false
+    alias(libs.plugins.versions) apply false
 }
 
 allprojects {

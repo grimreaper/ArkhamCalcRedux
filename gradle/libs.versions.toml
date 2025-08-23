@@ -10,10 +10,12 @@ coreKtx = "1.17.0"
 compose = "1.9.0"
 material3 = "1.3.2"
 sortDependencies = "0.14"
+versions = "0.52.0"
+foundation = "1.9.0"
 
 [libraries]
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
-androidx-foundation = { module = "androidx.compose.foundation:foundation" }
+androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref="foundation" }
 androidx-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref="material3" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
@@ -30,3 +32,4 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
+versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }

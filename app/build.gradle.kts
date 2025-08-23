@@ -1,9 +1,11 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import java.io.IOException
 import java.util.Properties
 
 plugins {
     id("com.android.application")
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.versions)
     alias(libs.plugins.sortDependencies)
 }
 
@@ -81,4 +83,16 @@ dependencies {
     testImplementation(libs.junit)
 
     androidTestImplementation(libs.androidx.runner)
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    rejectVersionIf {
+        isNonStable(candidate.version) && !isNonStable(currentVersion)
+    }
+}
+private fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
 }
