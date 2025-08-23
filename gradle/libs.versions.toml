@@ -1,9 +1,11 @@
 [versions]
 appcompat = "1.7.1"
+composeBom = "2025.08.00"
 constraintlayout = "2.2.1"
 datastorePreferences = "1.1.7"
 gradle = "8.12.1"
 junit = "4.13.2"
+material = "1.12.0"
 runner = "1.7.0"
 kotlin = "2.2.10"
 coreKtx = "1.17.0"
@@ -14,6 +16,7 @@ versions = "0.52.0"
 foundation = "1.9.0"
 
 [libraries]
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref="foundation" }
 androidx-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
@@ -28,6 +31,7 @@ junit = { module = "junit:junit", version.ref = "junit" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
 
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

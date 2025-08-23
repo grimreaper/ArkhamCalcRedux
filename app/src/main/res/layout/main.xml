@@ -4,7 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_marginLeft="6dp"
-    android:layout_marginRight="6dp">
+    android:layout_marginRight="6dp"
+    android:id="@+id/outerLayout">
     <TextView android:id="@+id/resultTextView"
         style="@style/ResultFont"
         android:layout_width="fill_parent"

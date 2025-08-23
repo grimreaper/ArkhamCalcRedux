@@ -68,6 +68,7 @@ android {
 }
 
 dependencies {
+    implementation(enforcedPlatform(libs.androidx.compose.bom))
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
@@ -79,6 +80,7 @@ dependencies {
     implementation (libs.androidx.runtime.livedata)
     implementation (libs.androidx.ui)
     implementation (libs.androidx.ui.tooling)
+    implementation(libs.material)
 
     testImplementation(libs.junit)
 

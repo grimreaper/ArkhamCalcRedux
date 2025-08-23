@@ -36,6 +36,7 @@ import androidx.core.net.toUri
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -426,6 +427,7 @@ public class ArkhamCalc : ComponentActivity() {
 
     private fun showToast(toastText: String) {
         Toast.makeText(baseContext, toastText, Toast.LENGTH_LONG).show()
+//        Snackbar.make(findViewById(R.id.outerLayout), toastText, Snackbar.LENGTH_LONG).show()
     }
 
     private fun getResourceString(resourceStringId: Int): String {
