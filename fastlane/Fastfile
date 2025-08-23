@@ -1,19 +1,7 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:android)
+
+GRADLE_FILE = "app/build.gradle.kts"
+CHANGELOG_FILE = "../app/build/outputs/changelog.txt"
 
 platform :android do
   desc "Runs all the tests"
@@ -21,18 +9,246 @@ platform :android do
     gradle(task: "test")
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
+  desc "Build debug and test APK for screenshots"
+  lane :build_for_screengrab do
+    build_android_app(
+      task: 'assemble',
+      build_type: 'Debug',
+    )
+    build_android_app(
+      task: 'assemble',
+      build_type: 'AndroidTest',
+    )
   end
 
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+  desc "Bump Version In Gradle File"
+  lane :increment_gradle_version do
+    ensure_git_branch(branch: 'master')
+    increment_version_code(
+          gradle_file_path: GRADLE_FILE,
+    )
+    current_build_number = android_get_version_code(
+      gradle_file: GRADLE_FILE,
+    )
+
+    git_commit(
+      path: "app/build.gradle.kts",
+      message: "[fastlane] bump version code to " + current_build_number
+    )
+    add_git_tag(
+      grouping: "fastlane-builds",
+      includes_lane: true,
+      prefix: "v",
+      build_number: current_build_number
+    )
+    push_to_git_remote(
+      tags: true,
+    )
+
+    current_build_number # last line, return value
+  end
+
+  desc "Create Native Debug Symbols"
+  lane :create_native_debug_symbols do
+   symbolsFilePath = File.join(
+        Dir.pwd,
+        "..",
+        "app",
+        "build",
+        "intermediates",
+        "merged_native_libs",
+        "release",
+        "mergeReleaseNativeLibs",
+        "out",
+        "native_debug_symbols.zip",
+      )
+      symbolsFolderPath = File.join(
+        Dir.pwd,
+        "..",
+        "app",
+        "build",
+        "intermediates",
+        "merged_native_libs",
+        "release",
+        "mergeReleaseNativeLibs",
+        "out",
+        "lib"
+      )
+      # native zip includes "lib" prefix which isn't accepted.
+      system("cd #{symbolsFolderPath} && zip -vr #{symbolsFilePath} .")
+#     zip(
+#       path: "./app/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib/",
+#       include: [
+#         "arm64-v8a/*.so",
+#         "armeabi-v7a/*.so",
+#       ],
+#       output_path: "app/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/native_debug_symbols.zip",
+#       verbose: true,
+#     )
+  end
+
+  desc "Prepare Git Repository For Release"
+  lane :prepare_git_repository do
+      git_pull(
+        only_tags: true,
+        rebase: true,
+      ) # only the tags, no commits
+      ensure_git_status_clean
+      current_build_number = increment_gradle_version
+      current_build_number # last line, return value
+  end
+
+  desc "Prepare Binary For Release"
+  lane :prepare_binary do
+      build_android_app(
+        task: 'assemble',
+        build_type: 'Release',
+      )
+
+      build_android_app(
+        task: 'bundle',
+        build_type: 'Release',
+      )
+  end
+
+  desc "Play Store Deployment Preparation"
+  lane :playstore_validate_only do
+    current_build_number = playstore_prep
+    upload_to_play_store(
+      aab: "app/build/outputs/bundle/release/app-release.aab",
+      skip_upload_apk: true,
+      validate_only: true,
+      version_code: current_build_number,
+      mapping_paths: [
+        "app/build/outputs/mapping/release/mapping.txt",
+        "app/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/native_debug_symbols.zip",
+      ],
+    )
+  end
+
+  desc "Internal Play Store Deployment"
+  lane :playstore_internal_deployment do
+    current_build_number = prepare_git_repository
+    UI.header "Starting preparing for #{current_build_number}"
+    prepare_binary
+    create_native_debug_symbols
+    UI.header "Finished preparing for #{current_build_number}"
+    current_build_number # last line, return value
+
+    UI.header "Starting deploy for #{current_build_number}"
+
+    upload_to_play_store(
+      aab: "app/build/outputs/bundle/release/app-release.aab",
+      skip_upload_apk: true,
+      version_code: current_build_number,
+      track: "internal",
+      mapping_paths: [
+        "app/build/outputs/mapping/release/mapping.txt",
+        "app/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/native_debug_symbols.zip",
+      ],
+    )
+    upload_to_play_store(
+      track: "internal",
+      track_promote_to: "alpha",
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+
+    UI.header "Finished INTERNAL deploy for #{current_build_number}"
+  end
+
+  desc "Changelogs Only"
+  lane :show_changelog_from_git_commits do
+    changelog_from_git_commits
+    File.open(CHANGELOG_FILE, File::CREAT|File::TRUNC|File::RDWR) { |file|
+      file.write(lane_context[SharedValues::FL_CHANGELOG])
+    }
+  end
+
+  desc "Full Play Store Build"
+  lane :playstore_full_build do
+    current_build_number = prepare_git_repository
+    UI.header "Starting preparing for #{current_build_number}"
+    prepare_binary
+#     prepare_and_take_screenshots
+    create_native_debug_symbols
+    UI.header "Finished preparing for #{current_build_number}"
+    changelog_from_git_commits
+    current_build_number # last line, return value
+  end
+
+  desc "Full Play Store Build"
+  lane :playstore_true_deploy do |options|
+
+    UI.header "Starting deploy for #{options[:build_number]}"
+    upload_to_play_store(
+      aab: "app/build/outputs/bundle/release/app-release.aab",
+      skip_upload_apk: true,
+      version_code: options[:build_number],
+      track: "internal",
+      sync_image_upload: true,
+      skip_upload_changelogs: true, # TODO: fix this
+      mapping_paths: [
+        "app/build/outputs/mapping/release/mapping.txt",
+        "app/build/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/native_debug_symbols.zip",
+      ],
+    )
+    upload_to_play_store(
+      track: "internal",
+      track_promote_to: "alpha",
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+    upload_to_play_store(
+      track: "internal",
+      track_promote_to: "beta",
+      skip_upload_apk: true,
+      skip_upload_aab: true,
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+    upload_to_play_store(
+        track: "internal",
+        track_promote_to: "production",
+        skip_upload_apk: true,
+        skip_upload_aab: true,
+        skip_upload_metadata: true,
+        skip_upload_changelogs: true,
+        skip_upload_images: true,
+        skip_upload_screenshots: true
+    )
+    set_github_release(
+      repository_name: "brokenkernel/introspection",
+      api_token: ENV["GITHUB_TOKEN"],
+      name: "Introspection Tools " + "0.0." + options[:build_number],  # TODO: get version number from gradle
+      tag_name: "fastlane-builds/androidplaystore_fully_deployment/v" + options[:build_number],
+#       description: File.read(CHANGELOG_FILE),
+#       commitish: "master",
+      is_generate_release_notes: true,
+#       is_prerelease: true, # ??
+#       is_draft: true, # ??
+      upload_assets: [
+        "app/build/outputs/apk/release/app-release.apk",
+      ]
+    )
+    puts lane_context[SharedValues::SET_GITHUB_RELEASE_HTML_LINK]
+    UI.header "Finished FULL deploy for #{options[:build_number]}"
+  end
+
+
+  desc "Full Play Store Deployment"
+  lane :playstore_fully_deployment do
+    current_build_number = playstore_full_build
+    playstore_true_deploy(build_number: current_build_number)
   end
 end
