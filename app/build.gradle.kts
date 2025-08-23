@@ -1,6 +1,20 @@
+import java.io.IOException
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.sortDependencies)
+}
+
+val keystoreProperties: Properties = Properties()
+var successfulLoadProperties: Boolean = false
+try {
+    rootProject.file("keystore.properties").inputStream().use { it ->
+        keystoreProperties.load(it)
+    }
+    successfulLoadProperties = true
+} catch (_: IOException) {
 }
 
 android {
@@ -13,10 +27,29 @@ android {
         versionName = "9.$versionCode"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        if (successfulLoadProperties) {
+            create("config") {
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+            }
+        }
+    }
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = true
+            if (successfulLoadProperties) {
+                signingConfig = signingConfigs.getByName("config")
+            }
+            ndk {
+                debugSymbolLevel = "FULL" // SYMBOL_TABLE - if it gets too big
+            }
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
         debug {
         }
@@ -33,8 +66,10 @@ android {
 }
 
 dependencies {
-    androidTestImplementation(libs.androidx.runner)
-
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.datastore.preferences)
     implementation (libs.androidx.foundation)
     implementation (libs.androidx.foundation.layout)
     implementation (libs.androidx.material3)
@@ -42,10 +77,8 @@ dependencies {
     implementation (libs.androidx.runtime.livedata)
     implementation (libs.androidx.ui)
     implementation (libs.androidx.ui.tooling)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.datastore.preferences)
 
     testImplementation(libs.junit)
+
+    androidTestImplementation(libs.androidx.runner)
 }
