@@ -18,6 +18,7 @@ package com.eitanadler.arkhamcalcredux2
 
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -31,8 +32,14 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.core.content.edit
 import androidx.core.net.toUri
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 
 /**
  * The main activity. Routes user input to Calculator and prints its results.
@@ -58,6 +65,8 @@ public class ArkhamCalc : ComponentActivity() {
 
     private var mPreviousChanceValue = 0
     private var mRestoringState = false
+
+    private val Context.dataStore by preferencesDataStore(name = "settings")
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -289,8 +298,14 @@ public class ArkhamCalc : ComponentActivity() {
      * this version of the app; otherwise do nothing.
      */
     private fun handleShowFirstTimeDialog() {
-        val sharedPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-        if (sharedPrefs.getString(PREFS_KEY_FIRST_TIME_16, null) != null) return
+        val prefKey = stringPreferencesKey(PREFS_KEY_FIRST_TIME_16)
+        val prefResultFlow: Flow<String?> = dataStore.data.map { preferences ->
+            preferences[prefKey]
+        }
+        val prefResult: String? = runBlocking {
+            prefResultFlow.first()
+        }
+        if (prefResult != null) return
 
         val builder = AlertDialog.Builder(this)
             .setMessage(R.string.first_dialog_message)
@@ -298,7 +313,11 @@ public class ArkhamCalc : ComponentActivity() {
                 R.string.first_dialog_button
             ) { dialog: DialogInterface, which: Int ->
                 dialog.cancel()
-                sharedPrefs.edit { putString(PREFS_KEY_FIRST_TIME_16, "a") }
+                runBlocking {
+                    dataStore.edit { settings ->
+                        settings[prefKey] = "a"
+                    }
+                }
             }
         builder.create().show()
     }
@@ -431,7 +450,6 @@ public class ArkhamCalc : ComponentActivity() {
     }
 
     public companion object {
-        private const val PREFS_NAME = "ArkhamCalcPreferences"
         private const val PREFS_KEY_FIRST_TIME_16 = "FirstTime16"
         private const val URL_WIKI = "http://code.google.com/p/arkham-calc/"
 
