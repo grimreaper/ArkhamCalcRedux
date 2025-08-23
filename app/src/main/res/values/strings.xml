@@ -5,7 +5,6 @@
     <string name="mandy_chances_toast">Mandy\’s ability can only be used once per turn. Additional chances do not take her ability into account.</string>
     <string name="skids_chances_toast">Skids\’ ability can only be used once per turn. Additional chances do not take his ability into account.</string>
     <string name="reroll_ones_chances_toast">The reroll ones ability can only be used once per turn. Additional chances do not take this ability into account.</string>
-    <string name="menu_item_string_feedback">Send Feedback</string>
     <string name="menu_item_string_help">Help</string>
     <string name="first_dialog_message">Long press (tap and hold) a label to see related help.</string>
     <string name="first_dialog_button">OK</string>
