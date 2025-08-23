@@ -3,9 +3,6 @@
     <item android:id="@+id/menu_item_feedback"
           android:title="@string/menu_item_string_feedback"
           android:icon="@android:drawable/ic_dialog_email" />
-    <item android:id="@+id/menu_item_wiki"
-          android:title="@string/menu_item_string_wiki"
-          android:icon="@android:drawable/ic_dialog_info" />    
     <item android:id="@+id/menu_item_help"
           android:title="@string/menu_item_string_help"
           android:icon="@android:drawable/ic_menu_help" />

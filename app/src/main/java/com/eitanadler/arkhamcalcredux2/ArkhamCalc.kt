@@ -32,11 +32,9 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.core.net.toUri
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -285,10 +283,6 @@ public class ArkhamCalc : ComponentActivity() {
                 return true
             }
 
-            R.id.menu_item_wiki -> {
-                openWiki()
-            }
-
             else -> return false
         }
         return false
@@ -346,11 +340,6 @@ public class ArkhamCalc : ComponentActivity() {
         } catch (_: ActivityNotFoundException) {
             showToast(getResourceString(R.string.toast_exception_email))
         }
-    }
-
-    private fun openWiki() {
-        val webIntent = Intent(Intent.ACTION_VIEW, URL_WIKI.toUri())
-        startActivity(webIntent)
     }
 
     private fun recalculate() {
@@ -453,7 +442,6 @@ public class ArkhamCalc : ComponentActivity() {
 
     public companion object {
         private const val PREFS_KEY_FIRST_TIME_16 = "FirstTime16"
-        private const val URL_WIKI = "http://code.google.com/p/arkham-calc/"
 
         private const val DICE_MAX = 16
         private const val TOUGH_MAX = 6
