@@ -12,3 +12,6 @@
 /captures
 .externalNativeBuild
 app/release/
+fastlane/metadata/
+fastlane/report.xml
+fastlane/README.md
