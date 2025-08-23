@@ -56,15 +56,14 @@ public class ArkhamCalcHelp : ExpandableListActivity() {
     }
 
     private fun getHelp(helpId: Int): List<String> {
-        val res = resources
-        val helpStringArray = res.getStringArray(helpId)
+        val helpStringArray = resources.getStringArray(helpId)
         return listOf(*helpStringArray)
     }
 
     internal companion object {
         const val BUNDLE_TOPIC: String = "BUNDLE_TOPIC"
 
-        private fun getGroupData(topics: Iterable<String>): MutableList<MutableMap<String, String>> {
+        private fun getGroupData(topics: Iterable<String>): List<Map<String, String>> {
             val groupList: MutableList<MutableMap<String, String>> =
                 ArrayList()
 
@@ -77,7 +76,7 @@ public class ArkhamCalcHelp : ExpandableListActivity() {
             return groupList
         }
 
-        private fun getChildData(contents: Iterable<String>): MutableList<MutableList<MutableMap<String, String>>> {
+        private fun getChildData(contents: Iterable<String>): List<List<Map<String, String>>> {
             val childrenList: MutableList<MutableList<MutableMap<String, String>>> =
                 ArrayList()
 
