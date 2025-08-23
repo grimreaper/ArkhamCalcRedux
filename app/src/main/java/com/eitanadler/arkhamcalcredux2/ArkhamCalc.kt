@@ -17,7 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*
 package com.eitanadler.arkhamcalcredux2
 
 import android.app.AlertDialog
-import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -273,11 +272,6 @@ public class ArkhamCalc : ComponentActivity() {
 
         val itemId = item.itemId
         when (itemId) {
-            R.id.menu_item_feedback -> {
-                sendFeedbackEmail()
-                return true
-            }
-
             R.id.menu_item_help -> {
                 startActivity(Intent(this, ArkhamCalcHelp::class.java))
                 return true
@@ -285,7 +279,6 @@ public class ArkhamCalc : ComponentActivity() {
 
             else -> return false
         }
-        return false
     }
 
     /**
@@ -325,21 +318,6 @@ public class ArkhamCalc : ComponentActivity() {
         val helpIntent = Intent(this, ArkhamCalcHelp::class.java)
         helpIntent.putExtra(ArkhamCalcHelp.Companion.BUNDLE_TOPIC, topic)
         startActivity(helpIntent)
-    }
-
-    private fun sendFeedbackEmail() {
-        val emailIntent = Intent(Intent.ACTION_SEND)
-        emailIntent.putExtra(
-            Intent.EXTRA_EMAIL,
-            arrayOf(getResourceString(R.string.email_to))
-        )
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, getResourceString(R.string.email_subject))
-        emailIntent.setType("plain/text")
-        try {
-            startActivity(emailIntent)
-        } catch (_: ActivityNotFoundException) {
-            showToast(getResourceString(R.string.toast_exception_email))
-        }
     }
 
     private fun recalculate() {
