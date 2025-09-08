@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.versions)
     alias(libs.plugins.sortDependencies)
+    alias(libs.plugins.kotlin.compose)
 }
 
 val keystoreProperties: Properties = Properties()
@@ -53,6 +54,10 @@ android {
                 "proguard-rules.pro",
             )
         }
+        buildFeatures {
+            compose = true
+            viewBinding = true
+        }
         debug {
         }
     }
@@ -69,6 +74,7 @@ android {
 
 dependencies {
     implementation(enforcedPlatform(libs.androidx.compose.bom))
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)

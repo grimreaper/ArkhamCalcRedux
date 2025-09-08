@@ -1,4 +1,5 @@
 [versions]
+activityCompose = "1.10.1"
 appcompat = "1.7.1"
 composeBom = "2025.08.01"
 constraintlayout = "2.2.1"
@@ -17,6 +18,7 @@ foundation = "1.9.0"
 runtimeLivedata = "1.9.0"
 
 [libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref="foundation" }
@@ -38,3 +40,4 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
