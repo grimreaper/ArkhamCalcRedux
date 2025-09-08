@@ -228,9 +228,9 @@ platform :android do
         skip_upload_screenshots: true
     )
     set_github_release(
-      repository_name: "brokenkernel/introspection",
+      repository_name: "grimreaper/ArkhamCalcRedux",
       api_token: ENV["GITHUB_TOKEN"],
-      name: "Introspection Tools " + "0.0." + options[:build_number],  # TODO: get version number from gradle
+      name: "Arkaham Calc Redux" + "0.0." + options[:build_number],  # TODO: get version number from gradle
       tag_name: "fastlane-builds/androidplaystore_fully_deployment/v" + options[:build_number],
 #       description: File.read(CHANGELOG_FILE),
 #       commitish: "master",
