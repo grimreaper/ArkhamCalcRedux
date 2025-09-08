@@ -87,6 +87,7 @@ dependencies {
     implementation (libs.androidx.ui)
     implementation (libs.androidx.ui.tooling)
     implementation(libs.material)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     testImplementation(libs.junit)
 

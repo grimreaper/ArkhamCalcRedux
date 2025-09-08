@@ -30,10 +30,10 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -42,7 +42,7 @@ import kotlinx.coroutines.runBlocking
 /**
  * The main activity. Routes user input to Calculator and prints its results.
  */
-public class ArkhamCalc : ComponentActivity() {
+public class ArkhamCalc : FragmentActivity() {
     private lateinit var mDiceLabel: TextView
     private lateinit var mDiceSeekBar: SeekBar
     private lateinit var mDiceValue: TextView
