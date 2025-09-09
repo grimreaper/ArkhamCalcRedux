@@ -132,18 +132,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:text="Reroll Ones" />
-                    <CheckBox android:id="@+id/addOneCheckBox"
+                    <com.eitanadler.arkhamcalcredux2.AddOneTextAndLabelButton
+                        android:id="@+id/newAddOneCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="Add One" />
+                        android:layout_marginTop="3dp"/>
                 </TableRow>
+
                 <TableRow>
-                <com.eitanadler.arkhamcalcredux2.AddOneTextAndLabelButton
-                    android:id="@+id/newAddOneCheckBox"
-                    />
-                </TableRow>
-                <TableRow>
+
                     <CheckBox android:id="@+id/shotgunCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
