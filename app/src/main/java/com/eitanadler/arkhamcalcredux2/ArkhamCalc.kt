@@ -35,6 +35,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
@@ -58,7 +59,7 @@ public class ArkhamCalc : FragmentActivity() {
     private lateinit var mMandyCheckBox: CheckBox
     private lateinit var mRerollOnesCheckBox: CheckBox
     private lateinit var mSkidsOnesCheckBox: CheckBox
-    private lateinit var mAddOneCheckBox: CheckBox
+    private lateinit var mAddOneCheckBox: AddOneTextAndLabelButton
     private lateinit var mResultTextView: TextView
 
     private var mPreviousChanceValue = 0
@@ -87,7 +88,7 @@ public class ArkhamCalc : FragmentActivity() {
         mMandyCheckBox = findViewById<View>(R.id.mandyCheckBox) as CheckBox
         mRerollOnesCheckBox = findViewById<View>(R.id.rerollOnesCheckBox) as CheckBox
         mSkidsOnesCheckBox = findViewById<View>(R.id.skidsOnesCheckBox) as CheckBox
-        mAddOneCheckBox = findViewById<View>(R.id.addOneCheckBox) as CheckBox
+        mAddOneCheckBox = findViewById<AddOneTextAndLabelButton>(R.id.newAddOneCheckBox)
         mResultTextView = findViewById<View>(R.id.resultTextView) as TextView
 
         //setup controls
@@ -193,7 +194,9 @@ public class ArkhamCalc : FragmentActivity() {
                 R.string.skids_chances_toast
             )
         }
-        mAddOneCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean -> recalculate() }
+        mAddOneCheckBox.setOnChangedEvent {
+            recalculate()
+        }
 
         //attach setOnLongClickListener
         mDiceLabel.setOnLongClickListener { v: View ->
@@ -331,7 +334,7 @@ public class ArkhamCalc : FragmentActivity() {
         val isMandy = mMandyCheckBox.isChecked
         val isRerollOnes = mRerollOnesCheckBox.isChecked
         val isSkidsOnes = mSkidsOnesCheckBox.isChecked
-        val isAddOne = mAddOneCheckBox.isChecked
+        val isAddOne = mAddOneCheckBox.isChecked()
 
         //calculate
         val calculator = Calculator(dice, tough)

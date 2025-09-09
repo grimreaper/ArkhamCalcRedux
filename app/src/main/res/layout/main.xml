@@ -139,13 +139,10 @@
                         android:text="Add One" />
                 </TableRow>
                 <TableRow>
-                <androidx.fragment.app.FragmentContainerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/fragment_container_view"
-                    android:name = "com.eitanadler.arkhamcalcredux2.AddOneTextAndLabelFragment"
+                <com.eitanadler.arkhamcalcredux2.AddOneTextAndLabelButton
+                    android:id="@+id/newAddOneCheckBox"
                     />
-                                </TableRow>
+                </TableRow>
                 <TableRow>
                     <CheckBox android:id="@+id/shotgunCheckBox"
                         android:layout_width="wrap_content"
