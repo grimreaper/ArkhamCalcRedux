@@ -11,8 +11,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.AbstractComposeView
 import kotlinx.coroutines.flow.MutableStateFlow
 
-public class AddOneTextAndLabelButton(context: Context, attrs: AttributeSet) :
+public class CheckBoxWithLabel(context: Context, attrs: AttributeSet) :
     AbstractComposeView(context, attrs) {
+
+    private var label: String = ""
+
 
     private val _checked = MutableStateFlow(false)
 
@@ -26,27 +29,35 @@ public class AddOneTextAndLabelButton(context: Context, attrs: AttributeSet) :
         abcNewEvent = event
     }
 
-
     @Composable
     override fun Content() {
         val checked = _checked.collectAsState()
-        AddOneTextAndLabelContent(checked = checked.value, onCheckedChange = {
-            _checked.value = it
-            abcNewEvent?.invoke()
-        })
+        AddOneTextAndLabelContent(
+            checked = checked.value, onCheckedChange = {
+                _checked.value = it
+                abcNewEvent?.invoke()
+            },
+            label = label
+        )
     }
+
+    internal fun setLabel(newLabel: String) {
+        label = newLabel
+    }
+
 }
 
 @Composable
 internal fun AddOneTextAndLabelContent(
     checked: Boolean,
-    onCheckedChange: ((Boolean) -> Unit)?
+    onCheckedChange: ((Boolean) -> Unit)?,
+    label: String,
 ) {
 
     MaterialTheme {
         Row {
             Checkbox(checked = checked, onCheckedChange = onCheckedChange)
-            Text(text = "Add Ones")
+            Text(text = label)
 
         }
     }

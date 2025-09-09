@@ -35,7 +35,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
@@ -59,7 +58,7 @@ public class ArkhamCalc : FragmentActivity() {
     private lateinit var mMandyCheckBox: CheckBox
     private lateinit var mRerollOnesCheckBox: CheckBox
     private lateinit var mSkidsOnesCheckBox: CheckBox
-    private lateinit var mAddOneCheckBox: AddOneTextAndLabelButton
+    private lateinit var mAddOneCheckBox: CheckBoxWithLabel
     private lateinit var mResultTextView: TextView
 
     private var mPreviousChanceValue = 0
@@ -89,6 +88,7 @@ public class ArkhamCalc : FragmentActivity() {
         mRerollOnesCheckBox = findViewById(R.id.rerollOnesCheckBox)
         mSkidsOnesCheckBox = findViewById(R.id.skidsOnesCheckBox)
         mAddOneCheckBox = findViewById(R.id.newAddOneCheckBox)
+        mAddOneCheckBox.setLabel("Add Ones")
         mResultTextView = findViewById(R.id.resultTextView)
 
         //setup controls

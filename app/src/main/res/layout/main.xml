@@ -132,11 +132,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:text="Reroll Ones" />
-                    <com.eitanadler.arkhamcalcredux2.AddOneTextAndLabelButton
+                    <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
                         android:id="@+id/newAddOneCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"/>
+                        android:layout_marginTop="3dp"
+                        />
                 </TableRow>
 
                 <TableRow>
