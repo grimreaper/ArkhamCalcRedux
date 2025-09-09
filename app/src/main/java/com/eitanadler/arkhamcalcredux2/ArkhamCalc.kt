@@ -73,23 +73,23 @@ public class ArkhamCalc : FragmentActivity() {
         setContentView(R.layout.main)
 
         //find controls
-        mDiceLabel = findViewById<View>(R.id.diceLabel) as TextView
-        mDiceSeekBar = findViewById<View>(R.id.diceSeekBar) as SeekBar
-        mDiceValue = findViewById<View>(R.id.diceValue) as TextView
-        mToughLabel = findViewById<View>(R.id.toughLabel) as TextView
-        mToughSeekBar = findViewById<View>(R.id.toughSeekBar) as SeekBar
-        mToughValue = findViewById<View>(R.id.toughValue) as TextView
-        mChanceLabel = findViewById<View>(R.id.chanceLabel) as TextView
-        mChanceSeekBar = findViewById<View>(R.id.chanceSeekBar) as SeekBar
-        mChanceValue = findViewById<View>(R.id.chanceValue) as TextView
-        mBlessCheckBox = findViewById<View>(R.id.blessCheckBox) as CheckBox
-        mCurseCheckBox = findViewById<View>(R.id.curseCheckBox) as CheckBox
-        mShotgunCheckBox = findViewById<View>(R.id.shotgunCheckBox) as CheckBox
-        mMandyCheckBox = findViewById<View>(R.id.mandyCheckBox) as CheckBox
-        mRerollOnesCheckBox = findViewById<View>(R.id.rerollOnesCheckBox) as CheckBox
-        mSkidsOnesCheckBox = findViewById<View>(R.id.skidsOnesCheckBox) as CheckBox
-        mAddOneCheckBox = findViewById<AddOneTextAndLabelButton>(R.id.newAddOneCheckBox)
-        mResultTextView = findViewById<View>(R.id.resultTextView) as TextView
+        mDiceLabel = findViewById(R.id.diceLabel)
+        mDiceSeekBar = findViewById(R.id.diceSeekBar)
+        mDiceValue = findViewById(R.id.diceValue)
+        mToughLabel = findViewById(R.id.toughLabel)
+        mToughSeekBar = findViewById(R.id.toughSeekBar)
+        mToughValue = findViewById(R.id.toughValue)
+        mChanceLabel = findViewById(R.id.chanceLabel)
+        mChanceSeekBar = findViewById(R.id.chanceSeekBar)
+        mChanceValue = findViewById(R.id.chanceValue)
+        mBlessCheckBox = findViewById(R.id.blessCheckBox)
+        mCurseCheckBox = findViewById(R.id.curseCheckBox)
+        mShotgunCheckBox = findViewById(R.id.shotgunCheckBox)
+        mMandyCheckBox = findViewById(R.id.mandyCheckBox)
+        mRerollOnesCheckBox = findViewById(R.id.rerollOnesCheckBox)
+        mSkidsOnesCheckBox = findViewById(R.id.skidsOnesCheckBox)
+        mAddOneCheckBox = findViewById(R.id.newAddOneCheckBox)
+        mResultTextView = findViewById(R.id.resultTextView)
 
         //setup controls
         mDiceSeekBar.setMax(DICE_MAX - 1)
