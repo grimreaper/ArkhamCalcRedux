@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.compose.runtime.collectAsState
 
 public class AddOneTextAndLabelFragment : Fragment() {
     override fun onCreateView(
@@ -21,11 +22,13 @@ public class AddOneTextAndLabelFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val checked = MutableStateFlow(false)
+        val _checked = MutableStateFlow(false)
+
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                AddOneTextAndLabelContent(checked = checked.value, onCheckedChange = { checked.value = it })
+                val checked = _checked.collectAsState()
+                AddOneTextAndLabelContent(checked = checked.value, onCheckedChange = { _checked.value = it })
             }
         }
     }
