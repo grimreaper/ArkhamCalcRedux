@@ -127,11 +127,12 @@
                         android:text="Skids" />
                 </TableRow>
                 <TableRow>
-                    <CheckBox android:id="@+id/rerollOnesCheckBox"
+                    <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
+                        android:id="@+id/rerollOnesCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
-                        android:text="Reroll Ones" />
+                        />
                     <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
                         android:id="@+id/newAddOneCheckBox"
                         android:layout_width="wrap_content"

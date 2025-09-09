@@ -25,6 +25,10 @@ public class CheckBoxWithLabel(context: Context, attrs: AttributeSet) :
         return _checked.value
     }
 
+    public fun setChecked(new: Boolean) {
+        _checked.value = new
+    }
+
     public fun setOnChangedEvent(event: () -> Unit) {
         abcNewEvent = event
     }

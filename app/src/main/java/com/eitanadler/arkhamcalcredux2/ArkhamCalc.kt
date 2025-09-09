@@ -56,7 +56,7 @@ public class ArkhamCalc : FragmentActivity() {
     private lateinit var mCurseCheckBox: CheckBox
     private lateinit var mShotgunCheckBox: CheckBox
     private lateinit var mMandyCheckBox: CheckBox
-    private lateinit var mRerollOnesCheckBox: CheckBox
+    private lateinit var mRerollOnesCheckBox: CheckBoxWithLabel
     private lateinit var mSkidsOnesCheckBox: CheckBox
     private lateinit var mAddOneCheckBox: CheckBoxWithLabel
     private lateinit var mResultTextView: TextView
@@ -86,9 +86,11 @@ public class ArkhamCalc : FragmentActivity() {
         mShotgunCheckBox = findViewById(R.id.shotgunCheckBox)
         mMandyCheckBox = findViewById(R.id.mandyCheckBox)
         mRerollOnesCheckBox = findViewById(R.id.rerollOnesCheckBox)
+        mRerollOnesCheckBox.setLabel("Reroll Ones")
         mSkidsOnesCheckBox = findViewById(R.id.skidsOnesCheckBox)
         mAddOneCheckBox = findViewById(R.id.newAddOneCheckBox)
         mAddOneCheckBox.setLabel("Add Ones")
+        mAddOneCheckBox.setOnChangedEvent { recalculate() }
         mResultTextView = findViewById(R.id.resultTextView)
 
         //setup controls
@@ -132,7 +134,7 @@ public class ArkhamCalc : FragmentActivity() {
                     R.string.mandy_chances_toast
                 )
                 handleOneTimeAbilityChancesChanged(
-                    mRerollOnesCheckBox.isChecked,
+                    mRerollOnesCheckBox.isChecked(),
                     R.string.reroll_ones_chances_toast
                 )
                 handleOneTimeAbilityChancesChanged(
@@ -170,15 +172,15 @@ public class ArkhamCalc : FragmentActivity() {
                 R.string.mandy_chances_toast
             )
         }
-        mRerollOnesCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
-            if (isChecked) {
+        mRerollOnesCheckBox.setOnChangedEvent {
+            if (mRerollOnesCheckBox.isChecked()) {
                 //both Mandy and Reroll ones on at same time not supported
                 mMandyCheckBox.setChecked(false)
                 mSkidsOnesCheckBox.setChecked(false)
             }
             recalculate()
             handleOneTimeAbilityOptionChanged(
-                mRerollOnesCheckBox.isChecked,
+                mRerollOnesCheckBox.isChecked(),
                 R.string.reroll_ones_chances_toast
             )
         }
@@ -193,9 +195,6 @@ public class ArkhamCalc : FragmentActivity() {
                 mSkidsOnesCheckBox.isChecked,
                 R.string.skids_chances_toast
             )
-        }
-        mAddOneCheckBox.setOnChangedEvent {
-            recalculate()
         }
 
         //attach setOnLongClickListener
@@ -332,7 +331,7 @@ public class ArkhamCalc : FragmentActivity() {
         val isCursed = mCurseCheckBox.isChecked
         val isShotgun = mShotgunCheckBox.isChecked
         val isMandy = mMandyCheckBox.isChecked
-        val isRerollOnes = mRerollOnesCheckBox.isChecked
+        val isRerollOnes = mRerollOnesCheckBox.isChecked()
         val isSkidsOnes = mSkidsOnesCheckBox.isChecked
         val isAddOne = mAddOneCheckBox.isChecked()
 
