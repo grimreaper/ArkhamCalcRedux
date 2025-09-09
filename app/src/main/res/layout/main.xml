@@ -99,10 +99,11 @@
                     android:text="Test"
                     android:layout_gravity="center_vertical" />
             </LinearLayout>
-            <TableLayout android:layout_width="fill_parent"
+            <LinearLayout
                 android:layout_height="fill_parent"
-                android:stretchColumns="*">
-                <TableRow>
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                >
                     <CheckBox android:id="@+id/blessCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -113,8 +114,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="Cursed" />
-                </TableRow>
-                <TableRow>
                     <CheckBox android:id="@+id/mandyCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -125,8 +124,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:text="Skids" />
-                </TableRow>
-                <TableRow>
                     <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
                         android:id="@+id/rerollOnesCheckBox"
                         android:layout_width="wrap_content"
@@ -139,17 +136,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         />
-                </TableRow>
-
-                <TableRow>
 
                     <CheckBox android:id="@+id/shotgunCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:text="Shotgun" />
-                </TableRow>
-            </TableLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
