@@ -17,7 +17,7 @@ public class SettableText(context: Context, attrs: AttributeSet) :
     AbstractComposeView(context, attrs) {
 
     private val _text = MutableStateFlow("100%")
-    private val _colour: MutableStateFlow<Color> = MutableStateFlow(Color.Red)
+    private val _colour: MutableStateFlow<Color> = MutableStateFlow(Color.Black)
 
     public fun setText(new: String) {
         _text.value = new

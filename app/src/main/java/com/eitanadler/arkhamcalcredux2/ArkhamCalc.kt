@@ -26,8 +26,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import android.widget.TextView
 import android.widget.Toast
+import androidx.compose.ui.graphics.Color
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -41,15 +41,15 @@ import kotlinx.coroutines.runBlocking
  * The main activity. Routes user input to Calculator and prints its results.
  */
 public class ArkhamCalc : FragmentActivity() {
-    private lateinit var mDiceLabel: TextView
+    private lateinit var mDiceLabel: SettableText
     private lateinit var mDiceSeekBar: SeekBar
-    private lateinit var mDiceValue: TextView
-    private lateinit var mToughLabel: TextView
+    private lateinit var mDiceValue: SettableText
+    private lateinit var mToughLabel: SettableText
     private lateinit var mToughSeekBar: SeekBar
-    private lateinit var mToughValue: TextView
-    private lateinit var mChanceLabel: TextView
+    private lateinit var mToughValue: SettableText
+    private lateinit var mChanceLabel: SettableText
     private lateinit var mChanceSeekBar: SeekBar
-    private lateinit var mChanceValue: TextView
+    private lateinit var mChanceValue: SettableText
     private lateinit var mAllModifiers: AllModifierOptions
     private lateinit var mResultTextView: SettableText
 
@@ -75,6 +75,8 @@ public class ArkhamCalc : FragmentActivity() {
         mChanceValue = findViewById(R.id.chanceValue)
         mResultTextView = findViewById(R.id.resultTextView)
         mAllModifiers = findViewById(R.id.allModifiers)
+
+        mResultTextView.setTextColor(Color.Red)
 
         //setup controls
         mDiceSeekBar.setMax(DICE_MAX - 1)
@@ -182,14 +184,17 @@ public class ArkhamCalc : FragmentActivity() {
         }
 
         //attach setOnLongClickListener
+        mDiceLabel.setText("Dice:")
         mDiceLabel.setOnLongClickListener { v: View ->
             startHelpActivity("Dice / Difficulty")
             true
         }
+        mToughLabel.setText("Difficulty:")
         mToughLabel.setOnLongClickListener { v: View ->
             startHelpActivity("Dice / Difficulty")
             true
         }
+        mChanceLabel.setText("Chances:")
         mChanceLabel.setOnLongClickListener { v: View ->
             startHelpActivity("Chances")
             true
@@ -312,9 +317,9 @@ public class ArkhamCalc : FragmentActivity() {
     }
 
     private fun setSeekBarValues() {
-        mDiceValue.text = (mDiceSeekBar.progress + 1).toString()
-        mToughValue.text = (mToughSeekBar.progress + 1).toString()
-        mChanceValue.text = (mChanceSeekBar.progress + 1).toString()
+        mDiceValue.setText((mDiceSeekBar.progress + 1).toString())
+        mToughValue.setText((mToughSeekBar.progress + 1).toString())
+        mChanceValue.setText((mChanceSeekBar.progress + 1).toString())
     }
 
     /**
