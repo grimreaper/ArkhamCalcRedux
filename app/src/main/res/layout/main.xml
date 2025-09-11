@@ -7,9 +7,10 @@
     android:layout_marginLeft="6dp"
     android:layout_marginRight="6dp"
     android:id="@+id/outerLayout"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
-    <TextView android:id="@+id/resultTextView"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/resultTextView"
         style="@style/ResultFont"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -17,27 +18,38 @@
         android:gravity="center_horizontal"
         android:text="100%" />
 
-    <ScrollView android:layout_width="fill_parent"
+    <ScrollView
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent">
-        <LinearLayout android:orientation="vertical"
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-            <TextView android:id="@+id/diceLabel"
+
+            <TextView
+                android:id="@+id/diceLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:text="Dice:" />
-            <LinearLayout android:orientation="horizontal"
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp">
-                <SeekBar android:id="@+id/diceSeekBar"
+
+                <SeekBar
+                    android:id="@+id/diceSeekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:layout_marginEnd="3dp"
                     android:layout_weight="1" />
-                <TextView android:id="@+id/diceValue"
+
+                <TextView
+                    android:id="@+id/diceValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
@@ -47,23 +59,31 @@
                     android:text="Test"
                     android:layout_gravity="center_vertical" />
             </LinearLayout>
-            <TextView android:id="@+id/toughLabel"
+
+            <TextView
+                android:id="@+id/toughLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:layout_marginStart="6dp"
                 android:text="Difficulty:" />
-            <LinearLayout android:orientation="horizontal"
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp">
-                <SeekBar android:id="@+id/toughSeekBar"
+
+                <SeekBar
+                    android:id="@+id/toughSeekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:layout_marginEnd="3dp"
                     android:layout_weight="1" />
-                <TextView android:id="@+id/toughValue"
+
+                <TextView
+                    android:id="@+id/toughValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
@@ -73,23 +93,31 @@
                     android:text="Test"
                     android:layout_gravity="center_vertical" />
             </LinearLayout>
-            <TextView android:id="@+id/chanceLabel"
+
+            <TextView
+                android:id="@+id/chanceLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:layout_marginStart="6dp"
                 android:text="Chances:" />
-            <LinearLayout android:orientation="horizontal"
+
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp">
-                <SeekBar android:id="@+id/chanceSeekBar"
+
+                <SeekBar
+                    android:id="@+id/chanceSeekBar"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:layout_marginEnd="3dp"
                     android:layout_weight="1" />
-                <TextView android:id="@+id/chanceValue"
+
+                <TextView
+                    android:id="@+id/chanceValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
@@ -99,54 +127,18 @@
                     android:text="Test"
                     android:layout_gravity="center_vertical" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_height="fill_parent"
                 android:layout_width="wrap_content"
-                android:orientation="vertical"
-                >
-                <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
-                    android:id="@+id/blessCheckBox"
+                android:orientation="vertical">
+
+                <com.eitanadler.arkhamcalcredux2.AllModifierOptions
+                    android:id="@+id/allModifiers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    />
-                <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
-                    android:id="@+id/curseCheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    />
-                <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
-                    android:id="@+id/mandyCheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    />
-                <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
-                    android:id="@+id/skidsOnesCheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    />
-                    <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
-                        android:id="@+id/rerollOnesCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        />
-                    <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
-                        android:id="@+id/newAddOneCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        />
-                <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
-                    android:id="@+id/shotgunCheckBox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    />
-        </LinearLayout>
+                    android:layout_marginTop="3dp" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
