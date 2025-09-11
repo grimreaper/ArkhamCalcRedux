@@ -104,26 +104,30 @@
                 android:layout_width="wrap_content"
                 android:orientation="vertical"
                 >
-                    <CheckBox android:id="@+id/blessCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Blessed" />
-                    <CheckBox android:id="@+id/curseCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Cursed" />
-                    <CheckBox android:id="@+id/mandyCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="Mandy" />
-                    <CheckBox android:id="@+id/skidsOnesCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="Skids" />
+                <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
+                    android:id="@+id/blessCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    />
+                <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
+                    android:id="@+id/curseCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    />
+                <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
+                    android:id="@+id/mandyCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    />
+                <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
+                    android:id="@+id/skidsOnesCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    />
                     <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
                         android:id="@+id/rerollOnesCheckBox"
                         android:layout_width="wrap_content"
@@ -136,13 +140,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         />
-
-                    <CheckBox android:id="@+id/shotgunCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="Shotgun" />
-            </LinearLayout>
+                <com.eitanadler.arkhamcalcredux2.CheckBoxWithLabel
+                    android:id="@+id/shotgunCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    />
+        </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

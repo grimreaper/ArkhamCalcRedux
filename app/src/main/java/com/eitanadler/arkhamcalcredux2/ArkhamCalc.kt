@@ -24,8 +24,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.CheckBox
-import android.widget.CompoundButton
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
@@ -52,12 +50,12 @@ public class ArkhamCalc : FragmentActivity() {
     private lateinit var mChanceLabel: TextView
     private lateinit var mChanceSeekBar: SeekBar
     private lateinit var mChanceValue: TextView
-    private lateinit var mBlessCheckBox: CheckBox
-    private lateinit var mCurseCheckBox: CheckBox
-    private lateinit var mShotgunCheckBox: CheckBox
-    private lateinit var mMandyCheckBox: CheckBox
+    private lateinit var mBlessCheckBox: CheckBoxWithLabel
+    private lateinit var mCurseCheckBox: CheckBoxWithLabel
+    private lateinit var mShotgunCheckBox: CheckBoxWithLabel
+    private lateinit var mMandyCheckBox: CheckBoxWithLabel
     private lateinit var mRerollOnesCheckBox: CheckBoxWithLabel
-    private lateinit var mSkidsOnesCheckBox: CheckBox
+    private lateinit var mSkidsOnesCheckBox: CheckBoxWithLabel
     private lateinit var mAddOneCheckBox: CheckBoxWithLabel
     private lateinit var mResultTextView: TextView
 
@@ -82,12 +80,16 @@ public class ArkhamCalc : FragmentActivity() {
         mChanceSeekBar = findViewById(R.id.chanceSeekBar)
         mChanceValue = findViewById(R.id.chanceValue)
         mBlessCheckBox = findViewById(R.id.blessCheckBox)
+        mBlessCheckBox.setLabel("Blessed")
         mCurseCheckBox = findViewById(R.id.curseCheckBox)
+        mCurseCheckBox.setLabel("Cursed")
         mShotgunCheckBox = findViewById(R.id.shotgunCheckBox)
         mMandyCheckBox = findViewById(R.id.mandyCheckBox)
+        mMandyCheckBox.setLabel("Mandy")
         mRerollOnesCheckBox = findViewById(R.id.rerollOnesCheckBox)
         mRerollOnesCheckBox.setLabel("Reroll Ones")
         mSkidsOnesCheckBox = findViewById(R.id.skidsOnesCheckBox)
+        mSkidsOnesCheckBox.setLabel("Skids")
         mAddOneCheckBox = findViewById(R.id.newAddOneCheckBox)
         mAddOneCheckBox.setLabel("Add Ones")
         mAddOneCheckBox.setOnChangedEvent { recalculate() }
@@ -130,7 +132,7 @@ public class ArkhamCalc : FragmentActivity() {
 
                 mPreviousChanceValue = this.previousProgress
                 handleOneTimeAbilityChancesChanged(
-                    mMandyCheckBox.isChecked,
+                    mMandyCheckBox.isChecked(),
                     R.string.mandy_chances_toast
                 )
                 handleOneTimeAbilityChancesChanged(
@@ -138,37 +140,37 @@ public class ArkhamCalc : FragmentActivity() {
                     R.string.reroll_ones_chances_toast
                 )
                 handleOneTimeAbilityChancesChanged(
-                    mSkidsOnesCheckBox.isChecked,
+                    mSkidsOnesCheckBox.isChecked(),
                     R.string.skids_chances_toast
                 )
             }
         })
 
         //attach setOnCheckedChangeListener
-        mBlessCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
-            if (isChecked) {
+        mBlessCheckBox.setOnChangedEvent {
+            if (mBlessCheckBox.isChecked()) {
                 //can't be cursed and blessed at the same time
                 mCurseCheckBox.setChecked(false)
             }
             recalculate()
         }
-        mCurseCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
-            if (isChecked) {
+        mCurseCheckBox.setOnChangedEvent {
+            if (mCurseCheckBox.isChecked()) {
                 //can't be cursed and blessed at the same time
                 mBlessCheckBox.setChecked(false)
             }
             recalculate()
         }
-        mShotgunCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean -> recalculate() }
-        mMandyCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
-            if (isChecked) {
+        mShotgunCheckBox.setOnChangedEvent { recalculate() }
+        mMandyCheckBox.setOnChangedEvent {
+            if (mMandyCheckBox.isChecked()) {
                 //both Mandy and Reroll ones on at same time not supported
                 mRerollOnesCheckBox.setChecked(false)
                 mSkidsOnesCheckBox.setChecked(false)
             }
             recalculate()
             handleOneTimeAbilityOptionChanged(
-                mMandyCheckBox.isChecked,
+                mMandyCheckBox.isChecked(),
                 R.string.mandy_chances_toast
             )
         }
@@ -184,15 +186,15 @@ public class ArkhamCalc : FragmentActivity() {
                 R.string.reroll_ones_chances_toast
             )
         }
-        mSkidsOnesCheckBox.setOnCheckedChangeListener { buttonView: CompoundButton, isChecked: Boolean ->
-            if (isChecked) {
+        mSkidsOnesCheckBox.setOnChangedEvent {
+            if (mSkidsOnesCheckBox.isChecked()) {
                 //both Mandy and Reroll ones on at same time not supported
                 mMandyCheckBox.setChecked(false)
                 mRerollOnesCheckBox.setChecked(false)
             }
             recalculate()
             handleOneTimeAbilityOptionChanged(
-                mSkidsOnesCheckBox.isChecked,
+                mSkidsOnesCheckBox.isChecked(),
                 R.string.skids_chances_toast
             )
         }
@@ -234,6 +236,7 @@ public class ArkhamCalc : FragmentActivity() {
             startHelpActivity("Add One")
             true
         }
+        mShotgunCheckBox.setLabel("Shotgun")
         mShotgunCheckBox.setOnLongClickListener { v: View ->
             startHelpActivity("Shotgun")
             true
@@ -327,12 +330,12 @@ public class ArkhamCalc : FragmentActivity() {
         val dice = mDiceSeekBar.progress + 1
         val tough = mToughSeekBar.progress + 1
         val chance = mChanceSeekBar.progress + 1
-        val isBlessed = mBlessCheckBox.isChecked
-        val isCursed = mCurseCheckBox.isChecked
-        val isShotgun = mShotgunCheckBox.isChecked
-        val isMandy = mMandyCheckBox.isChecked
+        val isBlessed = mBlessCheckBox.isChecked()
+        val isCursed = mCurseCheckBox.isChecked()
+        val isShotgun = mShotgunCheckBox.isChecked()
+        val isMandy = mMandyCheckBox.isChecked()
         val isRerollOnes = mRerollOnesCheckBox.isChecked()
-        val isSkidsOnes = mSkidsOnesCheckBox.isChecked
+        val isSkidsOnes = mSkidsOnesCheckBox.isChecked()
         val isAddOne = mAddOneCheckBox.isChecked()
 
         //calculate
