@@ -1,10 +1,7 @@
 package com.eitanadler.arkhamcalcredux2
 
 import android.content.Context
-import android.content.Intent
-import android.content.res.ColorStateList
 import android.util.AttributeSet
-import androidx.annotation.ColorInt
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,25 +19,12 @@ public class SettableText(context: Context, attrs: AttributeSet) :
     private val _text = MutableStateFlow("100%")
     private val _colour: MutableStateFlow<Color> = MutableStateFlow(Color.Red)
 
-    public fun setText(new: String)
-    {
+    public fun setText(new: String) {
         _text.value = new
     }
 
     public fun setTextColor(colour: Color) {
-        _colour.value = colour;
-//        updateTextColors();
-    }
-
-
-    /**
-     * Start the help activity with the specified topic opened. The topic passed
-     * into this method must exist in the help.xml 'topics' array.
-     */
-    private fun startHelpActivity(context: Context, topic: String) {
-        val helpIntent = Intent(context, ArkhamCalcHelp::class.java)
-        helpIntent.putExtra(ArkhamCalcHelp.Companion.BUNDLE_TOPIC, topic)
-        context.startActivity(helpIntent)
+        _colour.value = colour
     }
 
 
@@ -67,5 +51,6 @@ internal fun SettableTextContent(
         text = text,
         fontWeight = FontWeight.Bold,
         color = colour,
-        modifier = modifier)
+        modifier = modifier
+    )
 }
