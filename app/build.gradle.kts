@@ -81,13 +81,13 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation (libs.androidx.foundation)
     implementation (libs.androidx.foundation.layout)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation (libs.androidx.material3)
     implementation (libs.androidx.runtime)
     implementation (libs.androidx.runtime.livedata)
     implementation (libs.androidx.ui)
     implementation (libs.androidx.ui.tooling)
     implementation(libs.material)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     testImplementation(libs.junit)
 
