@@ -8,14 +8,13 @@
     android:layout_marginRight="6dp"
     android:id="@+id/outerLayout">
 
-    <TextView
+    <com.eitanadler.arkhamcalcredux2.SettableText
         android:id="@+id/resultTextView"
         style="@style/ResultFont"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
-        android:gravity="center_horizontal"
-        android:text="100%" />
+        android:gravity="center_horizontal" />
 
     <ScrollView
         android:layout_width="fill_parent"

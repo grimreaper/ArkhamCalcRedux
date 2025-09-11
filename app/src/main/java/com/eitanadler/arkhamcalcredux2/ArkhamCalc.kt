@@ -51,7 +51,7 @@ public class ArkhamCalc : FragmentActivity() {
     private lateinit var mChanceSeekBar: SeekBar
     private lateinit var mChanceValue: TextView
     private lateinit var mAllModifiers: AllModifierOptions
-    private lateinit var mResultTextView: TextView
+    private lateinit var mResultTextView: SettableText
 
     private var mPreviousChanceValue = 0
     private var mRestoringState = false
@@ -306,11 +306,9 @@ public class ArkhamCalc : FragmentActivity() {
         //format and set ui
         val formatter = CalculateResultFormatter(result)
 
-        val resultString = formatter.resultString
-        mResultTextView.text = resultString
+        mResultTextView.setText(formatter.resultString)
 
-        val color = formatter.color
-        mResultTextView.setTextColor(color)
+        mResultTextView.setTextColor(formatter.color)
     }
 
     private fun setSeekBarValues() {

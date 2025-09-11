@@ -16,6 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
 package com.eitanadler.arkhamcalcredux2
 
+import androidx.compose.ui.graphics.Color
 import java.text.NumberFormat
 
 /**
@@ -24,15 +25,15 @@ import java.text.NumberFormat
  */
 internal class CalculateResultFormatter
     (private val mResult: Double) {
-    val color: Int
+    val color: Color
         get() {
             if (mResult > .66) {
-                return COLOR_GREEN
+                return Color.Green
             }
             if (mResult > .33) {
-                return COLOR_YELLOW
+                return Color.Yellow
             }
-            return COLOR_RED
+            return Color.Red
         }
 
     val resultString: String
@@ -49,9 +50,6 @@ internal class CalculateResultFormatter
         }
 
     companion object {
-        private const val COLOR_GREEN = -0xff3400
-        private const val COLOR_YELLOW = -0x100
-        private const val COLOR_RED = -0x10000
 
         private val almostZeroResultString: String
             get() = "<" + numberFormat.format(.001)
