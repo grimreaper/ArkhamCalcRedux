@@ -6,8 +6,7 @@
     android:layout_marginTop="120dp"
     android:layout_marginLeft="6dp"
     android:layout_marginRight="6dp"
-    android:id="@+id/outerLayout"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:id="@+id/outerLayout">
 
     <TextView
         android:id="@+id/resultTextView"
@@ -128,17 +127,11 @@
                     android:layout_gravity="center_vertical" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_height="fill_parent"
+            <com.eitanadler.arkhamcalcredux2.AllModifierOptions
+                android:id="@+id/allModifiers"
                 android:layout_width="wrap_content"
-                android:orientation="vertical">
-
-                <com.eitanadler.arkhamcalcredux2.AllModifierOptions
-                    android:id="@+id/allModifiers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp" />
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
