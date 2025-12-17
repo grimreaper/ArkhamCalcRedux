@@ -127,7 +127,7 @@ public class AllModifierOptions(context: Context, attrs: AttributeSet) :
      */
     private fun startHelpActivity(context: Context, topic: String) {
         val helpIntent = Intent(context, ArkhamCalcHelp::class.java)
-        helpIntent.putExtra(ArkhamCalcHelp.Companion.BUNDLE_TOPIC, topic)
+        helpIntent.putExtra(ArkhamCalcHelp.BUNDLE_TOPIC, topic)
         context.startActivity(helpIntent)
     }
 

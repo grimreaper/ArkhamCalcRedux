@@ -279,7 +279,7 @@ public class ArkhamCalc : FragmentActivity() {
      */
     private fun startHelpActivity(topic: String) {
         val helpIntent = Intent(this, ArkhamCalcHelp::class.java)
-        helpIntent.putExtra(ArkhamCalcHelp.Companion.BUNDLE_TOPIC, topic)
+        helpIntent.putExtra(ArkhamCalcHelp.BUNDLE_TOPIC, topic)
         startActivity(helpIntent)
     }
 
