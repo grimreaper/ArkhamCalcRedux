@@ -69,7 +69,7 @@ public class ArkhamCalcHelp : ExpandableListActivity() {
 
             for (topic in topics) {
                 val groupMap: MutableMap<String, String> = HashMap()
-                groupMap.put("helpTopic", topic)
+                groupMap["helpTopic"] = topic
                 groupList.add(groupMap)
             }
 
@@ -84,7 +84,7 @@ public class ArkhamCalcHelp : ExpandableListActivity() {
                 val childList: MutableList<MutableMap<String, String>> =
                     ArrayList()
                 val childMap: MutableMap<String, String> = HashMap()
-                childMap.put("helpContent", content)
+                childMap["helpContent"] = content
                 childList.add(childMap)
                 childrenList.add(childList)
             }
