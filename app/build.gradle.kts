@@ -65,10 +65,11 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
     namespace = "com.eitanadler.arkhamcalcredux2"
-    kotlin {
-        jvmToolchain(21)
-        explicitApi()
-    }
+}
+
+kotlin {
+    jvmToolchain(21)
+    explicitApi()
 }
 
 dependencies {
