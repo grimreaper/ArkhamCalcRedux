@@ -4,7 +4,6 @@ import java.util.Properties
 
 plugins {
     id("com.android.application")
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.versions)
     alias(libs.plugins.sortDependencies)
     alias(libs.plugins.kotlin.compose)

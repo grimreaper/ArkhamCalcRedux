@@ -39,7 +39,6 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 material = { module = "com.google.android.material:material", version.ref = "material" }
 
 [plugins]
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
 versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
