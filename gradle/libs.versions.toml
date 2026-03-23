@@ -14,7 +14,6 @@ coreKtx = "1.18.0"
 compose = "1.10.5"
 material3 = "1.4.0"
 sortDependencies = "0.16"
-versions = "0.53.0"
 foundation = "1.10.5"
 runtimeLivedata = "1.10.5"
 
@@ -40,5 +39,4 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 
 [plugins]
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
-versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
