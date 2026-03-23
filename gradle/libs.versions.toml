@@ -16,6 +16,7 @@ material3 = "1.4.0"
 sortDependencies = "0.16"
 foundation = "1.10.5"
 runtimeLivedata = "1.10.5"
+versionSort = "1.1.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -40,3 +41,4 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 [plugins]
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+versionSort = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionSort" }
