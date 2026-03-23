@@ -1,9 +1,9 @@
 [versions]
-activityCompose = "1.12.4"
+activityCompose = "1.13.0"
 appcompat = "1.7.1"
-composeBom = "2026.02.01"
+composeBom = "2026.03.00"
 constraintlayout = "2.2.1"
-datastorePreferences = "1.2.0"
+datastorePreferences = "1.2.1"
 gradle = "9.1.0"
 junit = "4.13.2"
 lifecycleViewmodelCompose = "2.10.0"
@@ -11,12 +11,12 @@ material = "1.13.0"
 runner = "1.7.0"
 kotlin = "2.3.10"
 coreKtx = "1.17.0"
-compose = "1.10.4"
+compose = "1.10.5"
 material3 = "1.4.0"
 sortDependencies = "0.16"
 versions = "0.53.0"
-foundation = "1.10.4"
-runtimeLivedata = "1.10.4"
+foundation = "1.10.5"
+runtimeLivedata = "1.10.5"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
