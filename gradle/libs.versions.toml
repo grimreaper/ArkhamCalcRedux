@@ -1,7 +1,7 @@
 [versions]
 activityCompose = "1.13.0"
 appcompat = "1.7.1"
-composeBom = "2026.03.00"
+composeBom = "2026.03.01"
 constraintlayout = "2.2.1"
 datastorePreferences = "1.2.1"
 gradle = "9.1.0"
@@ -11,11 +11,11 @@ material = "1.13.0"
 runner = "1.7.0"
 kotlin = "2.3.20"
 coreKtx = "1.18.0"
-compose = "1.10.5"
+compose = "1.10.6"
 material3 = "1.4.0"
 sortDependencies = "0.16"
-foundation = "1.10.5"
-runtimeLivedata = "1.10.5"
+foundation = "1.10.6"
+runtimeLivedata = "1.10.6"
 versionSort = "1.1.0"
 
 [libraries]
