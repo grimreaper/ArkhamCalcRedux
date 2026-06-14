@@ -83,7 +83,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation (libs.androidx.material3)
     implementation (libs.androidx.runtime)
-    implementation (libs.androidx.runtime.livedata)
     implementation (libs.androidx.ui)
     implementation (libs.androidx.ui.tooling)
 
