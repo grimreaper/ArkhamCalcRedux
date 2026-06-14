@@ -18,8 +18,6 @@ package com.eitanadler.arkhamcalcredux2
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.ContextMenu
-import android.view.ContextMenu.ContextMenuInfo
 import android.view.View
 import android.widget.ExpandableListAdapter
 import android.widget.ExpandableListView
@@ -32,9 +30,7 @@ import android.widget.SimpleExpandableListAdapter
  *
  * Much of this code comes from ExpandableListActivity. Copied to avoid deprecation and then cleaned up to avoid keeping copied generic code. Future work to fix this.
  */
-public class ArkhamCalcHelp : Activity(), View.OnCreateContextMenuListener,
-    ExpandableListView.OnChildClickListener, ExpandableListView.OnGroupCollapseListener,
-    ExpandableListView.OnGroupExpandListener {
+public class ArkhamCalcHelp : Activity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -88,7 +84,7 @@ public class ArkhamCalcHelp : Activity(), View.OnCreateContextMenuListener,
             return groupList
         }
 
-        private fun getChildData(contents: Iterable<String>): List<List<Map<String, String>>> {
+        internal fun getChildData(contents: Iterable<String>): List<List<Map<String, String>>> {
             val childrenList: MutableList<MutableList<MutableMap<String, String>>> =
                 ArrayList()
 
@@ -108,44 +104,6 @@ public class ArkhamCalcHelp : Activity(), View.OnCreateContextMenuListener,
     private var mAdapter: ExpandableListAdapter? = null
     private var mList: ExpandableListView? = null
     private var mFinishedStart: Boolean = false
-
-    /**
-     * Override this to populate the context menu when an item is long pressed. menuInfo
-     * will contain an [ExpandableListView.ExpandableListContextMenuInfo]
-     * whose packedPosition is a packed position
-     * that should be used with [ExpandableListView.getPackedPositionType] and
-     * the other similar methods.
-     *
-     *
-     * {@inheritDoc}
-     */
-    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenuInfo?) {
-    }
-
-    /**
-     * Override this for receiving callbacks when a child has been clicked.
-     *
-     *
-     * {@inheritDoc}
-     */
-    override fun onChildClick(
-        parent: ExpandableListView?, v: View?, groupPosition: Int,
-        childPosition: Int, id: Long
-    ): Boolean {
-        return false
-    }
-
-    /**
-     * Override this for receiving callbacks when a group has been collapsed.
-     */
-    override fun onGroupCollapse(groupPosition: Int) {
-    }
-
-    /**
-     * Override this for receiving callbacks when a group has been expanded.
-     */
-    override fun onGroupExpand(groupPosition: Int) {
-    }
 
     /**
      * Ensures the expandable list view has been created before Activity restores all
@@ -177,9 +135,6 @@ public class ArkhamCalcHelp : Activity(), View.OnCreateContextMenuListener,
         if (emptyView != null) {
             mList!!.setEmptyView(emptyView)
         }
-        mList!!.setOnChildClickListener(this)
-        mList!!.setOnGroupExpandListener(this)
-        mList!!.setOnGroupCollapseListener(this)
 
         if (mFinishedStart) {
             setListAdapter(mAdapter)
