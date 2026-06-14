@@ -18,7 +18,7 @@ try {
 }
 
 android {
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig {
         applicationId = "com.eitanadler.arkhamcalcredux2"
         minSdk = 26
