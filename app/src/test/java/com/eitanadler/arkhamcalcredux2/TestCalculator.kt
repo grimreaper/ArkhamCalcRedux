@@ -30,6 +30,31 @@ public class TestCalculator : TestCase() {
         random = Random()
     }
 
+    fun testOneOneOneSimpleCase() {
+        Assert.assertEquals(
+            0.3333,
+            Calculator(
+                1,
+                1,
+                mNumberOfChances = 1,
+            ).calculate(),
+            EPS
+        )
+    }
+
+    fun testOneOneOneBlessCase() {
+        Assert.assertEquals(
+            0.50,
+            Calculator(
+                1,
+                1,
+                mNumberOfChances = 1,
+                mIsBlessed = true,
+            ).calculate(),
+            EPS
+        )
+    }
+
     fun testCalculate() {
         val requiredDice = 8
         val requiredSuccesses = 3
@@ -55,8 +80,6 @@ public class TestCalculator : TestCase() {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false
             ).calculate(),
             EPS
         )
