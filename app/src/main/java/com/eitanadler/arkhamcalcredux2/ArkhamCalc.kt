@@ -307,7 +307,7 @@ public class ArkhamCalc : FragmentActivity() {
             mIsMandy = isMandy,
             mIsRerollOnes = isRerollOnes,
             mIsSkids = isSkidsOnes,
-            mIsAddOne = isAddOne
+            mIsAddOne = isAddOne,
         )
         val result = calculator.calculate()
 

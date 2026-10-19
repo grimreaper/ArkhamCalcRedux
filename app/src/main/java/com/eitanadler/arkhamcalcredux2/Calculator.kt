@@ -16,13 +16,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
 package com.eitanadler.arkhamcalcredux2
 
+import android.util.Log
 import kotlin.math.pow
 
 /**
  * The probability engine. Using a combination of constructor and property
  * inputs, calculates the probability of a successful encounter.
  */
-internal class Calculator
+internal data class Calculator
     (
     private val mDice: Int,
     private val mTough: Int,
@@ -36,11 +37,13 @@ internal class Calculator
     private val mIsAddOne: Boolean = false,
     ) {
 
-
     /**
      * Calculate probability of success given all calculator properties
      */
     fun calculate(): Double {
+//        Log.e("WTF",
+//            this.toString()
+//            )
         var probSuccess = 0.0
 
         probSuccess += baseCalc(mDice, mTough)

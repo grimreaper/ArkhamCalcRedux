@@ -40,27 +40,27 @@ public class AllModifierOptions(context: Context, attrs: AttributeSet) :
     }
 
     public fun isCursedChecked(): Boolean {
-        return _blessCheckBox.value
+        return _curseCheckBox.value
     }
 
     public fun isMandyChecked(): Boolean {
-        return _blessCheckBox.value
+        return _mandyCheckBox.value
     }
 
     public fun isSkidsChecked(): Boolean {
-        return _blessCheckBox.value
+        return _skidsOnesCheckBox.value
     }
 
     public fun isRerollChecked(): Boolean {
-        return _blessCheckBox.value
+        return _rerollOnesCheckBox.value
     }
 
     public fun isAddOneChecked(): Boolean {
-        return _blessCheckBox.value
+        return _addOneCheckBox.value
     }
 
     public fun isShotgunChecked(): Boolean {
-        return _blessCheckBox.value
+        return _shotgunCheckBox.value
     }
 
 
