@@ -297,15 +297,18 @@ public class ArkhamCalc : FragmentActivity() {
         val isAddOne = mAllModifiers.isAddOneChecked()
 
         //calculate
-        val calculator = Calculator(dice, tough)
-        calculator.setNumberOfChances(chance)
-        calculator.setIsBlessed(isBlessed)
-        calculator.setIsCursed(isCursed)
-        calculator.setIsShotgun(isShotgun)
-        calculator.setIsMandy(isMandy)
-        calculator.setIsRerollOnes(isRerollOnes)
-        calculator.setIsSkids(isSkidsOnes)
-        calculator.setIsAddOne(isAddOne)
+        val calculator = Calculator(
+            mDice = dice,
+            mTough = tough,
+            mNumberOfChances = chance,
+            mIsBlessed = isBlessed,
+            mIsCursed = isCursed,
+            mIsShotgun = isShotgun,
+            mIsMandy = isMandy,
+            mIsRerollOnes = isRerollOnes,
+            mIsSkids = isSkidsOnes,
+            mIsAddOne = isAddOne
+        )
         val result = calculator.calculate()
 
         //format and set ui

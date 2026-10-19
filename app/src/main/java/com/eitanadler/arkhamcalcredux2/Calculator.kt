@@ -23,52 +23,19 @@ import kotlin.math.pow
  * inputs, calculates the probability of a successful encounter.
  */
 internal class Calculator
-    (private val mDice: Int, private val mTough: Int) {
-    private var mNumberOfChances = 1
-    private var mIsBlessed = false
-    private var mIsCursed = false
-    private var mIsShotgun = false
-    private var mIsMandy = false
-    private var mIsRerollOnes = false
-    private var mIsSkids = false
-    private var mIsAddOne = false
+    (
+    private val mDice: Int,
+    private val mTough: Int,
+    private val mNumberOfChances: Int,
+    private val mIsBlessed: Boolean = false,
+    private val mIsCursed: Boolean = false,
+    private val mIsShotgun: Boolean = false,
+    private val mIsMandy: Boolean = false,
+    private val mIsRerollOnes: Boolean = false,
+    private val mIsSkids: Boolean = false,
+    private val mIsAddOne: Boolean = false,
+    ) {
 
-    fun setNumberOfChances(value: Int) {
-        mNumberOfChances = value
-    }
-
-    fun setIsBlessed(value: Boolean) {
-        mIsBlessed = value
-    }
-
-    fun setIsCursed(value: Boolean) {
-        mIsCursed = value
-    }
-
-    fun setIsShotgun(value: Boolean) {
-        mIsShotgun = value
-    }
-
-    fun setIsMandy(value: Boolean) {
-        mIsMandy = value
-    }
-
-    fun setIsRerollOnes(value: Boolean) {
-        mIsRerollOnes = value
-    }
-
-    fun setIsSkids(value: Boolean) {
-        mIsSkids = value
-    }
-
-    fun setIsAddOne(value: Boolean) {
-        mIsAddOne = value
-    }
-
-    constructor(dice: Int, tough: Int, isBlessed: Boolean, isCursed: Boolean) : this(dice, tough) {
-        mIsBlessed = isBlessed
-        mIsCursed = isCursed
-    }
 
     /**
      * Calculate probability of success given all calculator properties
