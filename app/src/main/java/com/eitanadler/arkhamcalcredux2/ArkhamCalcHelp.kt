@@ -16,148 +16,90 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
 package com.eitanadler.arkhamcalcredux2
 
-import android.app.Activity
 import android.os.Bundle
-import android.view.View
-import android.widget.ExpandableListAdapter
-import android.widget.ExpandableListView
-import android.widget.SimpleExpandableListAdapter
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringArrayResource
+import androidx.compose.ui.res.stringResource
+import androidx.fragment.app.FragmentActivity
+
+
+@Composable
+public fun NewArkhamCalcHelp() {
+    MaterialTheme {
+        val helpTopics: Array<String> = stringArrayResource(R.array.topics)
+        val helpContent: Array<String> = stringArrayResource(R.array.contents)
+        Scaffold { innerPadding: PaddingValues ->
+            LazyColumn(
+                modifier = Modifier.consumeWindowInsets(innerPadding),
+                contentPadding = innerPadding
+            ) {
+                helpTopics.forEachIndexed { index, topic ->
+                    item {
+                        var isExpanded by remember { mutableStateOf(true) }
+                        ListItem(
+                            leadingContent = {
+                                if (isExpanded) {
+                                    Icon(
+                                        painter = painterResource(R.drawable.arrow_drop_down_24px),
+                                        contentDescription = stringResource(R.string.expanded)
+                                    )
+
+                                } else {
+                                    Icon(
+                                        painter = painterResource(R.drawable.arrow_drop_up_24px),
+                                        contentDescription = stringResource(R.string.collapsed)
+                                    )
+                                }
+                            },
+                            headlineContent = { Text(topic) },
+                            supportingContent = {
+                                AnimatedVisibility(visible = isExpanded) {
+                                    Text(helpContent[index])
+                                }
+                            },
+                            modifier = Modifier.clickable { isExpanded = !isExpanded }
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
 
 /**
  * An activity that displays help topics and content. Strings are stored in the
  * res folder. The nth entry in the 'topic' String array is associated with
  * the nth entry in the 'content' String array.
- *
- * Much of this code comes from ExpandableListActivity. Copied to avoid deprecation and then cleaned up to avoid keeping copied generic code. Future work to fix this.
  */
-public class ArkhamCalcHelp : Activity() {
+public class ArkhamCalcHelp : FragmentActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
-        val topics = getHelp(R.array.topics)
-        val contents = getHelp(R.array.contents)
-
-        val adapter: ExpandableListAdapter = SimpleExpandableListAdapter(
-            this,
-            getGroupData(topics),
-            R.layout.help_group_row,
-            arrayOf("helpTopic"),
-            intArrayOf(R.id.helpTopicTextView),
-            getChildData(contents),
-            R.layout.help_child_row,
-            arrayOf("helpContent"),
-            intArrayOf(R.id.helpContentTextView)
-        )
-        setListAdapter(adapter)
-
-
-        //if this activity was started with the extra BUNDLE_TOPIC, expand and focus
-        //on the passed in topic. Assumes that the topic passed in is part of the
-        //help.xml 'topic' String array.
-        val bundleTopic = intent.getCharSequenceExtra(BUNDLE_TOPIC)
-        if (bundleTopic != null) {
-            val topicIndex = topics.indexOf(bundleTopic.toString())
-            val view = findViewById<ExpandableListView>(android.R.id.list)
-            view.expandGroup(topicIndex)
-            view.setSelectionFromTop(topicIndex, 0)
+        setContent {
+            NewArkhamCalcHelp()
         }
-    }
-
-    private fun getHelp(helpId: Int): List<String> {
-        val helpStringArray = resources.getStringArray(helpId)
-        return listOf(*helpStringArray)
     }
 
     internal companion object {
-        const val BUNDLE_TOPIC: String = "BUNDLE_TOPIC"
-
-        internal fun getGroupData(topics: Iterable<String>): List<Map<String, String>> {
-            val groupList: MutableList<MutableMap<String, String>> =
-                ArrayList()
-
-            for (topic in topics) {
-                val groupMap: MutableMap<String, String> = HashMap()
-                groupMap["helpTopic"] = topic
-                groupList.add(groupMap)
-            }
-
-            return groupList
-        }
-
-        internal fun getChildData(contents: Iterable<String>): List<List<Map<String, String>>> {
-            val childrenList: MutableList<MutableList<MutableMap<String, String>>> =
-                ArrayList()
-
-            for (content in contents) {
-                val childList: MutableList<MutableMap<String, String>> =
-                    ArrayList()
-                val childMap: MutableMap<String, String> = HashMap()
-                childMap["helpContent"] = content
-                childList.add(childMap)
-                childrenList.add(childList)
-            }
-
-            return childrenList
-        }
+        val BUNDLE_TOPIC: String = "BUNDLE_TOPIC"
     }
-
-    private var mAdapter: ExpandableListAdapter? = null
-    private var mList: ExpandableListView? = null
-    private var mFinishedStart: Boolean = false
-
-    /**
-     * Ensures the expandable list view has been created before Activity restores all
-     * of the view states.
-     *
-     * @see Activity.onRestoreInstanceState
-     */
-    override fun onRestoreInstanceState(state: Bundle) {
-        ensureList()
-        super.onRestoreInstanceState(state)
-    }
-
-    /**
-     * Updates the screen state (current list and other views) when the
-     * content changes.
-     *
-     * @see Activity.onContentChanged
-     */
-    override fun onContentChanged() {
-        super.onContentChanged()
-        val emptyView = findViewById<View?>(android.R.id.empty)
-        mList = findViewById<View?>(android.R.id.list) as ExpandableListView?
-        if (mList == null) {
-            throw RuntimeException(
-                "Your content must have a ExpandableListView whose id attribute is " +
-                        "'android.R.id.list'"
-            )
-        }
-        if (emptyView != null) {
-            mList!!.setEmptyView(emptyView)
-        }
-
-        if (mFinishedStart) {
-            setListAdapter(mAdapter)
-        }
-        mFinishedStart = true
-    }
-
-    /**
-     * Provide the adapter for the expandable list.
-     */
-    private fun setListAdapter(adapter: ExpandableListAdapter?) {
-        synchronized(this) {
-            ensureList()
-            mAdapter = adapter
-            mList!!.setAdapter(adapter)
-        }
-    }
-
-    private fun ensureList() {
-        if (mList != null) {
-            return
-        }
-        setContentView(android.R.layout.expandable_list_content)
-    }
-
 }

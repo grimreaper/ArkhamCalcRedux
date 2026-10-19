@@ -8,4 +8,6 @@
     <string name="menu_item_string_help">Help</string>
     <string name="first_dialog_message">Long press (tap and hold) a label to see related help.</string>
     <string name="first_dialog_button">OK</string>
+    <string name="expanded">Expanded</string>
+    <string name="collapsed">Collapsed</string>
 </resources>
