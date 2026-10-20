@@ -23,12 +23,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.Surface
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -37,9 +37,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -65,7 +70,6 @@ public class ArkhamCalc : FragmentActivity() {
     private lateinit var mChanceSeekBar: SeekBar
     private lateinit var mChanceValue: SettableText
     private lateinit var mAllModifiers: AllModifierOptions
-    private lateinit var mResultTextView: SettableText
 
     private var mPreviousChanceValue = 0
     private var mRestoringState = false
@@ -86,157 +90,166 @@ public class ArkhamCalc : FragmentActivity() {
                             SnackbarHost(hostState = snackbarHostState)
                         },
                     ) { innerPadding ->
-                        AndroidViewBinding(
-                            MainBinding::inflate,
-                            modifier = Modifier
-                                .padding(innerPadding),
+                        val calculatorResultText = rememberSaveable { mutableStateOf("Result!") }
+                        val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
+                        Column(
+                            modifier = Modifier.padding(innerPadding),
+                        ) {
+                            Text("Result", fontWeight = FontWeight.Bold)
+                            Text(calculatorResultText.value, color = calculatorResultColor.value)
 
+                            AndroidViewBinding(
+                                MainBinding::inflate,
                             ) {
-                            //find controls
-                            mDiceLabel = findViewById(R.id.diceLabel)
-                            mDiceSeekBar = findViewById(R.id.diceSeekBar)
-                            mDiceValue = findViewById(R.id.diceValue)
-                            mToughLabel = findViewById(R.id.toughLabel)
-                            mToughSeekBar = findViewById(R.id.toughSeekBar)
-                            mToughValue = findViewById(R.id.toughValue)
-                            mChanceLabel = findViewById(R.id.chanceLabel)
-                            mChanceSeekBar = findViewById(R.id.chanceSeekBar)
-                            mChanceValue = findViewById(R.id.chanceValue)
-                            mResultTextView = findViewById(R.id.resultTextView)
-                            mAllModifiers = findViewById(R.id.allModifiers)
+                                //find controls
+                                mDiceLabel = findViewById(R.id.diceLabel)
+                                mDiceSeekBar = findViewById(R.id.diceSeekBar)
+                                mDiceValue = findViewById(R.id.diceValue)
+                                mToughLabel = findViewById(R.id.toughLabel)
+                                mToughSeekBar = findViewById(R.id.toughSeekBar)
+                                mToughValue = findViewById(R.id.toughValue)
+                                mChanceLabel = findViewById(R.id.chanceLabel)
+                                mChanceSeekBar = findViewById(R.id.chanceSeekBar)
+                                mChanceValue = findViewById(R.id.chanceValue)
+                                mAllModifiers = findViewById(R.id.allModifiers)
 
-                            mResultTextView.setTextColor(Color.Red)
+                                calculatorResultColor.value = Color.Red
 
-                            //setup controls
-                            mDiceSeekBar.setMax(DICE_MAX - 1)
-                            mToughSeekBar.setMax(TOUGH_MAX - 1)
-                            mChanceSeekBar.setMax(CHANCE_MAX - 1)
+                                //setup controls
+                                mDiceSeekBar.setMax(DICE_MAX - 1)
+                                mToughSeekBar.setMax(TOUGH_MAX - 1)
+                                mChanceSeekBar.setMax(CHANCE_MAX - 1)
 
-                            //attach setOnSeekBarChangeListener
-                            mDiceSeekBar.setOnSeekBarChangeListener(object :
-                                OnSeekBarProgressChangeListener() {
-                                public override fun onProgressChanged(
-                                    seekBar: SeekBar,
-                                    progress: Int,
-                                    fromUser: Boolean
-                                ) {
-                                    setSeekBarValues()
-                                    recalculate()
+                                //attach setOnSeekBarChangeListener
+                                mDiceSeekBar.setOnSeekBarChangeListener(object :
+                                    OnSeekBarProgressChangeListener() {
+                                    public override fun onProgressChanged(
+                                        seekBar: SeekBar,
+                                        progress: Int,
+                                        fromUser: Boolean
+                                    ) {
+                                        setSeekBarValues()
+                                        recalculate(calculatorResultText, calculatorResultColor)
+                                    }
+                                })
+                                mToughSeekBar.setOnSeekBarChangeListener(object :
+                                    OnSeekBarProgressChangeListener() {
+                                    public override fun onProgressChanged(
+                                        seekBar: SeekBar,
+                                        progress: Int,
+                                        fromUser: Boolean
+                                    ) {
+                                        setSeekBarValues()
+                                        recalculate(calculatorResultText, calculatorResultColor)
+                                    }
+                                })
+                                mChanceSeekBar.setOnSeekBarChangeListener(object :
+                                    OnSeekBarProgressChangeListener() {
+                                    public override fun onProgressChanged(
+                                        seekBar: SeekBar,
+                                        progress: Int,
+                                        fromUser: Boolean
+                                    ) {
+                                        setSeekBarValues()
+                                        recalculate(calculatorResultText, calculatorResultColor)
+
+                                        mPreviousChanceValue = this.previousProgress
+                                        handleOneTimeAbilityChancesChanged(
+                                            mAllModifiers.isMandyChecked(),
+                                            R.string.mandy_chances_toast
+                                        )
+                                        handleOneTimeAbilityChancesChanged(
+                                            mAllModifiers.isRerollChecked(),
+                                            R.string.reroll_ones_chances_toast
+                                        )
+                                        handleOneTimeAbilityChancesChanged(
+                                            mAllModifiers.isSkidsChecked(),
+                                            R.string.skids_chances_toast
+                                        )
+                                    }
+                                })
+
+                                //attach setOnCheckedChangeListener
+                                mAllModifiers.setBlessedOnChangedEvent {
+                                    if (mAllModifiers.isBlessedChecked()) {
+                                        //can't be cursed and blessed at the same time
+                                        mAllModifiers.setCurseChecked(false)
+                                    }
+                                    recalculate(calculatorResultText, calculatorResultColor)
                                 }
-                            })
-                            mToughSeekBar.setOnSeekBarChangeListener(object :
-                                OnSeekBarProgressChangeListener() {
-                                public override fun onProgressChanged(
-                                    seekBar: SeekBar,
-                                    progress: Int,
-                                    fromUser: Boolean
-                                ) {
-                                    setSeekBarValues()
-                                    recalculate()
+                                mAllModifiers.setCursedOnChangedEvent {
+                                    if (mAllModifiers.isCursedChecked()) {
+                                        //can't be cursed and blessed at the same time
+                                        mAllModifiers.setBlessChecked(false)
+                                    }
+                                    recalculate(calculatorResultText, calculatorResultColor)
                                 }
-                            })
-                            mChanceSeekBar.setOnSeekBarChangeListener(object :
-                                OnSeekBarProgressChangeListener() {
-                                public override fun onProgressChanged(
-                                    seekBar: SeekBar,
-                                    progress: Int,
-                                    fromUser: Boolean
-                                ) {
-                                    setSeekBarValues()
-                                    recalculate()
 
-                                    mPreviousChanceValue = this.previousProgress
-                                    handleOneTimeAbilityChancesChanged(
+                                mAllModifiers.setShotgunOnChangedEvent { recalculate(
+                                    calculatorResultText,
+                                    calculatorResultColor
+                                )
+                                }
+                                mAllModifiers.setMandyOnChangedEvent {
+                                    if (mAllModifiers.isMandyChecked()) {
+                                        //both Mandy and Reroll ones on at same time not supported
+                                        mAllModifiers.setRerollChecked(false)
+                                        mAllModifiers.setSkidsChecked(false)
+                                    }
+                                    recalculate(calculatorResultText, calculatorResultColor)
+                                    handleOneTimeAbilityOptionChanged(
                                         mAllModifiers.isMandyChecked(),
                                         R.string.mandy_chances_toast
                                     )
-                                    handleOneTimeAbilityChancesChanged(
+                                }
+                                mAllModifiers.setRerollOnChangedEvent {
+                                    if (mAllModifiers.isRerollChecked()) {
+                                        //both Mandy and Reroll ones on at same time not supported
+                                        mAllModifiers.setMandyChecked(false)
+                                        mAllModifiers.setSkidsChecked(false)
+                                    }
+                                    recalculate(calculatorResultText, calculatorResultColor)
+                                    handleOneTimeAbilityOptionChanged(
                                         mAllModifiers.isRerollChecked(),
                                         R.string.reroll_ones_chances_toast
                                     )
-                                    handleOneTimeAbilityChancesChanged(
+                                }
+                                mAllModifiers.setSkidsOnChangedEvent {
+                                    if (mAllModifiers.isSkidsChecked()) {
+                                        //both Mandy and Reroll ones on at same time not supported
+                                        mAllModifiers.setMandyChecked(false)
+                                        mAllModifiers.setRerollChecked(false)
+                                    }
+                                    recalculate(calculatorResultText, calculatorResultColor)
+                                    handleOneTimeAbilityOptionChanged(
                                         mAllModifiers.isSkidsChecked(),
                                         R.string.skids_chances_toast
                                     )
                                 }
-                            })
 
-                            //attach setOnCheckedChangeListener
-                            mAllModifiers.setBlessedOnChangedEvent {
-                                if (mAllModifiers.isBlessedChecked()) {
-                                    //can't be cursed and blessed at the same time
-                                    mAllModifiers.setCurseChecked(false)
+                                //attach setOnLongClickListener
+                                mDiceLabel.setText("Dice:")
+                                mDiceLabel.setOnLongClickListener {
+                                    startHelpActivity("Dice / Difficulty")
+                                    true
                                 }
-                                recalculate()
-                            }
-                            mAllModifiers.setCursedOnChangedEvent {
-                                if (mAllModifiers.isCursedChecked()) {
-                                    //can't be cursed and blessed at the same time
-                                    mAllModifiers.setBlessChecked(false)
+                                mToughLabel.setText("Difficulty:")
+                                mToughLabel.setOnLongClickListener {
+                                    startHelpActivity("Dice / Difficulty")
+                                    true
                                 }
-                                recalculate()
-                            }
+                                mChanceLabel.setText("Chances:")
+                                mChanceLabel.setOnLongClickListener {
+                                    startHelpActivity("Chances")
+                                    true
+                                }
 
-                            mAllModifiers.setShotgunOnChangedEvent { recalculate() }
-                            mAllModifiers.setMandyOnChangedEvent {
-                                if (mAllModifiers.isMandyChecked()) {
-                                    //both Mandy and Reroll ones on at same time not supported
-                                    mAllModifiers.setRerollChecked(false)
-                                    mAllModifiers.setSkidsChecked(false)
-                                }
-                                recalculate()
-                                handleOneTimeAbilityOptionChanged(
-                                    mAllModifiers.isMandyChecked(),
-                                    R.string.mandy_chances_toast
-                                )
-                            }
-                            mAllModifiers.setRerollOnChangedEvent {
-                                if (mAllModifiers.isRerollChecked()) {
-                                    //both Mandy and Reroll ones on at same time not supported
-                                    mAllModifiers.setMandyChecked(false)
-                                    mAllModifiers.setSkidsChecked(false)
-                                }
-                                recalculate()
-                                handleOneTimeAbilityOptionChanged(
-                                    mAllModifiers.isRerollChecked(),
-                                    R.string.reroll_ones_chances_toast
-                                )
-                            }
-                            mAllModifiers.setSkidsOnChangedEvent {
-                                if (mAllModifiers.isSkidsChecked()) {
-                                    //both Mandy and Reroll ones on at same time not supported
-                                    mAllModifiers.setMandyChecked(false)
-                                    mAllModifiers.setRerollChecked(false)
-                                }
-                                recalculate()
-                                handleOneTimeAbilityOptionChanged(
-                                    mAllModifiers.isSkidsChecked(),
-                                    R.string.skids_chances_toast
-                                )
-                            }
+                                //first calculation
+                                setSeekBarValues()
+                                recalculate(calculatorResultText, calculatorResultColor)
 
-                            //attach setOnLongClickListener
-                            mDiceLabel.setText("Dice:")
-                            mDiceLabel.setOnLongClickListener {
-                                startHelpActivity("Dice / Difficulty")
-                                true
+                                handleShowFirstTimeDialog()
                             }
-                            mToughLabel.setText("Difficulty:")
-                            mToughLabel.setOnLongClickListener {
-                                startHelpActivity("Dice / Difficulty")
-                                true
-                            }
-                            mChanceLabel.setText("Chances:")
-                            mChanceLabel.setOnLongClickListener {
-                                startHelpActivity("Chances")
-                                true
-                            }
-
-                            //first calculation
-                            setSeekBarValues()
-                            recalculate()
-
-                            handleShowFirstTimeDialog()
                         }
                     }
                 }
@@ -314,7 +327,10 @@ public class ArkhamCalc : FragmentActivity() {
         startActivity(helpIntent)
     }
 
-    internal fun recalculate() {
+    internal fun recalculate(
+        calculatorResultText: MutableState<String>,
+        calculatorResultColor: MutableState<Color>
+    ) {
         //get input
         val dice = mDiceSeekBar.progress + 1
         val tough = mToughSeekBar.progress + 1
@@ -345,9 +361,9 @@ public class ArkhamCalc : FragmentActivity() {
         //format and set ui
         val formatter = CalculateResultFormatter(result)
 
-        mResultTextView.setText(formatter.resultString)
+        calculatorResultText.value = formatter.resultString
 
-        mResultTextView.setTextColor(formatter.color)
+        calculatorResultColor.value = formatter.color
     }
 
     internal fun setSeekBarValues() {
