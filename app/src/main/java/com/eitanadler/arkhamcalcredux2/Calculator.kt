@@ -1,4 +1,4 @@
-/*ArkhamCalc
+/*
 Copyright (C) 2012  Matthew Cole
 
 This program is free software; you can redistribute it and/or
@@ -176,10 +176,12 @@ internal data class Calculator(
             val remainingSuccessesRequired = totalToughness - 2 * i
             var j = 0
             while (i + j < totalToughness && i + j <= totalDice) {
-                // j represents the number of non-sixes that are successes. Don't count sixes + successes
-                // that are >= toughness - those have already been counted in base calc
+                // j represents the number of non-sixes that are successes.
+                // Don't count sixes + successes that are >= toughness — those have already been
+                // counted in base calc
                 if (j >= remainingSuccessesRequired) {
-                    // i.e. the non-six successes (j) are enough to win. Count all the ways to roll exactly that many
+                    // i.e. the non-six successes (j) are enough to win.
+                    // Count all the ways to roll exactly that many
                     // sixes and with the remaining dice roll that many non-six successes.
                     probSuccessShotgun += exactSixes *
                         getProbExactSuccess(
@@ -234,10 +236,10 @@ internal data class Calculator(
         }
 
     companion object {
-        private val probSix: Double
+        internal val probSix: Double
             get() = 1.0 / 6
 
-        private fun probSuccessWithChances(
+        internal fun probSuccessWithChances(
             probSuccessOneChance: Double,
             probMandySuccess: Double,
             probRerollOnesSuccess: Double,
@@ -250,11 +252,13 @@ internal data class Calculator(
 
             // note, numberOfChances always > 0, the exponent will never be < 0
             val probFailureAllChances =
-                probFailureFirstChance * probFailureOtherChances.pow((numberOfChances - 1).toDouble())
+                probFailureFirstChance *
+                    probFailureOtherChances
+                        .pow((numberOfChances - 1).toDouble())
             return 1 - probFailureAllChances
         }
 
-        private fun getProbExactSuccess(
+        internal fun getProbExactSuccess(
             totalDice: Int,
             exactSuccesses: Int,
             probOneSuccess: Double,
@@ -262,6 +266,8 @@ internal data class Calculator(
             MathHelper.nCr(
                 totalDice,
                 exactSuccesses,
-            ) * probOneSuccess.pow(exactSuccesses.toDouble()) * (1 - probOneSuccess).pow((totalDice - exactSuccesses).toDouble())
+            ) *
+                probOneSuccess.pow(exactSuccesses.toDouble()) *
+                (1 - probOneSuccess).pow((totalDice - exactSuccesses).toDouble())
     }
 }
