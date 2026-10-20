@@ -22,7 +22,7 @@ import org.junit.Test
 import java.util.Random
 
 public class TestCalculator {
-    private var random: Random? = null
+    private lateinit var random: Random
 
     @Before
     fun setUp() {
@@ -1304,7 +1304,7 @@ public class TestCalculator {
     }
 
     private val randomDieValue: Int
-        get() = random!!.nextInt(6) + 1
+        get() = random.nextInt(6) + 1
 
     companion object {
         private const val NUMBER_ITERATIONS = 10000000

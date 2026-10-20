@@ -2,17 +2,6 @@
 <issues format="6" by="lint 9.4.1" type="baseline" client="gradle" dependencies="false" name="AGP (9.4.1)" variant="all" version="9.4.1">
 
     <issue
-        id="AvoidUsingNotNullOperator"
-        message="Avoid using the `!!` operator"
-        errorLine1="        get() = random!!.nextInt(6) + 1"
-        errorLine2="                      ~~">
-        <location
-            file="src/test/java/com/eitanadler/arkhamcalcredux2/TestCalculator.kt"
-            line="1307"
-            column="23"/>
-    </issue>
-
-    <issue
         id="AndroidGradlePluginVersion"
         message="A newer version of Gradle than 9.8.1 is available: 9.8.2"
         errorLine1="distributionUrl=https\://services.gradle.org/distributions/gradle-9.8.1-all.zip"
