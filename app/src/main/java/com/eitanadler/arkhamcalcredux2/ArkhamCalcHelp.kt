@@ -33,7 +33,7 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 
 @Composable
-public fun NewArkhamCalcHelp() {
+internal fun NewArkhamCalcHelp(modifier: Modifier = Modifier) {
     val helpTopics: Array<String> = stringArrayResource(R.array.topics)
     val helpContent: Array<String> = stringArrayResource(R.array.contents)
 

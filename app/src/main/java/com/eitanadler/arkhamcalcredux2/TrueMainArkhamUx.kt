@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 
-public class TrueMainArkhamUX(
+internal class TrueMainArkhamUX(
     private val dataStore: DataStore<Preferences>,
 ) {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -44,7 +44,7 @@ public class TrueMainArkhamUX(
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    public fun ComposableTrueMainArkhamUX(goToHelpScreen: (String) -> Unit) {
+    fun ComposableTrueMainArkhamUX(goToHelpScreen: (String) -> Unit) {
         val calculatorResultText = rememberSaveable { mutableStateOf("Result!") }
         val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
 
@@ -415,7 +415,7 @@ public class TrueMainArkhamUX(
         builder.create().show()
     }
 
-    internal fun recalculate(
+    private fun recalculate(
         calculatorResultText: MutableState<String>,
         calculatorResultColor: MutableState<Color>,
         diceCountSliderValue: Int,
@@ -480,7 +480,7 @@ public class TrueMainArkhamUX(
      * the message before state was saved).
      */
     @OptIn(ExperimentalMaterial3Api::class)
-    internal fun handleOneTimeAbilityChancesChanged(
+    private fun handleOneTimeAbilityChancesChanged(
         baseContext: Context,
         resources: Resources,
         previousChanceValue: Int,
@@ -499,7 +499,7 @@ public class TrueMainArkhamUX(
         Toast.makeText(baseContext, toastText, Toast.LENGTH_LONG).show()
     }
 
-    public companion object {
+    companion object {
         private const val PREFS_KEY_FIRST_TIME_16 = "FirstTime16"
 
         private const val DICE_MAX = 16

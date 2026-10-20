@@ -52,7 +52,7 @@ public class ArkhamCalc : FragmentActivity() {
     }
 
     @Composable
-    public fun ArkahmCalcOuterScaffold() {
+    internal fun ArkahmCalcOuterScaffold(modifier: Modifier = Modifier) {
         val backStack = remember { mutableStateListOf<ArkhamNavigation>(CalculatorUX) }
         ArkhamCalcReduxTheme {
             Surface(modifier = Modifier.fillMaxSize()) {

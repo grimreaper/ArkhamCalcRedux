@@ -168,31 +168,9 @@
 
     <issue
         id="UnusedResources"
-        message="The resource `R.dimen.fab_margin` appears to be unused"
-        errorLine1="    &lt;dimen name=&quot;fab_margin&quot;>16dp&lt;/dimen>"
-        errorLine2="           ~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/dimens.xml"
-            line="2"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
         message="The resource `R.drawable.icon` appears to be unused">
         <location
             file="src/main/res/drawable-hdpi/icon.png"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.style.ResultFont` appears to be unused"
-        errorLine1="    &lt;style name=&quot;ResultFont&quot; parent=&quot;@android:style/TextAppearance.Large&quot;>"
-        errorLine2="           ~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/layouts.xml"
-            line="3"
-            column="12"/>
     </issue>
 
     <issue

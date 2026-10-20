@@ -1,2 +1,3 @@
 #!/usr/bin/env zsh
-cat **/lint-baseline.xml **/baseline.xml ./**/detekt-baseline.xml
+# cat **/lint-baseline.xml **/baseline.xml ./**/detekt-baseline.xml
+cat **/lint-baseline.xml **/baseline.xml
