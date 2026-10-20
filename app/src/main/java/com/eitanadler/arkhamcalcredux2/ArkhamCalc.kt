@@ -67,7 +67,6 @@ import kotlinx.coroutines.runBlocking
  * The main activity. Routes user input to Calculator and prints its results.
  */
 public class ArkhamCalc : FragmentActivity() {
-    private lateinit var mDiceLabel: SettableText
     private lateinit var mDiceSeekBar: SeekBar
     private lateinit var mDiceValue: SettableText
     private lateinit var mToughLabel: SettableText
@@ -112,12 +111,21 @@ public class ArkhamCalc : FragmentActivity() {
                             Text("Result", fontWeight = FontWeight.Bold)
                             Text(calculatorResultText.value, color = calculatorResultColor.value)
 
+                            Text("Dice:",
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.combinedClickable(
+                                    onClick = {},
+                                    onLongClickLabel = "Show Help For Dice / Difficulty",
+                                    onLongClick = {
+                                        startHelpActivity("Dice / Difficulty")
+                                    },
+                                )
+                                )
+
                             AndroidViewBinding(
                                 MainBinding::inflate,
-                                modifier = Modifier.fillMaxHeight(0.40f),
+                                modifier = Modifier.fillMaxHeight(0.30f),
                             ) {
-                                // find controls
-                                mDiceLabel = findViewById(R.id.diceLabel)
                                 mDiceSeekBar = findViewById(R.id.diceSeekBar)
                                 mDiceValue = findViewById(R.id.diceValue)
                                 mToughLabel = findViewById(R.id.toughLabel)
@@ -218,12 +226,6 @@ public class ArkhamCalc : FragmentActivity() {
                                         }
                                     },
                                 )
-                                // attach setOnLongClickListener
-                                mDiceLabel.setText("Dice:")
-                                mDiceLabel.setOnLongClickListener {
-                                    startHelpActivity("Dice / Difficulty")
-                                    true
-                                }
                                 mToughLabel.setText("Difficulty:")
                                 mToughLabel.setOnLongClickListener {
                                     startHelpActivity("Dice / Difficulty")

@@ -13,12 +13,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
-        <com.eitanadler.arkhamcalcredux2.SettableText
-            android:id="@+id/diceLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp" />
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
