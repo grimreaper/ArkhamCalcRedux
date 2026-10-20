@@ -463,6 +463,7 @@ public class ArkhamCalc : FragmentActivity() {
                                             ),
                                 )
                             }
+                            HorizontalDivider()
                             Row {
                                 AddOneTextAndLabelContent(
                                     checked = isAddOneChecked,

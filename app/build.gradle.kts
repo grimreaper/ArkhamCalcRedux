@@ -86,7 +86,6 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.foundation)
     implementation(libs.androidx.foundation.layout)
-    implementation(libs.androidx.fragment.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation(libs.androidx.material3)
