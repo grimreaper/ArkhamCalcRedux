@@ -10,7 +10,7 @@ buildscript {
 plugins {
     alias(libs.plugins.sortDependencies) apply false
     alias(libs.plugins.kotlin.compose) apply false
-    alias(libs.plugins.versionSort)
+    alias(libs.plugins.versionCatalogUpdate)
 }
 
 allprojects {
