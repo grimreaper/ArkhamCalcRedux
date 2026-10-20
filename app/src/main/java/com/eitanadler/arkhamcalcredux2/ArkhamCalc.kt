@@ -27,20 +27,12 @@ import android.view.View
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
-import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.compose.AndroidFragment
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -229,14 +221,6 @@ public class ArkhamCalc : FragmentActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = getMenuInflater()
         inflater.inflate(R.menu.main_menu, menu)
-
-        val mi = menu.findItem(R.id.menu_item_help)
-        try {
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-        } catch (e: IllegalArgumentException) {
-            throw RuntimeException(e)
-        }
-
         return true
     }
 
