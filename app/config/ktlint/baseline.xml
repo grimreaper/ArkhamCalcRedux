@@ -5,13 +5,8 @@
         <error line="44" column="12" source="compose:modifier-missing-check" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/CheckBoxWithLabel.kt">
-        <error line="22" column="17" source="standard:backing-property-naming" />
-        <error line="23" column="17" source="standard:backing-property-naming" />
-        <error line="24" column="17" source="standard:backing-property-naming" />
-        <error line="25" column="17" source="standard:backing-property-naming" />
-        <error line="26" column="17" source="standard:backing-property-naming" />
-        <error line="170" column="14" source="standard:function-naming" />
-        <error line="178" column="28" source="compose:modifier-not-used-at-root" />
+        <error line="10" column="14" source="standard:function-naming" />
+        <error line="18" column="28" source="compose:modifier-not-used-at-root" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/SettableText.kt">
         <error line="20" column="17" source="standard:backing-property-naming" />

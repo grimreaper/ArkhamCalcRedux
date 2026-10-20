@@ -108,15 +108,9 @@
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="6dp"
                     android:minWidth="20dp"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:layout_gravity="center_vertical" />
             </LinearLayout>
-
-            <com.eitanadler.arkhamcalcredux2.AllModifierOptions
-                android:id="@+id/allModifiers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

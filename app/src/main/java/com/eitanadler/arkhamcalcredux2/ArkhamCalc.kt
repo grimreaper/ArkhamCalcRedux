@@ -76,7 +76,6 @@ public class ArkhamCalc : FragmentActivity() {
     private lateinit var mChanceLabel: SettableText
     private lateinit var mChanceSeekBar: SeekBar
     private lateinit var mChanceValue: SettableText
-    private lateinit var mAllModifiers: AllModifierOptions
 
     private var mPreviousChanceValue = 0
     private var mRestoringState = false
@@ -115,7 +114,7 @@ public class ArkhamCalc : FragmentActivity() {
 
                             AndroidViewBinding(
                                 MainBinding::inflate,
-                                modifier = Modifier.fillMaxHeight(0.50f),
+                                modifier = Modifier.fillMaxHeight(0.40f),
                             ) {
                                 // find controls
                                 mDiceLabel = findViewById(R.id.diceLabel)
@@ -127,7 +126,6 @@ public class ArkhamCalc : FragmentActivity() {
                                 mChanceLabel = findViewById(R.id.chanceLabel)
                                 mChanceSeekBar = findViewById(R.id.chanceSeekBar)
                                 mChanceValue = findViewById(R.id.chanceValue)
-                                mAllModifiers = findViewById(R.id.allModifiers)
 
                                 calculatorResultColor.value = Color.Red
 
@@ -210,75 +208,16 @@ public class ArkhamCalc : FragmentActivity() {
                                                 R.string.mandy_chances_toast,
                                             )
                                             handleOneTimeAbilityChancesChanged(
-                                                mAllModifiers.isRerollChecked(),
+                                                isRerollOnesChecked,
                                                 R.string.reroll_ones_chances_toast,
                                             )
                                             handleOneTimeAbilityChancesChanged(
-                                                mAllModifiers.isSkidsChecked(),
+                                                isSkidsChecked,
                                                 R.string.skids_chances_toast,
                                             )
                                         }
                                     },
                                 )
-
-                                mAllModifiers.setShotgunOnChangedEvent {
-                                    recalculate(
-                                        calculatorResultText,
-                                        calculatorResultColor,
-                                        isBlessed = isBlessedChecked,
-                                        isCursed = isCursedChecked,
-                                        isMandyChecked = isMandyChecked,
-                                        isSkidsChecked = isSkidsChecked,
-                                        isRerollOnesChecked = isRerollOnesChecked,
-                                        isAddOneChecked = isAddOneChecked,
-                                        isShotgunChecked = isShotgunChecked,
-                                    )
-                                }
-                                mAllModifiers.setRerollOnChangedEvent {
-                                    if (mAllModifiers.isRerollChecked()) {
-                                        // both Mandy and Reroll ones on at same time not supported
-                                        isMandyChecked = false
-                                        mAllModifiers.setSkidsChecked(false)
-                                    }
-                                    recalculate(
-                                        calculatorResultText,
-                                        calculatorResultColor,
-                                        isBlessed = isBlessedChecked,
-                                        isCursed = isCursedChecked,
-                                        isMandyChecked = isMandyChecked,
-                                        isSkidsChecked = isSkidsChecked,
-                                        isRerollOnesChecked = isRerollOnesChecked,
-                                        isAddOneChecked = isAddOneChecked,
-                                        isShotgunChecked = isShotgunChecked,
-                                    )
-                                    handleOneTimeAbilityOptionChanged(
-                                        mAllModifiers.isRerollChecked(),
-                                        R.string.reroll_ones_chances_toast,
-                                    )
-                                }
-                                mAllModifiers.setSkidsOnChangedEvent {
-                                    if (mAllModifiers.isSkidsChecked()) {
-                                        // both Mandy and Reroll ones on at same time not supported
-                                        isMandyChecked = false
-                                        mAllModifiers.setRerollChecked(false)
-                                    }
-                                    recalculate(
-                                        calculatorResultText,
-                                        calculatorResultColor,
-                                        isBlessed = isBlessedChecked,
-                                        isCursed = isCursedChecked,
-                                        isMandyChecked = isMandyChecked,
-                                        isSkidsChecked = isSkidsChecked,
-                                        isRerollOnesChecked = isRerollOnesChecked,
-                                        isAddOneChecked = isAddOneChecked,
-                                        isShotgunChecked = isShotgunChecked,
-                                    )
-                                    handleOneTimeAbilityOptionChanged(
-                                        mAllModifiers.isSkidsChecked(),
-                                        R.string.skids_chances_toast,
-                                    )
-                                }
-
                                 // attach setOnLongClickListener
                                 mDiceLabel.setText("Dice:")
                                 mDiceLabel.setOnLongClickListener {
@@ -388,8 +327,8 @@ public class ArkhamCalc : FragmentActivity() {
                                         isMandyChecked = newValue
                                         if (isMandyChecked) {
                                             // both Mandy and Reroll ones on at same time not supported
-                                            mAllModifiers.setRerollChecked(false)
-                                            mAllModifiers.setSkidsChecked(false)
+                                            isRerollOnesChecked = false
+                                            isSkidsChecked = false
                                         }
                                         recalculate(
                                             calculatorResultText,
@@ -415,6 +354,145 @@ public class ArkhamCalc : FragmentActivity() {
                                                 },
                                                 onLongClick = {
                                                     startHelpActivity("Mandy")
+                                                },
+                                            ),
+                                )
+                            }
+                            Row {
+                                AddOneTextAndLabelContent(
+                                    checked = isSkidsChecked,
+                                    onCheckedChange = { newValue ->
+                                        isSkidsChecked = newValue
+                                        if (isSkidsChecked) {
+                                            // both Mandy and Reroll ones on at same time not supported
+                                            isMandyChecked = false
+                                            isRerollOnesChecked = false
+                                        }
+                                        recalculate(
+                                            calculatorResultText,
+                                            calculatorResultColor,
+                                            isBlessed = isBlessedChecked,
+                                            isCursed = isCursedChecked,
+                                            isMandyChecked = isMandyChecked,
+                                            isSkidsChecked = isSkidsChecked,
+                                            isRerollOnesChecked = isRerollOnesChecked,
+                                            isAddOneChecked = isAddOneChecked,
+                                            isShotgunChecked = isShotgunChecked,
+                                        )
+                                        handleOneTimeAbilityOptionChanged(
+                                            isSkidsChecked,
+                                            R.string.skids_chances_toast,
+                                        )
+                                    },
+                                    label = "Skids",
+                                    modifier =
+                                        Modifier
+                                            .combinedClickable(
+                                                onClick = {
+                                                },
+                                                onLongClick = {
+                                                    startHelpActivity("Skids")
+                                                },
+                                            ),
+                                )
+                            }
+                            Row {
+                                AddOneTextAndLabelContent(
+                                    checked = isRerollOnesChecked,
+                                    onCheckedChange = { newValue ->
+                                        isRerollOnesChecked = newValue
+                                        if (isRerollOnesChecked) {
+                                            // both Mandy and Reroll ones on at same time not supported
+                                            isMandyChecked = false
+                                            isSkidsChecked = false
+                                        }
+                                        recalculate(
+                                            calculatorResultText,
+                                            calculatorResultColor,
+                                            isBlessed = isBlessedChecked,
+                                            isCursed = isCursedChecked,
+                                            isMandyChecked = isMandyChecked,
+                                            isSkidsChecked = isSkidsChecked,
+                                            isRerollOnesChecked = isRerollOnesChecked,
+                                            isAddOneChecked = isAddOneChecked,
+                                            isShotgunChecked = isShotgunChecked,
+                                        )
+                                    },
+                                    label = "Reroll Ones",
+                                    modifier =
+                                        Modifier
+                                            .combinedClickable(
+                                                onClick = {},
+                                                onLongClick = {
+                                                    startHelpActivity("Reroll Ones")
+                                                },
+                                            ),
+                                )
+                            }
+                            Row {
+                                AddOneTextAndLabelContent(
+                                    checked = isAddOneChecked,
+                                    onCheckedChange = { newValue ->
+                                        isAddOneChecked = newValue
+                                        recalculate(
+                                            calculatorResultText,
+                                            calculatorResultColor,
+                                            isBlessed = isBlessedChecked,
+                                            isCursed = isCursedChecked,
+                                            isMandyChecked = isMandyChecked,
+                                            isSkidsChecked = isSkidsChecked,
+                                            isRerollOnesChecked = isRerollOnesChecked,
+                                            isAddOneChecked = isAddOneChecked,
+                                            isShotgunChecked = isShotgunChecked,
+                                        )
+                                    },
+                                    label = "Add One",
+                                    modifier =
+                                        Modifier
+                                            .combinedClickable(
+                                                onClick = {},
+                                                onLongClick = {
+                                                    startHelpActivity("Add One")
+                                                },
+                                            ),
+                                )
+                            }
+                            Row {
+                                AddOneTextAndLabelContent(
+                                    checked = isShotgunChecked,
+                                    onCheckedChange = { newValue ->
+                                        isShotgunChecked = newValue
+                                        recalculate(
+                                            calculatorResultText,
+                                            calculatorResultColor,
+                                            isBlessed = isBlessedChecked,
+                                            isCursed = isCursedChecked,
+                                            isMandyChecked = isMandyChecked,
+                                            isSkidsChecked = isSkidsChecked,
+                                            isRerollOnesChecked = isRerollOnesChecked,
+                                            isAddOneChecked = isAddOneChecked,
+                                            isShotgunChecked = isShotgunChecked,
+                                        )
+                                    },
+                                    label = "Shotgun",
+                                    modifier =
+                                        Modifier
+                                            .combinedClickable(
+                                                onClick = {
+                                                    recalculate(
+                                                        calculatorResultText,
+                                                        calculatorResultColor,
+                                                        isBlessed = isBlessedChecked,
+                                                        isCursed = isCursedChecked,
+                                                        isMandyChecked = isMandyChecked,
+                                                        isSkidsChecked = isSkidsChecked,
+                                                        isRerollOnesChecked = isRerollOnesChecked,
+                                                        isAddOneChecked = isAddOneChecked,
+                                                        isShotgunChecked = isShotgunChecked,
+                                                    )
+                                                },
+                                                onLongClick = {
+                                                    startHelpActivity("Shotgun")
                                                 },
                                             ),
                                 )
@@ -513,10 +591,6 @@ public class ArkhamCalc : FragmentActivity() {
         val dice = mDiceSeekBar.progress + 1
         val tough = mToughSeekBar.progress + 1
         val chance = mChanceSeekBar.progress + 1
-        val isShotgun = mAllModifiers.isShotgunChecked()
-        val isRerollOnes = mAllModifiers.isRerollChecked()
-        val isSkidsOnes = mAllModifiers.isSkidsChecked()
-        val isAddOne = mAllModifiers.isAddOneChecked()
 
         // calculate
         val calculator =
@@ -526,11 +600,11 @@ public class ArkhamCalc : FragmentActivity() {
                 mNumberOfChances = chance,
                 mIsBlessed = isBlessed,
                 mIsCursed = isCursed,
-                mIsShotgun = isShotgun,
+                mIsShotgun = isShotgunChecked,
                 mIsMandy = isMandyChecked,
-                mIsRerollOnes = isRerollOnes,
-                mIsSkids = isSkidsOnes,
-                mIsAddOne = isAddOne,
+                mIsRerollOnes = isRerollOnesChecked,
+                mIsSkids = isSkidsChecked,
+                mIsAddOne = isAddOneChecked,
             )
         val result = calculator.calculate()
 
