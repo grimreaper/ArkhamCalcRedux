@@ -29,17 +29,18 @@ import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentContainerView
-import androidx.fragment.compose.AndroidFragment
 import com.eitanadler.arkhamcalcredux2.databinding.MainBinding
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -67,18 +68,24 @@ public class ArkhamCalc : FragmentActivity() {
 
     private val Context.dataStore by preferencesDataStore(name = "settings")
 
+    @OptIn(ExperimentalMaterial3Api::class)
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         setContent {
-            Scaffold { innerPadding ->
+            val snackbarHostState = remember { SnackbarHostState() }
+            Scaffold(
+                snackbarHost = {
+                    SnackbarHost(hostState = snackbarHostState)
+                },
+            ) { innerPadding ->
                 AndroidViewBinding(
                     MainBinding::inflate,
                     modifier = Modifier
                         .padding(innerPadding),
 
-                ) {
+                    ) {
                     //find controls
                     mDiceLabel = findViewById(R.id.diceLabel)
                     mDiceSeekBar = findViewById(R.id.diceSeekBar)
@@ -100,7 +107,8 @@ public class ArkhamCalc : FragmentActivity() {
                     mChanceSeekBar.setMax(CHANCE_MAX - 1)
 
                     //attach setOnSeekBarChangeListener
-                    mDiceSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
+                    mDiceSeekBar.setOnSeekBarChangeListener(object :
+                        OnSeekBarProgressChangeListener() {
                         public override fun onProgressChanged(
                             seekBar: SeekBar,
                             progress: Int,
@@ -110,7 +118,8 @@ public class ArkhamCalc : FragmentActivity() {
                             recalculate()
                         }
                     })
-                    mToughSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
+                    mToughSeekBar.setOnSeekBarChangeListener(object :
+                        OnSeekBarProgressChangeListener() {
                         public override fun onProgressChanged(
                             seekBar: SeekBar,
                             progress: Int,
@@ -120,7 +129,8 @@ public class ArkhamCalc : FragmentActivity() {
                             recalculate()
                         }
                     })
-                    mChanceSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
+                    mChanceSeekBar.setOnSeekBarChangeListener(object :
+                        OnSeekBarProgressChangeListener() {
                         public override fun onProgressChanged(
                             seekBar: SeekBar,
                             progress: Int,
@@ -224,7 +234,6 @@ public class ArkhamCalc : FragmentActivity() {
                 }
             }
         }
-
 
 
     }
