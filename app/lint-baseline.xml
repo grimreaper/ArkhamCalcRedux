@@ -2,17 +2,6 @@
 <issues format="6" by="lint 9.4.1" type="baseline" client="gradle" dependencies="false" name="AGP (9.4.1)" variant="all" version="9.4.1">
 
     <issue
-        id="AndroidGradlePluginVersion"
-        message="A newer version of Gradle than 9.8.1 is available: 9.8.2"
-        errorLine1="distributionUrl=https\://services.gradle.org/distributions/gradle-9.8.1-all.zip"
-        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="$HOME/svn/android/ArkhamCalcRedux/gradle/wrapper/gradle-wrapper.properties"
-            line="3"
-            column="17"/>
-    </issue>
-
-    <issue
         id="UnusedResources"
         message="The resource `R.color.colorPrimary` appears to be unused"
         errorLine1="    &lt;color name=&quot;colorPrimary&quot;>#008577&lt;/color>"
