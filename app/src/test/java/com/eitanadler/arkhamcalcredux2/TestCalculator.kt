@@ -16,20 +16,20 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
 package com.eitanadler.arkhamcalcredux2
 
-import junit.framework.TestCase
 import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
 import java.util.Random
 
-public class TestCalculator : TestCase() {
+public class TestCalculator {
     private var random: Random? = null
 
-    @Throws(Exception::class)
-    override fun setUp() {
-        super.setUp()
-
+    @Before
+    fun setUp() {
         random = Random()
     }
 
+    @Test
     fun testOneOneOneSimpleCase() {
         Assert.assertEquals(
             0.3333,
@@ -42,6 +42,7 @@ public class TestCalculator : TestCase() {
         )
     }
 
+    @Test
     fun testOneOneOneBlessCase() {
         Assert.assertEquals(
             0.50,
@@ -55,6 +56,7 @@ public class TestCalculator : TestCase() {
         )
     }
 
+    @Test
     fun testCalculate() {
         val requiredDice = 8
         val requiredSuccesses = 3
@@ -85,6 +87,7 @@ public class TestCalculator : TestCase() {
         )
     }
 
+    @Test
     fun testCalculateBlessed() {
         val requiredDice = 6
         val requiredSuccesses = 2
@@ -117,6 +120,7 @@ public class TestCalculator : TestCase() {
         )
     }
 
+    @Test
     fun testCalculateBlessedProperty() {
         val requiredDice = 6
         val requiredSuccesses = 2
@@ -152,6 +156,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, blessedCalc.calculate(), EPS)
     }
 
+    @Test
     fun testCalculateCursed() {
         val requiredDice = 3
         val requiredSuccesses = 1
@@ -184,6 +189,7 @@ public class TestCalculator : TestCase() {
         )
     }
 
+    @Test
     fun testCalculateCursedProperty() {
         val requiredDice = 3
         val requiredSuccesses = 1
@@ -213,6 +219,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calc.calculate(), EPS)
     }
 
+    @Test
     fun testCalculateNoSuccesses() {
         Assert.assertEquals(
             0.0,
@@ -225,6 +232,7 @@ public class TestCalculator : TestCase() {
         )
     }
 
+    @Test
     fun testCalculateChances() {
         // XXX
         val requiredDice = 7
@@ -258,6 +266,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calc.calculate(), EPS)
     }
 
+    @Test
     fun testCalculateShotgun() {
         val requiredDice = 6
         val requiredSuccesses = 4
@@ -291,6 +300,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testCalculateShotgunBlessed() {
         val requiredDice = 6
         val requiredSuccesses = 3
@@ -323,6 +333,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testCalculateShotgunCursed() {
         val requiredDice = 6
         val requiredSuccesses = 3
@@ -354,6 +365,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testCalculateShotgunHuge() {
         val requiredDice = 12
         val requiredSuccesses = 5
@@ -387,6 +399,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testCalculateShotgunOneSuccess() {
         val shotgunCalc =
             Calculator(
@@ -398,12 +411,19 @@ public class TestCalculator : TestCase() {
                 mIsShotgun = true,
             )
         Assert.assertEquals(
-            Calculator(4, 1, mNumberOfChances = 1, mIsBlessed = false, mIsCursed = false).calculate(),
+            Calculator(
+                4,
+                1,
+                mNumberOfChances = 1,
+                mIsBlessed = false,
+                mIsCursed = false,
+            ).calculate(),
             shotgunCalc.calculate(),
             0.0,
         )
     }
 
+    @Test
     fun testCalculateShotgunImpossible() {
         val requiredDice = 2
         val requiredSuccesses = 5
@@ -437,6 +457,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testCalculateShotgunAlmostImpossible() {
         val requiredDice = 3
         val requiredSuccesses = 6
@@ -470,6 +491,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testCalcMandy() {
         val requiredDice = 6
         val requiredSuccesses = 3
@@ -508,6 +530,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testCalcMandyCursed() {
         val requiredDice = 7
         val requiredSuccesses = 4
@@ -546,6 +569,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testCalcMandyShotgun() {
         val requiredDice = 5
         val requiredSuccesses = 4
@@ -591,6 +615,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testMandyImpossible() {
         val requiredDice = 2
         val requiredSuccesses = 3
@@ -608,6 +633,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(0.0, calculator.calculate(), 0.0)
     }
 
+    @Test
     fun testMandySameAsChances() {
         val requiredDice = 3
         val requiredSuccesses = 1
@@ -642,6 +668,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(twoChancesCalc.calculate(), mandyCalc.calculate(), EPS)
     }
 
+    @Test
     fun testMandyMultipleChances() {
         val requiredDice = 7
         val requiredSuccesses = 5
@@ -692,6 +719,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS) // two chances
     }
 
+    @Test
     fun testRerollOnes() {
         val requiredDice = 8
         val requiredSuccesses = 3
@@ -732,6 +760,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testSkidsOnes() {
         val requiredDice = 8
         val requiredSuccesses = 3
@@ -772,6 +801,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testRerollOnesCursed() {
         val requiredDice = 6
         val requiredSuccesses = 2
@@ -811,6 +841,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testRerollOnesBlessed() {
         val requiredDice = 3
         val requiredSuccesses = 3
@@ -850,6 +881,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testSkidsOnesBlessed() {
         val requiredDice = 3
         val requiredSuccesses = 3
@@ -889,6 +921,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testRerollOnesMultipleChances() {
         val requiredDice = 7
         val requiredSuccesses = 5
@@ -939,6 +972,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS) // two chances
     }
 
+    @Test
     fun testRerollOnesShotgun() {
         val requiredDice = 10
         val requiredSuccesses = 3
@@ -988,6 +1022,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testSkidsOnesAlmostImpossible() {
         val requiredDice = 1
         val requiredSuccesses = 2
@@ -1070,6 +1105,7 @@ public class TestCalculator : TestCase() {
     // 		calculator.setIsMandy(true);
     // 		assertEquals(percentageWins, calculator.calculate(), EPS);
     // 	}
+    @Test
     fun testAddOneComparedToBlessed() {
         val requiredDice = 5
         val requiredSuccesses = 4
@@ -1090,6 +1126,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(blessedCalc.calculate(), addOneCalc.calculate(), 0.0)
     }
 
+    @Test
     fun testAddOneAndBlessed() {
         val requiredDice = 3
         val requiredSuccesses = 3
@@ -1120,6 +1157,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testAddOneCursed() {
         val requiredDice = 8
         val requiredSuccesses = 4
@@ -1150,6 +1188,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testAddOneShotgunCursed() {
         val requiredDice = 8
         val requiredSuccesses = 4
@@ -1184,6 +1223,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testRerollOnesAddOneBlessed() {
         val requiredDice = 6
         val requiredSuccesses = 6
@@ -1224,6 +1264,7 @@ public class TestCalculator : TestCase() {
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
 
+    @Test
     fun testCalcMandyCursedAddOne() {
         val requiredDice = 7
         val requiredSuccesses = 5

@@ -8,30 +8,8 @@
         errorLine2="                      ~~">
         <location
             file="src/test/java/com/eitanadler/arkhamcalcredux2/TestCalculator.kt"
-            line="1266"
+            line="1307"
             column="23"/>
-    </issue>
-
-    <issue
-        id="DeprecatedCall"
-        message="junit.framework.TestCase.TestCase is deprecated; consider using an alternative."
-        errorLine1="public class TestCalculator : TestCase() {"
-        errorLine2="                              ~~~~~~~~~~">
-        <location
-            file="src/test/java/com/eitanadler/arkhamcalcredux2/TestCalculator.kt"
-            line="23"
-            column="31"/>
-    </issue>
-
-    <issue
-        id="DeprecatedCall"
-        message="junit.framework.TestCase.setUp is deprecated; consider using an alternative."
-        errorLine1="        super.setUp()"
-        errorLine2="        ~~~~~~~~~~~~~">
-        <location
-            file="src/test/java/com/eitanadler/arkhamcalcredux2/TestCalculator.kt"
-            line="28"
-            column="9"/>
     </issue>
 
     <issue
