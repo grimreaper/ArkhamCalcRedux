@@ -6,6 +6,9 @@
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ArkhamCalcHelp.kt">
         <error line="36" column="14" source="standard:function-naming" />
     </file>
+    <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ArkhamDropdown.kt">
+        <error line="19" column="14" source="standard:function-naming" />
+    </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/CheckBoxWithLabel.kt">
         <error line="12" column="14" source="standard:function-naming" />
     </file>

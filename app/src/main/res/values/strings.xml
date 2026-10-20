@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ArkhamCalc</string>
-    <string name="arkhamcalchelp_label">ArkhamCalc Help</string>
     <string name="mandy_chances_toast">Mandy\’s ability can only be used once per turn. Additional chances do not take her ability into account.</string>
     <string name="skids_chances_toast">Skids\’ ability can only be used once per turn. Additional chances do not take his ability into account.</string>
     <string name="reroll_ones_chances_toast">The reroll ones ability can only be used once per turn. Additional chances do not take this ability into account.</string>
@@ -12,4 +11,5 @@
     <string name="collapsed">Collapsed</string>
     <string name="arkham_horror_calculator">Arkham Horror Calculator</string>
     <string name="go_to_help_screen_by_label">Go to %1$s</string>
+    <string name="help_menu">Help Menu</string>
 </resources>

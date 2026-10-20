@@ -82,6 +82,15 @@ public class ArkhamCalc : FragmentActivity() {
                                     .exitUntilCollapsedScrollBehavior(
                                         rememberTopAppBarState(),
                                     ),
+                            actions = {
+                                ArkhamDropdown(
+                                    goToHelpMenu = {
+                                        if (backStack.last() !is HelpScreen) {
+                                            backStack.add(HelpScreen(""))
+                                        }
+                                    },
+                                )
+                            },
                         )
                     },
                 ) { paddingValues ->
