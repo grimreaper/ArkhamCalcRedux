@@ -46,20 +46,20 @@ internal class CalculateResultFormatter(
                 return almostOneResultString
             }
             if (mResult > 0 && mResult < 0.0005) {
-                // show "<0.1% instead of 0%
+                // show "<0.1%" instead of 0%
                 return almostZeroResultString
             }
             return numberFormat.format(mResult)
         }
 
     companion object {
-        private val almostZeroResultString: String
+        internal val almostZeroResultString: String
             get() = "<" + numberFormat.format(.001)
 
-        private val almostOneResultString: String
+        internal val almostOneResultString: String
             get() = ">" + numberFormat.format(.999)
 
-        private val numberFormat: NumberFormat
+        internal val numberFormat: NumberFormat
             get() {
                 val numberFormat =
                     NumberFormat.getPercentInstance()
