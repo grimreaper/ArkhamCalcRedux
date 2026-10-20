@@ -26,12 +26,20 @@ import android.view.MenuItem
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.compose.AndroidFragment
 import com.eitanadler.arkhamcalcredux2.databinding.MainBinding
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -59,159 +67,166 @@ public class ArkhamCalc : FragmentActivity() {
 
     private val Context.dataStore by preferencesDataStore(name = "settings")
 
-    private lateinit var binding: MainBinding
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        binding = MainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
+        setContent {
+            Scaffold { innerPadding ->
+                AndroidViewBinding(
+                    MainBinding::inflate,
+                    modifier = Modifier
+                        .padding(innerPadding),
 
+                ) {
+                    //find controls
+                    mDiceLabel = findViewById(R.id.diceLabel)
+                    mDiceSeekBar = findViewById(R.id.diceSeekBar)
+                    mDiceValue = findViewById(R.id.diceValue)
+                    mToughLabel = findViewById(R.id.toughLabel)
+                    mToughSeekBar = findViewById(R.id.toughSeekBar)
+                    mToughValue = findViewById(R.id.toughValue)
+                    mChanceLabel = findViewById(R.id.chanceLabel)
+                    mChanceSeekBar = findViewById(R.id.chanceSeekBar)
+                    mChanceValue = findViewById(R.id.chanceValue)
+                    mResultTextView = findViewById(R.id.resultTextView)
+                    mAllModifiers = findViewById(R.id.allModifiers)
 
-        //find controls
-        mDiceLabel = binding.diceLabel
-        mDiceSeekBar = binding.diceSeekBar
-        mDiceValue = binding.diceValue
-        mToughLabel = binding.toughLabel
-        mToughSeekBar = binding.toughSeekBar
-        mToughValue = binding.toughValue
-        mChanceLabel = binding.chanceLabel
-        mChanceSeekBar = binding.chanceSeekBar
-        mChanceValue = binding.chanceValue
-        mResultTextView = binding.resultTextView
-        mAllModifiers = binding.allModifiers
+                    mResultTextView.setTextColor(Color.Red)
 
-        mResultTextView.setTextColor(Color.Red)
+                    //setup controls
+                    mDiceSeekBar.setMax(DICE_MAX - 1)
+                    mToughSeekBar.setMax(TOUGH_MAX - 1)
+                    mChanceSeekBar.setMax(CHANCE_MAX - 1)
 
-        //setup controls
-        mDiceSeekBar.setMax(DICE_MAX - 1)
-        mToughSeekBar.setMax(TOUGH_MAX - 1)
-        mChanceSeekBar.setMax(CHANCE_MAX - 1)
+                    //attach setOnSeekBarChangeListener
+                    mDiceSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
+                        public override fun onProgressChanged(
+                            seekBar: SeekBar,
+                            progress: Int,
+                            fromUser: Boolean
+                        ) {
+                            setSeekBarValues()
+                            recalculate()
+                        }
+                    })
+                    mToughSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
+                        public override fun onProgressChanged(
+                            seekBar: SeekBar,
+                            progress: Int,
+                            fromUser: Boolean
+                        ) {
+                            setSeekBarValues()
+                            recalculate()
+                        }
+                    })
+                    mChanceSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
+                        public override fun onProgressChanged(
+                            seekBar: SeekBar,
+                            progress: Int,
+                            fromUser: Boolean
+                        ) {
+                            setSeekBarValues()
+                            recalculate()
 
-        //attach setOnSeekBarChangeListener
-        mDiceSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
-            public override fun onProgressChanged(
-                seekBar: SeekBar,
-                progress: Int,
-                fromUser: Boolean
-            ) {
-                setSeekBarValues()
-                recalculate()
+                            mPreviousChanceValue = this.previousProgress
+                            handleOneTimeAbilityChancesChanged(
+                                mAllModifiers.isMandyChecked(),
+                                R.string.mandy_chances_toast
+                            )
+                            handleOneTimeAbilityChancesChanged(
+                                mAllModifiers.isRerollChecked(),
+                                R.string.reroll_ones_chances_toast
+                            )
+                            handleOneTimeAbilityChancesChanged(
+                                mAllModifiers.isSkidsChecked(),
+                                R.string.skids_chances_toast
+                            )
+                        }
+                    })
+
+                    //attach setOnCheckedChangeListener
+                    mAllModifiers.setBlessedOnChangedEvent {
+                        if (mAllModifiers.isBlessedChecked()) {
+                            //can't be cursed and blessed at the same time
+                            mAllModifiers.setCurseChecked(false)
+                        }
+                        recalculate()
+                    }
+                    mAllModifiers.setCursedOnChangedEvent {
+                        if (mAllModifiers.isCursedChecked()) {
+                            //can't be cursed and blessed at the same time
+                            mAllModifiers.setBlessChecked(false)
+                        }
+                        recalculate()
+                    }
+
+                    mAllModifiers.setShotgunOnChangedEvent { recalculate() }
+                    mAllModifiers.setMandyOnChangedEvent {
+                        if (mAllModifiers.isMandyChecked()) {
+                            //both Mandy and Reroll ones on at same time not supported
+                            mAllModifiers.setRerollChecked(false)
+                            mAllModifiers.setSkidsChecked(false)
+                        }
+                        recalculate()
+                        handleOneTimeAbilityOptionChanged(
+                            mAllModifiers.isMandyChecked(),
+                            R.string.mandy_chances_toast
+                        )
+                    }
+                    mAllModifiers.setRerollOnChangedEvent {
+                        if (mAllModifiers.isRerollChecked()) {
+                            //both Mandy and Reroll ones on at same time not supported
+                            mAllModifiers.setMandyChecked(false)
+                            mAllModifiers.setSkidsChecked(false)
+                        }
+                        recalculate()
+                        handleOneTimeAbilityOptionChanged(
+                            mAllModifiers.isRerollChecked(),
+                            R.string.reroll_ones_chances_toast
+                        )
+                    }
+                    mAllModifiers.setSkidsOnChangedEvent {
+                        if (mAllModifiers.isSkidsChecked()) {
+                            //both Mandy and Reroll ones on at same time not supported
+                            mAllModifiers.setMandyChecked(false)
+                            mAllModifiers.setRerollChecked(false)
+                        }
+                        recalculate()
+                        handleOneTimeAbilityOptionChanged(
+                            mAllModifiers.isSkidsChecked(),
+                            R.string.skids_chances_toast
+                        )
+                    }
+
+                    //attach setOnLongClickListener
+                    mDiceLabel.setText("Dice:")
+                    mDiceLabel.setOnLongClickListener {
+                        startHelpActivity("Dice / Difficulty")
+                        true
+                    }
+                    mToughLabel.setText("Difficulty:")
+                    mToughLabel.setOnLongClickListener {
+                        startHelpActivity("Dice / Difficulty")
+                        true
+                    }
+                    mChanceLabel.setText("Chances:")
+                    mChanceLabel.setOnLongClickListener {
+                        startHelpActivity("Chances")
+                        true
+                    }
+
+                    //first calculation
+                    setSeekBarValues()
+                    recalculate()
+
+                    handleShowFirstTimeDialog()
+                }
             }
-        })
-        mToughSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
-            public override fun onProgressChanged(
-                seekBar: SeekBar,
-                progress: Int,
-                fromUser: Boolean
-            ) {
-                setSeekBarValues()
-                recalculate()
-            }
-        })
-        mChanceSeekBar.setOnSeekBarChangeListener(object : OnSeekBarProgressChangeListener() {
-            public override fun onProgressChanged(
-                seekBar: SeekBar,
-                progress: Int,
-                fromUser: Boolean
-            ) {
-                setSeekBarValues()
-                recalculate()
-
-                mPreviousChanceValue = this.previousProgress
-                handleOneTimeAbilityChancesChanged(
-                    mAllModifiers.isMandyChecked(),
-                    R.string.mandy_chances_toast
-                )
-                handleOneTimeAbilityChancesChanged(
-                    mAllModifiers.isRerollChecked(),
-                    R.string.reroll_ones_chances_toast
-                )
-                handleOneTimeAbilityChancesChanged(
-                    mAllModifiers.isSkidsChecked(),
-                    R.string.skids_chances_toast
-                )
-            }
-        })
-
-        //attach setOnCheckedChangeListener
-        mAllModifiers.setBlessedOnChangedEvent {
-            if (mAllModifiers.isBlessedChecked()) {
-                //can't be cursed and blessed at the same time
-                mAllModifiers.setCurseChecked(false)
-            }
-            recalculate()
-        }
-        mAllModifiers.setCursedOnChangedEvent {
-            if (mAllModifiers.isCursedChecked()) {
-                //can't be cursed and blessed at the same time
-                mAllModifiers.setBlessChecked(false)
-            }
-            recalculate()
         }
 
-        mAllModifiers.setShotgunOnChangedEvent { recalculate() }
-        mAllModifiers.setMandyOnChangedEvent {
-            if (mAllModifiers.isMandyChecked()) {
-                //both Mandy and Reroll ones on at same time not supported
-                mAllModifiers.setRerollChecked(false)
-                mAllModifiers.setSkidsChecked(false)
-            }
-            recalculate()
-            handleOneTimeAbilityOptionChanged(
-                mAllModifiers.isMandyChecked(),
-                R.string.mandy_chances_toast
-            )
-        }
-        mAllModifiers.setRerollOnChangedEvent {
-            if (mAllModifiers.isRerollChecked()) {
-                //both Mandy and Reroll ones on at same time not supported
-                mAllModifiers.setMandyChecked(false)
-                mAllModifiers.setSkidsChecked(false)
-            }
-            recalculate()
-            handleOneTimeAbilityOptionChanged(
-                mAllModifiers.isRerollChecked(),
-                R.string.reroll_ones_chances_toast
-            )
-        }
-        mAllModifiers.setSkidsOnChangedEvent {
-            if (mAllModifiers.isSkidsChecked()) {
-                //both Mandy and Reroll ones on at same time not supported
-                mAllModifiers.setMandyChecked(false)
-                mAllModifiers.setRerollChecked(false)
-            }
-            recalculate()
-            handleOneTimeAbilityOptionChanged(
-                mAllModifiers.isSkidsChecked(),
-                R.string.skids_chances_toast
-            )
-        }
 
-        //attach setOnLongClickListener
-        mDiceLabel.setText("Dice:")
-        mDiceLabel.setOnLongClickListener {
-            startHelpActivity("Dice / Difficulty")
-            true
-        }
-        mToughLabel.setText("Difficulty:")
-        mToughLabel.setOnLongClickListener {
-            startHelpActivity("Dice / Difficulty")
-            true
-        }
-        mChanceLabel.setText("Chances:")
-        mChanceLabel.setOnLongClickListener {
-            startHelpActivity("Chances")
-            true
-        }
 
-        //first calculation
-        setSeekBarValues()
-        recalculate()
-
-        handleShowFirstTimeDialog()
     }
 
     override fun onRestoreInstanceState(inState: Bundle) {
