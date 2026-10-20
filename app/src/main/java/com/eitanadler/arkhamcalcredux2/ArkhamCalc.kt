@@ -73,7 +73,6 @@ public class ArkhamCalc : FragmentActivity() {
 
     private val Context.dataStore by preferencesDataStore(name = "settings")
 
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -100,20 +99,21 @@ public class ArkhamCalc : FragmentActivity() {
                         onBack = { backStack.removeLastOrNull() },
                         entryProvider = { key ->
                             when (key) {
-                                is CalculatorUX -> NavEntry(key) {
-                                    TrueMainArkhamUX(
-                                        goToHelpScreen = { topic ->
-                                            backStack.add(HelpScreen(topic))
-                                        }
-                                    )
-                                }
+                                is CalculatorUX ->
+                                    NavEntry(key) {
+                                        TrueMainArkhamUX(
+                                            goToHelpScreen = { topic ->
+                                                backStack.add(HelpScreen(topic))
+                                            },
+                                        )
+                                    }
 
                                 is HelpScreen ->
                                     NavEntry(key) {
                                         NewArkhamCalcHelp()
                                     }
                             }
-                        }
+                        },
                     )
                 }
             }
@@ -122,9 +122,7 @@ public class ArkhamCalc : FragmentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    public fun TrueMainArkhamUX(
-        goToHelpScreen: (String) -> Unit
-    ) {
+    public fun TrueMainArkhamUX(goToHelpScreen: (String) -> Unit) {
         val calculatorResultText = rememberSaveable { mutableStateOf("Result!") }
         val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
 
@@ -142,38 +140,26 @@ public class ArkhamCalc : FragmentActivity() {
                 steps = DICE_MAX - 2,
                 valueRange = 1f..DICE_MAX.toFloat(),
             )
-        val difficulitySliderState = rememberSliderState(
-            value = 1.0f,
-            steps = TOUGH_MAX - 2,
-            valueRange = 1f..TOUGH_MAX.toFloat(),
-        )
-        chancesSliderState = rememberSliderState(
-            value = 1.0f,
-            steps = CHANCE_MAX - 2,
-            valueRange = 1f..CHANCE_MAX.toFloat(),
-        )
-        diceCountSliderState.onValueChange = { v: Float ->
-            diceCountSliderState.value = v
-            recalculate(
-                calculatorResultText,
-                calculatorResultColor,
-                diceCountSliderState = diceCountSliderState,
-                difficulitySliderState = difficulitySliderState,
-                chancesSliderState = chancesSliderState,
-                isBlessed = isBlessedChecked,
-                isCursed = isCursedChecked,
-                isMandyChecked = isMandyChecked,
-                isSkidsChecked = isSkidsChecked,
-                isRerollOnesChecked = isRerollOnesChecked,
-                isAddOneChecked = isAddOneChecked,
-                isShotgunChecked = isShotgunChecked,
+        val difficulitySliderState =
+            rememberSliderState(
+                value = 1.0f,
+                steps = TOUGH_MAX - 2,
+                valueRange = 1f..TOUGH_MAX.toFloat(),
             )
+        chancesSliderState =
+            rememberSliderState(
+                value = 1.0f,
+                steps = CHANCE_MAX - 2,
+                valueRange = 1f..CHANCE_MAX.toFloat(),
+            )
+
+        fun simpleInternalRecalculate() {
             recalculate(
                 calculatorResultText,
                 calculatorResultColor,
-                diceCountSliderState = diceCountSliderState,
-                difficulitySliderState = difficulitySliderState,
-                chancesSliderState = chancesSliderState,
+                diceCountSliderValue = diceCountSliderState.value.toInt(),
+                difficulitySliderValue = difficulitySliderState.value.toInt(),
+                chancesSliderValue = chancesSliderState.value.toInt(),
                 isBlessed = isBlessedChecked,
                 isCursed = isCursedChecked,
                 isMandyChecked = isMandyChecked,
@@ -184,41 +170,20 @@ public class ArkhamCalc : FragmentActivity() {
             )
         }
 
+        diceCountSliderState.onValueChange = { v: Float ->
+            diceCountSliderState.value = v
+            simpleInternalRecalculate()
+        }
+
         difficulitySliderState.onValueChange = { v: Float ->
             difficulitySliderState.value = v
-            recalculate(
-                calculatorResultText,
-                calculatorResultColor,
-                diceCountSliderState = diceCountSliderState,
-                difficulitySliderState = difficulitySliderState,
-                chancesSliderState = chancesSliderState,
-                isBlessed = isBlessedChecked,
-                isCursed = isCursedChecked,
-                isMandyChecked = isMandyChecked,
-                isSkidsChecked = isSkidsChecked,
-                isRerollOnesChecked = isRerollOnesChecked,
-                isAddOneChecked = isAddOneChecked,
-                isShotgunChecked = isShotgunChecked,
-            )
+            simpleInternalRecalculate()
         }
 
         chancesSliderState.onValueChange = { v: Float ->
             val mPreviousChanceValue = diceCountSliderState.value.toInt()
             chancesSliderState.value = v
-            recalculate(
-                calculatorResultText,
-                calculatorResultColor,
-                diceCountSliderState = diceCountSliderState,
-                difficulitySliderState = difficulitySliderState,
-                chancesSliderState = chancesSliderState,
-                isBlessed = isBlessedChecked,
-                isCursed = isCursedChecked,
-                isMandyChecked = isMandyChecked,
-                isSkidsChecked = isSkidsChecked,
-                isRerollOnesChecked = isRerollOnesChecked,
-                isAddOneChecked = isAddOneChecked,
-                isShotgunChecked = isShotgunChecked,
-            )
+            simpleInternalRecalculate()
             handleOneTimeAbilityChancesChanged(
                 previousChanceValue = mPreviousChanceValue,
                 isMandyChecked,
@@ -319,20 +284,7 @@ public class ArkhamCalc : FragmentActivity() {
                             isCursedChecked = false
                         }
 
-                        recalculate(
-                            calculatorResultText,
-                            calculatorResultColor,
-                            diceCountSliderState = diceCountSliderState,
-                            difficulitySliderState = difficulitySliderState,
-                            chancesSliderState = chancesSliderState,
-                            isBlessed = isBlessedChecked,
-                            isCursed = isCursedChecked,
-                            isMandyChecked = isMandyChecked,
-                            isSkidsChecked = isSkidsChecked,
-                            isRerollOnesChecked = isRerollOnesChecked,
-                            isAddOneChecked = isAddOneChecked,
-                            isShotgunChecked = isShotgunChecked,
-                        )
+                        simpleInternalRecalculate()
                     },
                 )
                 Text(
@@ -355,20 +307,7 @@ public class ArkhamCalc : FragmentActivity() {
                         if (newValue && isBlessedChecked) {
                             isBlessedChecked = false
                         }
-                        recalculate(
-                            calculatorResultText,
-                            calculatorResultColor,
-                            diceCountSliderState = diceCountSliderState,
-                            difficulitySliderState = difficulitySliderState,
-                            chancesSliderState = chancesSliderState,
-                            isBlessed = isBlessedChecked,
-                            isCursed = isCursedChecked,
-                            isMandyChecked = isMandyChecked,
-                            isSkidsChecked = isSkidsChecked,
-                            isRerollOnesChecked = isRerollOnesChecked,
-                            isAddOneChecked = isAddOneChecked,
-                            isShotgunChecked = isShotgunChecked,
-                        )
+                        simpleInternalRecalculate()
                     },
                 )
                 Text(
@@ -394,20 +333,7 @@ public class ArkhamCalc : FragmentActivity() {
                             isRerollOnesChecked = false
                             isSkidsChecked = false
                         }
-                        recalculate(
-                            calculatorResultText,
-                            calculatorResultColor,
-                            diceCountSliderState = diceCountSliderState,
-                            difficulitySliderState = difficulitySliderState,
-                            chancesSliderState = chancesSliderState,
-                            isBlessed = isBlessedChecked,
-                            isCursed = isCursedChecked,
-                            isMandyChecked = isMandyChecked,
-                            isSkidsChecked = isSkidsChecked,
-                            isRerollOnesChecked = isRerollOnesChecked,
-                            isAddOneChecked = isAddOneChecked,
-                            isShotgunChecked = isShotgunChecked,
-                        )
+                        simpleInternalRecalculate()
                         handleOneTimeAbilityOptionChanged(
                             isMandyChecked,
                             R.string.mandy_chances_toast,
@@ -435,20 +361,7 @@ public class ArkhamCalc : FragmentActivity() {
                             isMandyChecked = false
                             isRerollOnesChecked = false
                         }
-                        recalculate(
-                            calculatorResultText,
-                            calculatorResultColor,
-                            diceCountSliderState = diceCountSliderState,
-                            difficulitySliderState = difficulitySliderState,
-                            chancesSliderState = chancesSliderState,
-                            isBlessed = isBlessedChecked,
-                            isCursed = isCursedChecked,
-                            isMandyChecked = isMandyChecked,
-                            isSkidsChecked = isSkidsChecked,
-                            isRerollOnesChecked = isRerollOnesChecked,
-                            isAddOneChecked = isAddOneChecked,
-                            isShotgunChecked = isShotgunChecked,
-                        )
+                        simpleInternalRecalculate()
                         handleOneTimeAbilityOptionChanged(
                             isSkidsChecked,
                             R.string.skids_chances_toast,
@@ -476,20 +389,7 @@ public class ArkhamCalc : FragmentActivity() {
                             isMandyChecked = false
                             isSkidsChecked = false
                         }
-                        recalculate(
-                            calculatorResultText,
-                            calculatorResultColor,
-                            diceCountSliderState = diceCountSliderState,
-                            difficulitySliderState = difficulitySliderState,
-                            chancesSliderState = chancesSliderState,
-                            isBlessed = isBlessedChecked,
-                            isCursed = isCursedChecked,
-                            isMandyChecked = isMandyChecked,
-                            isSkidsChecked = isSkidsChecked,
-                            isRerollOnesChecked = isRerollOnesChecked,
-                            isAddOneChecked = isAddOneChecked,
-                            isShotgunChecked = isShotgunChecked,
-                        )
+                        simpleInternalRecalculate()
                     },
                     label = "Reroll Ones",
                     modifier =
@@ -508,20 +408,7 @@ public class ArkhamCalc : FragmentActivity() {
                     checked = isAddOneChecked,
                     onCheckedChange = { newValue ->
                         isAddOneChecked = newValue
-                        recalculate(
-                            calculatorResultText,
-                            calculatorResultColor,
-                            diceCountSliderState = diceCountSliderState,
-                            difficulitySliderState = difficulitySliderState,
-                            chancesSliderState = chancesSliderState,
-                            isBlessed = isBlessedChecked,
-                            isCursed = isCursedChecked,
-                            isMandyChecked = isMandyChecked,
-                            isSkidsChecked = isSkidsChecked,
-                            isRerollOnesChecked = isRerollOnesChecked,
-                            isAddOneChecked = isAddOneChecked,
-                            isShotgunChecked = isShotgunChecked,
-                        )
+                        simpleInternalRecalculate()
                     },
                     label = "Add One",
                     modifier =
@@ -539,40 +426,13 @@ public class ArkhamCalc : FragmentActivity() {
                     checked = isShotgunChecked,
                     onCheckedChange = { newValue ->
                         isShotgunChecked = newValue
-                        recalculate(
-                            calculatorResultText,
-                            calculatorResultColor,
-                            diceCountSliderState = diceCountSliderState,
-                            difficulitySliderState = difficulitySliderState,
-                            chancesSliderState = chancesSliderState,
-                            isBlessed = isBlessedChecked,
-                            isCursed = isCursedChecked,
-                            isMandyChecked = isMandyChecked,
-                            isSkidsChecked = isSkidsChecked,
-                            isRerollOnesChecked = isRerollOnesChecked,
-                            isAddOneChecked = isAddOneChecked,
-                            isShotgunChecked = isShotgunChecked,
-                        )
+                        simpleInternalRecalculate()
                     },
                     label = "Shotgun",
                     modifier =
                         Modifier
                             .combinedClickable(
                                 onClick = {
-                                    recalculate(
-                                        calculatorResultText,
-                                        calculatorResultColor,
-                                        diceCountSliderState = diceCountSliderState,
-                                        difficulitySliderState = difficulitySliderState,
-                                        chancesSliderState = chancesSliderState,
-                                        isBlessed = isBlessedChecked,
-                                        isCursed = isCursedChecked,
-                                        isMandyChecked = isMandyChecked,
-                                        isSkidsChecked = isSkidsChecked,
-                                        isRerollOnesChecked = isRerollOnesChecked,
-                                        isAddOneChecked = isAddOneChecked,
-                                        isShotgunChecked = isShotgunChecked,
-                                    )
                                 },
                                 onLongClick = {
                                     goToHelpScreen("Shotgun")
@@ -581,20 +441,7 @@ public class ArkhamCalc : FragmentActivity() {
                 )
             }
         }
-        recalculate(
-            calculatorResultText,
-            calculatorResultColor,
-            diceCountSliderState = diceCountSliderState,
-            difficulitySliderState = difficulitySliderState,
-            chancesSliderState = chancesSliderState,
-            isBlessed = isBlessedChecked,
-            isCursed = isCursedChecked,
-            isMandyChecked = isMandyChecked,
-            isSkidsChecked = isSkidsChecked,
-            isRerollOnesChecked = isRerollOnesChecked,
-            isAddOneChecked = isAddOneChecked,
-            isShotgunChecked = isShotgunChecked,
-        )
+        simpleInternalRecalculate()
     }
 
     override fun onRestoreInstanceState(inState: Bundle) {
@@ -639,12 +486,12 @@ public class ArkhamCalc : FragmentActivity() {
         builder.create().show()
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     internal fun recalculate(
         calculatorResultText: MutableState<String>,
         calculatorResultColor: MutableState<Color>,
-        diceCountSliderState: SliderState,
-        chancesSliderState: SliderState,
+        diceCountSliderValue: Int,
+        chancesSliderValue: Int,
+        difficulitySliderValue: Int,
         isBlessed: Boolean,
         isCursed: Boolean,
         isMandyChecked: Boolean,
@@ -652,11 +499,10 @@ public class ArkhamCalc : FragmentActivity() {
         isRerollOnesChecked: Boolean,
         isAddOneChecked: Boolean,
         isShotgunChecked: Boolean,
-        difficulitySliderState: SliderState,
     ) {
-        val dice: Int = diceCountSliderState.value.toInt()
-        val tough = difficulitySliderState.value.toInt()
-        val chance = chancesSliderState.value.toInt()
+        val dice: Int = diceCountSliderValue
+        val tough = difficulitySliderValue
+        val chance = chancesSliderValue
 
         val calculator =
             Calculator(

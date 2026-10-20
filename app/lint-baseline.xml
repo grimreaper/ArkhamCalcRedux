@@ -101,6 +101,17 @@
     </issue>
 
     <issue
+        id="MissingClass"
+        message="Class referenced in the manifest, `com.eitanadler.arkhamcalcredux2.ArkhamCalcHelp`, was not found in the project or the libraries"
+        errorLine1="        &lt;activity android:name=&quot;.ArkhamCalcHelp&quot; android:label=&quot;@string/arkhamcalchelp_label&quot;"
+        errorLine2="                                ~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="18"
+            column="33"/>
+    </issue>
+
+    <issue
         id="RedundantLabel"
         message="Redundant label can be removed"
         errorLine1="            android:label=&quot;@string/app_name&quot;"
@@ -193,6 +204,17 @@
             file="src/main/res/drawable/menu_24px.xml"
             line="1"
             column="1"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.string.menu_item_string_help` appears to be unused"
+        errorLine1="    &lt;string name=&quot;menu_item_string_help&quot;>Help&lt;/string>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="8"
+            column="13"/>
     </issue>
 
     <issue

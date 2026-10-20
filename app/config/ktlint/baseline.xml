@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <baseline version="1.0">
+    <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ArkhamCalc.kt">
+        <error line="86" column="16" source="standard:function-naming" />
+        <error line="86" column="16" source="compose:modifier-missing-check" />
+        <error line="125" column="16" source="standard:function-naming" />
+        <error line="125" column="16" source="compose:modifier-missing-check" />
+    </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ArkhamCalcHelp.kt">
-        <error line="44" column="12" source="standard:function-naming" />
-        <error line="44" column="12" source="compose:modifier-missing-check" />
+        <error line="36" column="12" source="standard:function-naming" />
+        <error line="36" column="12" source="compose:modifier-missing-check" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/CheckBoxWithLabel.kt">
         <error line="10" column="14" source="standard:function-naming" />
@@ -12,5 +18,8 @@
         <error line="20" column="17" source="standard:backing-property-naming" />
         <error line="21" column="17" source="standard:backing-property-naming" />
         <error line="45" column="14" source="standard:function-naming" />
+    </file>
+    <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ui/theme/Theme.kt">
+        <error line="44" column="14" source="standard:function-naming" />
     </file>
 </baseline>
