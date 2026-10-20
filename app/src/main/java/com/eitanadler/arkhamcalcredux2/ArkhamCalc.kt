@@ -28,9 +28,13 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -39,9 +43,11 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -92,6 +98,14 @@ public class ArkhamCalc : FragmentActivity() {
                     ) { innerPadding ->
                         val calculatorResultText = rememberSaveable { mutableStateOf("Result!") }
                         val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
+                        var isBlessedChecked by remember { mutableStateOf(false) }
+                        var isCursedChecked by remember { mutableStateOf(false) }
+                        var isMandyChecked by remember { mutableStateOf(false) }
+                        var isSkidsChecked by remember { mutableStateOf(false) }
+                        var isRerollOnesChecked by remember { mutableStateOf(false) }
+                        var isAddOneChecked by remember { mutableStateOf(false) }
+                        var isShotgunChecked by remember { mutableStateOf(false) }
+
                         Column(
                             modifier = Modifier.padding(innerPadding),
                         ) {
@@ -100,6 +114,7 @@ public class ArkhamCalc : FragmentActivity() {
 
                             AndroidViewBinding(
                                 MainBinding::inflate,
+                                modifier = Modifier.fillMaxHeight(0.75f)
                             ) {
                                 //find controls
                                 mDiceLabel = findViewById(R.id.diceLabel)
@@ -129,7 +144,17 @@ public class ArkhamCalc : FragmentActivity() {
                                         fromUser: Boolean
                                     ) {
                                         setSeekBarValues()
-                                        recalculate(calculatorResultText, calculatorResultColor)
+                                        recalculate(
+                                            calculatorResultText,
+                                            calculatorResultColor,
+                                            isBlessed = isBlessedChecked,
+                                            isCursed = isCursedChecked,
+                                            isMandyChecked = isMandyChecked,
+                                            isSkidsChecked = isSkidsChecked,
+                                            isRerollOnesChecked = isRerollOnesChecked,
+                                            isAddOneChecked = isAddOneChecked,
+                                            isShotgunChecked = isShotgunChecked,
+                                        )
                                     }
                                 })
                                 mToughSeekBar.setOnSeekBarChangeListener(object :
@@ -140,7 +165,17 @@ public class ArkhamCalc : FragmentActivity() {
                                         fromUser: Boolean
                                     ) {
                                         setSeekBarValues()
-                                        recalculate(calculatorResultText, calculatorResultColor)
+                                        recalculate(
+                                            calculatorResultText,
+                                            calculatorResultColor,
+                                            isBlessed = isBlessedChecked,
+                                            isCursed = isCursedChecked,
+                                            isMandyChecked = isMandyChecked,
+                                            isSkidsChecked = isSkidsChecked,
+                                            isRerollOnesChecked = isRerollOnesChecked,
+                                            isAddOneChecked = isAddOneChecked,
+                                            isShotgunChecked = isShotgunChecked,
+                                        )
                                     }
                                 })
                                 mChanceSeekBar.setOnSeekBarChangeListener(object :
@@ -151,7 +186,17 @@ public class ArkhamCalc : FragmentActivity() {
                                         fromUser: Boolean
                                     ) {
                                         setSeekBarValues()
-                                        recalculate(calculatorResultText, calculatorResultColor)
+                                        recalculate(
+                                            calculatorResultText,
+                                            calculatorResultColor,
+                                            isBlessed = isBlessedChecked,
+                                            isCursed = isCursedChecked,
+                                            isMandyChecked = isMandyChecked,
+                                            isSkidsChecked = isSkidsChecked,
+                                            isRerollOnesChecked = isRerollOnesChecked,
+                                            isAddOneChecked = isAddOneChecked,
+                                            isShotgunChecked = isShotgunChecked,
+                                        )
 
                                         mPreviousChanceValue = this.previousProgress
                                         handleOneTimeAbilityChancesChanged(
@@ -169,26 +214,18 @@ public class ArkhamCalc : FragmentActivity() {
                                     }
                                 })
 
-                                //attach setOnCheckedChangeListener
-                                mAllModifiers.setBlessedOnChangedEvent {
-                                    if (mAllModifiers.isBlessedChecked()) {
-                                        //can't be cursed and blessed at the same time
-                                        mAllModifiers.setCurseChecked(false)
-                                    }
-                                    recalculate(calculatorResultText, calculatorResultColor)
-                                }
-                                mAllModifiers.setCursedOnChangedEvent {
-                                    if (mAllModifiers.isCursedChecked()) {
-                                        //can't be cursed and blessed at the same time
-                                        mAllModifiers.setBlessChecked(false)
-                                    }
-                                    recalculate(calculatorResultText, calculatorResultColor)
-                                }
-
-                                mAllModifiers.setShotgunOnChangedEvent { recalculate(
-                                    calculatorResultText,
-                                    calculatorResultColor
-                                )
+                                mAllModifiers.setShotgunOnChangedEvent {
+                                    recalculate(
+                                        calculatorResultText,
+                                        calculatorResultColor,
+                                        isBlessed = isBlessedChecked,
+                                        isCursed = isCursedChecked,
+                                        isMandyChecked = isMandyChecked,
+                                        isSkidsChecked = isSkidsChecked,
+                                        isRerollOnesChecked = isRerollOnesChecked,
+                                        isAddOneChecked = isAddOneChecked,
+                                        isShotgunChecked = isShotgunChecked,
+                                    )
                                 }
                                 mAllModifiers.setMandyOnChangedEvent {
                                     if (mAllModifiers.isMandyChecked()) {
@@ -196,7 +233,17 @@ public class ArkhamCalc : FragmentActivity() {
                                         mAllModifiers.setRerollChecked(false)
                                         mAllModifiers.setSkidsChecked(false)
                                     }
-                                    recalculate(calculatorResultText, calculatorResultColor)
+                                    recalculate(
+                                        calculatorResultText,
+                                        calculatorResultColor,
+                                        isBlessed = isBlessedChecked,
+                                        isCursed = isCursedChecked,
+                                        isMandyChecked = isMandyChecked,
+                                        isSkidsChecked = isSkidsChecked,
+                                        isRerollOnesChecked = isRerollOnesChecked,
+                                        isAddOneChecked = isAddOneChecked,
+                                        isShotgunChecked = isShotgunChecked,
+                                    )
                                     handleOneTimeAbilityOptionChanged(
                                         mAllModifiers.isMandyChecked(),
                                         R.string.mandy_chances_toast
@@ -208,7 +255,17 @@ public class ArkhamCalc : FragmentActivity() {
                                         mAllModifiers.setMandyChecked(false)
                                         mAllModifiers.setSkidsChecked(false)
                                     }
-                                    recalculate(calculatorResultText, calculatorResultColor)
+                                    recalculate(
+                                        calculatorResultText,
+                                        calculatorResultColor,
+                                        isBlessed = isBlessedChecked,
+                                        isCursed = isCursedChecked,
+                                        isMandyChecked = isMandyChecked,
+                                        isSkidsChecked = isSkidsChecked,
+                                        isRerollOnesChecked = isRerollOnesChecked,
+                                        isAddOneChecked = isAddOneChecked,
+                                        isShotgunChecked = isShotgunChecked,
+                                    )
                                     handleOneTimeAbilityOptionChanged(
                                         mAllModifiers.isRerollChecked(),
                                         R.string.reroll_ones_chances_toast
@@ -220,7 +277,17 @@ public class ArkhamCalc : FragmentActivity() {
                                         mAllModifiers.setMandyChecked(false)
                                         mAllModifiers.setRerollChecked(false)
                                     }
-                                    recalculate(calculatorResultText, calculatorResultColor)
+                                    recalculate(
+                                        calculatorResultText,
+                                        calculatorResultColor,
+                                        isBlessed = isBlessedChecked,
+                                        isCursed = isCursedChecked,
+                                        isMandyChecked = isMandyChecked,
+                                        isSkidsChecked = isSkidsChecked,
+                                        isRerollOnesChecked = isRerollOnesChecked,
+                                        isAddOneChecked = isAddOneChecked,
+                                        isShotgunChecked = isShotgunChecked,
+                                    )
                                     handleOneTimeAbilityOptionChanged(
                                         mAllModifiers.isSkidsChecked(),
                                         R.string.skids_chances_toast
@@ -246,9 +313,83 @@ public class ArkhamCalc : FragmentActivity() {
 
                                 //first calculation
                                 setSeekBarValues()
-                                recalculate(calculatorResultText, calculatorResultColor)
+                                recalculate(
+                                    calculatorResultText,
+                                    calculatorResultColor,
+                                    isBlessed = isBlessedChecked,
+                                    isCursed = isCursedChecked,
+                                    isMandyChecked = isMandyChecked,
+                                    isSkidsChecked = isSkidsChecked,
+                                    isRerollOnesChecked = isRerollOnesChecked,
+                                    isAddOneChecked = isAddOneChecked,
+                                    isShotgunChecked = isShotgunChecked,
+                                )
 
                                 handleShowFirstTimeDialog()
+                            }
+                            Row {
+                                Checkbox(
+                                    checked = isBlessedChecked,
+                                    onCheckedChange = { newValue ->
+                                        isBlessedChecked = newValue
+                                        if (newValue && isCursedChecked) {
+                                            isCursedChecked = false
+                                        }
+
+                                        recalculate(
+                                            calculatorResultText,
+                                            calculatorResultColor,
+                                            isBlessed = isBlessedChecked,
+                                            isCursed = isCursedChecked,
+                                            isMandyChecked = isMandyChecked,
+                                            isSkidsChecked = isSkidsChecked,
+                                            isRerollOnesChecked = isRerollOnesChecked,
+                                            isAddOneChecked = isAddOneChecked,
+                                            isShotgunChecked = isShotgunChecked,
+                                        )
+                                    },
+                                )
+                                Text(
+                                    "Blessed",
+                                    modifier = Modifier
+                                        .combinedClickable(
+                                            onClick = {},
+                                            onLongClick = {
+                                                startHelpActivity("Blessed / Cursed")
+                                            }
+                                        ),
+                                )
+                            }
+                            Row {
+                                Checkbox(
+                                    checked = isCursedChecked,
+                                    onCheckedChange = { newValue ->
+                                        isCursedChecked = newValue
+                                        if (newValue && isBlessedChecked) {
+                                            isBlessedChecked = false
+                                        }
+                                        recalculate(
+                                            calculatorResultText,
+                                            calculatorResultColor,
+                                            isBlessed = isBlessedChecked,
+                                            isCursed = isCursedChecked,
+                                            isMandyChecked = isMandyChecked,
+                                            isSkidsChecked = isSkidsChecked,
+                                            isRerollOnesChecked = isRerollOnesChecked,
+                                            isAddOneChecked = isAddOneChecked,
+                                            isShotgunChecked = isShotgunChecked,
+                                        )
+                                    },
+                                )
+                                Text("Cursed",
+                                    modifier = Modifier
+                                        .combinedClickable(
+                                            onClick = {},
+                                            onLongClick = {
+                                                startHelpActivity("Blessed / Cursed")
+                                            }
+                                        ),
+                                )
                             }
                         }
                     }
@@ -329,14 +470,19 @@ public class ArkhamCalc : FragmentActivity() {
 
     internal fun recalculate(
         calculatorResultText: MutableState<String>,
-        calculatorResultColor: MutableState<Color>
+        calculatorResultColor: MutableState<Color>,
+        isBlessed: Boolean,
+        isCursed: Boolean,
+        isMandyChecked: Boolean,
+        isSkidsChecked: Boolean,
+        isRerollOnesChecked: Boolean,
+        isAddOneChecked: Boolean,
+        isShotgunChecked: Boolean,
     ) {
         //get input
         val dice = mDiceSeekBar.progress + 1
         val tough = mToughSeekBar.progress + 1
         val chance = mChanceSeekBar.progress + 1
-        val isBlessed = mAllModifiers.isBlessedChecked()
-        val isCursed = mAllModifiers.isCursedChecked()
         val isShotgun = mAllModifiers.isShotgunChecked()
         val isMandy = mAllModifiers.isMandyChecked()
         val isRerollOnes = mAllModifiers.isRerollChecked()
