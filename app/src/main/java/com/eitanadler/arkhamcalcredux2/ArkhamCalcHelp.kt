@@ -18,12 +18,9 @@ package com.eitanadler.arkhamcalcredux2
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,39 +36,34 @@ import androidx.compose.ui.res.stringResource
 public fun NewArkhamCalcHelp() {
     val helpTopics: Array<String> = stringArrayResource(R.array.topics)
     val helpContent: Array<String> = stringArrayResource(R.array.contents)
-    Scaffold { innerPadding: PaddingValues ->
-        LazyColumn(
-            modifier = Modifier.consumeWindowInsets(innerPadding),
-            contentPadding = innerPadding,
-        ) {
-            helpTopics.forEachIndexed { index, topic ->
-                item {
-                    var isExpanded by remember { mutableStateOf(true) }
-                    ListItem(
-                        leadingContent = {
-                            if (isExpanded) {
-                                Icon(
-                                    painter = painterResource(R.drawable.arrow_drop_down_24px),
-                                    contentDescription = stringResource(R.string.expanded),
-                                )
-                            } else {
-                                Icon(
-                                    painter = painterResource(R.drawable.arrow_drop_up_24px),
-                                    contentDescription = stringResource(R.string.collapsed),
-                                )
-                            }
-                        },
-                        headlineContent = { Text(topic) },
-                        supportingContent = {
-                            AnimatedVisibility(visible = isExpanded) {
-                                Text(helpContent[index])
-                            }
-                        },
-                        modifier = Modifier.clickable { isExpanded = !isExpanded },
-                    )
-                }
+
+    LazyColumn {
+        helpTopics.forEachIndexed { index, topic ->
+            item {
+                var isExpanded by remember { mutableStateOf(true) }
+                ListItem(
+                    leadingContent = {
+                        if (isExpanded) {
+                            Icon(
+                                painter = painterResource(R.drawable.arrow_drop_down_24px),
+                                contentDescription = stringResource(R.string.expanded),
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(R.drawable.arrow_drop_up_24px),
+                                contentDescription = stringResource(R.string.collapsed),
+                            )
+                        }
+                    },
+                    headlineContent = { Text(topic) },
+                    supportingContent = {
+                        AnimatedVisibility(visible = isExpanded) {
+                            Text(helpContent[index])
+                        }
+                    },
+                    modifier = Modifier.clickable { isExpanded = !isExpanded },
+                )
             }
         }
-
     }
 }
