@@ -5,6 +5,7 @@ plugins {
     id("com.android.application")
     alias(libs.plugins.sortDependencies)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 
 val keystoreProperties: Properties = Properties()
@@ -83,10 +84,15 @@ dependencies {
     implementation(libs.androidx.foundation.layout)
     implementation(libs.androidx.fragment.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
     implementation (libs.androidx.material3)
+    implementation(libs.androidx.material3.adaptive.navigation3)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
     implementation (libs.androidx.runtime)
     implementation (libs.androidx.ui)
     implementation (libs.androidx.ui.tooling)
+    implementation(libs.kotlinx.serialization.core)
 
     testImplementation(libs.junit)
 

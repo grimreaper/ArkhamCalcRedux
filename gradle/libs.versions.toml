@@ -11,8 +11,13 @@ fragmentCompose = "1.9.1"
 gradle = "9.4.1"
 junit = "4.13.2"
 kotlin = "2.4.21"
+kotlinSerialization = "2.4.21"
+kotlinxSerializationCore = "1.12.0"
 lifecycleViewmodelCompose = "2.11.0"
+lifecycleViewmodelNav3 = "2.12.0-alpha04"
 material3 = "1.4.0"
+material3AdaptiveNav3 = "1.4.0-alpha03"
+nav3Core = "1.2.0"
 runner = "1.7.0"
 sortDependencies = "0.21.0"
 uiViewbinding = "1.12.1"
@@ -30,15 +35,21 @@ androidx-foundation = { module = "androidx.compose.foundation:foundation", versi
 androidx-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
+androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNav3" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
+androidx-material3-adaptive-navigation3 = { module = "androidx.compose.material3.adaptive:adaptive-navigation3", version.ref = "material3AdaptiveNav3" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 androidx-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
 
 [plugins]
+jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 sortDependencies = { id = "com.squareup.sort-dependencies", version.ref = "sortDependencies" }
 versionSort = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionSort" }
