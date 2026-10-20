@@ -1,4 +1,4 @@
-/*ArkhamCalc
+/*
 Copyright (C) 2012  Matthew Cole
 
 This program is free software; you can redistribute it and/or
@@ -19,10 +19,7 @@ package com.eitanadler.arkhamcalcredux2
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -42,8 +39,10 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSliderState
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -55,6 +54,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.ui.NavDisplay
 import com.eitanadler.arkhamcalcredux2.ui.theme.ArkhamCalcReduxTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -73,492 +74,521 @@ public class ArkhamCalc : FragmentActivity() {
 
     private val Context.dataStore by preferencesDataStore(name = "settings")
 
-    @OptIn(ExperimentalMaterial3Api::class)
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         setContent {
-            val snackbarHostState = remember { SnackbarHostState() }
+            val backStack = remember { mutableStateListOf<ArkhamNavigation>(CalculatorUX) }
             ArkhamCalcReduxTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    Scaffold(
-                        snackbarHost = {
-                            SnackbarHost(hostState = snackbarHostState)
-                        },
-                    ) { innerPadding ->
-                        val calculatorResultText = rememberSaveable { mutableStateOf("Result!") }
-                        val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
+                NavDisplay(
+                    backStack = backStack,
+                    onBack = { backStack.removeLastOrNull() },
+                    entryProvider = { key ->
+                        when (key) {
+                            is CalculatorUX -> NavEntry(key) {
+                                TrueMainArkhamUX(
+                                    goToHelpScreen = { topic ->
+                                        backStack.add(HelpScreen(topic))
+                                    }
+                                )
+                            }
 
-                        var isBlessedChecked by remember { mutableStateOf(false) }
-                        var isCursedChecked by remember { mutableStateOf(false) }
-                        var isMandyChecked by remember { mutableStateOf(false) }
-                        var isSkidsChecked by remember { mutableStateOf(false) }
-                        var isRerollOnesChecked by remember { mutableStateOf(false) }
-                        var isAddOneChecked by remember { mutableStateOf(false) }
-                        var isShotgunChecked by remember { mutableStateOf(false) }
+                            is HelpScreen ->
+                                NavEntry(key) {
+                                    NewArkhamCalcHelp()
+                                }
+                        }
+                    }
+                )
+            }
+        }
+    }
 
-                        val diceCountSliderState =
-                            rememberSliderState(
-                                value = 1.0f,
-                                steps = DICE_MAX - 2,
-                                valueRange = 1f..DICE_MAX.toFloat(),
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    public fun TrueMainArkhamUX(
+        goToHelpScreen: (String) -> Unit
+    ) {
+        val snackbarHostState = remember { SnackbarHostState() }
+        Surface(modifier = Modifier.fillMaxSize()) {
+            Scaffold(
+                snackbarHost = {
+                    SnackbarHost(hostState = snackbarHostState)
+                },
+            ) { innerPadding ->
+                val calculatorResultText = rememberSaveable { mutableStateOf("Result!") }
+                val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
+
+                var isBlessedChecked by remember { mutableStateOf(false) }
+                var isCursedChecked by remember { mutableStateOf(false) }
+                var isMandyChecked by remember { mutableStateOf(false) }
+                var isSkidsChecked by remember { mutableStateOf(false) }
+                var isRerollOnesChecked by remember { mutableStateOf(false) }
+                var isAddOneChecked by remember { mutableStateOf(false) }
+                var isShotgunChecked by remember { mutableStateOf(false) }
+
+                val diceCountSliderState =
+                    rememberSliderState(
+                        value = 1.0f,
+                        steps = DICE_MAX - 2,
+                        valueRange = 1f..DICE_MAX.toFloat(),
+                    )
+                val difficulitySliderState = rememberSliderState(
+                    value = 1.0f,
+                    steps = TOUGH_MAX - 2,
+                    valueRange = 1f..TOUGH_MAX.toFloat(),
+                )
+                chancesSliderState = rememberSliderState(
+                    value = 1.0f,
+                    steps = CHANCE_MAX - 2,
+                    valueRange = 1f..CHANCE_MAX.toFloat(),
+                )
+                diceCountSliderState.onValueChange = { v: Float ->
+                    diceCountSliderState.value = v
+                    recalculate(
+                        calculatorResultText,
+                        calculatorResultColor,
+                        diceCountSliderState = diceCountSliderState,
+                        difficulitySliderState = difficulitySliderState,
+                        chancesSliderState = chancesSliderState,
+                        isBlessed = isBlessedChecked,
+                        isCursed = isCursedChecked,
+                        isMandyChecked = isMandyChecked,
+                        isSkidsChecked = isSkidsChecked,
+                        isRerollOnesChecked = isRerollOnesChecked,
+                        isAddOneChecked = isAddOneChecked,
+                        isShotgunChecked = isShotgunChecked,
+                    )
+                    recalculate(
+                        calculatorResultText,
+                        calculatorResultColor,
+                        diceCountSliderState = diceCountSliderState,
+                        difficulitySliderState = difficulitySliderState,
+                        chancesSliderState = chancesSliderState,
+                        isBlessed = isBlessedChecked,
+                        isCursed = isCursedChecked,
+                        isMandyChecked = isMandyChecked,
+                        isSkidsChecked = isSkidsChecked,
+                        isRerollOnesChecked = isRerollOnesChecked,
+                        isAddOneChecked = isAddOneChecked,
+                        isShotgunChecked = isShotgunChecked,
+                    )
+                }
+
+                difficulitySliderState.onValueChange = { v: Float ->
+                    difficulitySliderState.value = v
+                    recalculate(
+                        calculatorResultText,
+                        calculatorResultColor,
+                        diceCountSliderState = diceCountSliderState,
+                        difficulitySliderState = difficulitySliderState,
+                        chancesSliderState = chancesSliderState,
+                        isBlessed = isBlessedChecked,
+                        isCursed = isCursedChecked,
+                        isMandyChecked = isMandyChecked,
+                        isSkidsChecked = isSkidsChecked,
+                        isRerollOnesChecked = isRerollOnesChecked,
+                        isAddOneChecked = isAddOneChecked,
+                        isShotgunChecked = isShotgunChecked,
+                    )
+                }
+
+                chancesSliderState.onValueChange = { v: Float ->
+                    mPreviousChanceValue = diceCountSliderState.value.toInt()
+                    chancesSliderState.value = v
+                    recalculate(
+                        calculatorResultText,
+                        calculatorResultColor,
+                        diceCountSliderState = diceCountSliderState,
+                        difficulitySliderState = difficulitySliderState,
+                        chancesSliderState = chancesSliderState,
+                        isBlessed = isBlessedChecked,
+                        isCursed = isCursedChecked,
+                        isMandyChecked = isMandyChecked,
+                        isSkidsChecked = isSkidsChecked,
+                        isRerollOnesChecked = isRerollOnesChecked,
+                        isAddOneChecked = isAddOneChecked,
+                        isShotgunChecked = isShotgunChecked,
+                    )
+                    handleOneTimeAbilityChancesChanged(
+                        isMandyChecked,
+                        R.string.mandy_chances_toast,
+                    )
+                    handleOneTimeAbilityChancesChanged(
+                        isRerollOnesChecked,
+                        R.string.reroll_ones_chances_toast,
+                    )
+                    handleOneTimeAbilityChancesChanged(
+                        isSkidsChecked,
+                        R.string.skids_chances_toast,
+                    )
+                }
+
+                Column(
+                    modifier = Modifier.padding(innerPadding),
+                ) {
+                    Text("Result", fontWeight = FontWeight.Bold)
+                    Text(calculatorResultText.value, color = calculatorResultColor.value)
+
+                    Column {
+                        Row {
+                            Text(
+                                "Dice: ",
+                                fontWeight = FontWeight.Bold,
+                                modifier =
+                                    Modifier.combinedClickable(
+                                        onClick = {},
+                                        onLongClickLabel = "Show Help For Dice / Difficulty",
+                                        onLongClick = {
+                                            goToHelpScreen("Dice / Difficulty")
+                                        },
+                                    ),
                             )
-                        val difficulitySliderState = rememberSliderState(
-                            value = 1.0f,
-                            steps = TOUGH_MAX - 2,
-                            valueRange = 1f..TOUGH_MAX.toFloat(),
+                            Text(
+                                diceCountSliderState.value.toInt().toString(),
+                            )
+                        }
+                        Slider(
+                            state = diceCountSliderState,
                         )
-                        chancesSliderState = rememberSliderState(
-                            value = 1.0f,
-                            steps = CHANCE_MAX - 2,
-                            valueRange = 1f..CHANCE_MAX.toFloat(),
+                    }
+                    Column {
+                        Row {
+                            Text(
+                                "Difficulty: ",
+                                fontWeight = FontWeight.Bold,
+                                modifier =
+                                    Modifier.combinedClickable(
+                                        onClick = {},
+                                        onLongClickLabel = "Show Help For Dice / Difficulty",
+                                        onLongClick = {
+                                            goToHelpScreen("Dice / Difficulty")
+                                        },
+                                    ),
+                            )
+                            Text(
+                                difficulitySliderState.value.toInt().toString(),
+                            )
+                        }
+                        Slider(
+                            state = difficulitySliderState,
                         )
-                        diceCountSliderState.onValueChange = { v: Float ->
-                            diceCountSliderState.value = v
-                            recalculate(
-                                calculatorResultText,
-                                calculatorResultColor,
-                                diceCountSliderState = diceCountSliderState,
-                                difficulitySliderState = difficulitySliderState,
-                                chancesSliderState = chancesSliderState,
-                                isBlessed = isBlessedChecked,
-                                isCursed = isCursedChecked,
-                                isMandyChecked = isMandyChecked,
-                                isSkidsChecked = isSkidsChecked,
-                                isRerollOnesChecked = isRerollOnesChecked,
-                                isAddOneChecked = isAddOneChecked,
-                                isShotgunChecked = isShotgunChecked,
+                    }
+
+                    Column {
+                        Row {
+                            Text(
+                                "Chances: ",
+                                fontWeight = FontWeight.Bold,
+                                modifier =
+                                    Modifier.combinedClickable(
+                                        onClick = {},
+                                        onLongClickLabel = "Show Help For Chances",
+                                        onLongClick = {
+                                            goToHelpScreen("Chances")
+                                        },
+                                    ),
                             )
-                            recalculate(
-                                calculatorResultText,
-                                calculatorResultColor,
-                                diceCountSliderState = diceCountSliderState,
-                                difficulitySliderState = difficulitySliderState,
-                                chancesSliderState = chancesSliderState,
-                                isBlessed = isBlessedChecked,
-                                isCursed = isCursedChecked,
-                                isMandyChecked = isMandyChecked,
-                                isSkidsChecked = isSkidsChecked,
-                                isRerollOnesChecked = isRerollOnesChecked,
-                                isAddOneChecked = isAddOneChecked,
-                                isShotgunChecked = isShotgunChecked,
+                            Text(
+                                chancesSliderState.value.toInt().toString(),
                             )
                         }
+                        Slider(
+                            state = chancesSliderState,
+                        )
+                    }
 
-                        difficulitySliderState.onValueChange = { v: Float ->
-                            difficulitySliderState.value = v
-                            recalculate(
-                                calculatorResultText,
-                                calculatorResultColor,
-                                diceCountSliderState = diceCountSliderState,
-                                difficulitySliderState = difficulitySliderState,
-                                chancesSliderState = chancesSliderState,
-                                isBlessed = isBlessedChecked,
-                                isCursed = isCursedChecked,
-                                isMandyChecked = isMandyChecked,
-                                isSkidsChecked = isSkidsChecked,
-                                isRerollOnesChecked = isRerollOnesChecked,
-                                isAddOneChecked = isAddOneChecked,
-                                isShotgunChecked = isShotgunChecked,
-                            )
-                        }
-
-                        chancesSliderState.onValueChange = { v: Float ->
-                            mPreviousChanceValue = diceCountSliderState.value.toInt()
-                            chancesSliderState.value = v
-                            recalculate(
-                                calculatorResultText,
-                                calculatorResultColor,
-                                diceCountSliderState = diceCountSliderState,
-                                difficulitySliderState = difficulitySliderState,
-                                chancesSliderState = chancesSliderState,
-                                isBlessed = isBlessedChecked,
-                                isCursed = isCursedChecked,
-                                isMandyChecked = isMandyChecked,
-                                isSkidsChecked = isSkidsChecked,
-                                isRerollOnesChecked = isRerollOnesChecked,
-                                isAddOneChecked = isAddOneChecked,
-                                isShotgunChecked = isShotgunChecked,
-                            )
-                            handleOneTimeAbilityChancesChanged(
-                                isMandyChecked,
-                                R.string.mandy_chances_toast,
-                            )
-                            handleOneTimeAbilityChancesChanged(
-                                isRerollOnesChecked,
-                                R.string.reroll_ones_chances_toast,
-                            )
-                            handleOneTimeAbilityChancesChanged(
-                                isSkidsChecked,
-                                R.string.skids_chances_toast,
-                            )
-                        }
-
-                        Column(
-                            modifier = Modifier.padding(innerPadding),
-                        ) {
-                            Text("Result", fontWeight = FontWeight.Bold)
-                            Text(calculatorResultText.value, color = calculatorResultColor.value)
-
-                            Column {
-                                Row {
-                                    Text(
-                                        "Dice: ",
-                                        fontWeight = FontWeight.Bold,
-                                        modifier =
-                                            Modifier.combinedClickable(
-                                                onClick = {},
-                                                onLongClickLabel = "Show Help For Dice / Difficulty",
-                                                onLongClick = {
-                                                    startHelpActivity("Dice / Difficulty")
-                                                },
-                                            ),
-                                    )
-                                    Text(
-                                        diceCountSliderState.value.toInt().toString(),
-                                    )
+                    handleShowFirstTimeDialog()
+                    HorizontalDivider()
+                    Row {
+                        Checkbox(
+                            checked = isBlessedChecked,
+                            onCheckedChange = { newValue ->
+                                isBlessedChecked = newValue
+                                if (newValue && isCursedChecked) {
+                                    isCursedChecked = false
                                 }
-                                Slider(
-                                    state = diceCountSliderState,
+
+                                recalculate(
+                                    calculatorResultText,
+                                    calculatorResultColor,
+                                    diceCountSliderState = diceCountSliderState,
+                                    difficulitySliderState = difficulitySliderState,
+                                    chancesSliderState = chancesSliderState,
+                                    isBlessed = isBlessedChecked,
+                                    isCursed = isCursedChecked,
+                                    isMandyChecked = isMandyChecked,
+                                    isSkidsChecked = isSkidsChecked,
+                                    isRerollOnesChecked = isRerollOnesChecked,
+                                    isAddOneChecked = isAddOneChecked,
+                                    isShotgunChecked = isShotgunChecked,
                                 )
-                            }
-                            Column {
-                                Row {
-                                    Text(
-                                        "Difficulty: ",
-                                        fontWeight = FontWeight.Bold,
-                                        modifier =
-                                            Modifier.combinedClickable(
-                                                onClick = {},
-                                                onLongClickLabel = "Show Help For Dice / Difficulty",
-                                                onLongClick = {
-                                                    startHelpActivity("Dice / Difficulty")
-                                                },
-                                            ),
-                                    )
-                                    Text(
-                                        difficulitySliderState.value.toInt().toString(),
-                                    )
+                            },
+                        )
+                        Text(
+                            "Blessed",
+                            modifier =
+                                Modifier
+                                    .combinedClickable(
+                                        onClick = {},
+                                        onLongClick = {
+                                            goToHelpScreen("Blessed / Cursed")
+                                        },
+                                    ),
+                        )
+                    }
+                    Row {
+                        Checkbox(
+                            checked = isCursedChecked,
+                            onCheckedChange = { newValue ->
+                                isCursedChecked = newValue
+                                if (newValue && isBlessedChecked) {
+                                    isBlessedChecked = false
                                 }
-                                Slider(
-                                    state = difficulitySliderState,
+                                recalculate(
+                                    calculatorResultText,
+                                    calculatorResultColor,
+                                    diceCountSliderState = diceCountSliderState,
+                                    difficulitySliderState = difficulitySliderState,
+                                    chancesSliderState = chancesSliderState,
+                                    isBlessed = isBlessedChecked,
+                                    isCursed = isCursedChecked,
+                                    isMandyChecked = isMandyChecked,
+                                    isSkidsChecked = isSkidsChecked,
+                                    isRerollOnesChecked = isRerollOnesChecked,
+                                    isAddOneChecked = isAddOneChecked,
+                                    isShotgunChecked = isShotgunChecked,
                                 )
-                            }
-
-                            Column {
-                                Row {
-                                    Text(
-                                        "Chances: ",
-                                        fontWeight = FontWeight.Bold,
-                                        modifier =
-                                            Modifier.combinedClickable(
-                                                onClick = {},
-                                                onLongClickLabel = "Show Help For Chances",
-                                                onLongClick = {
-                                                    startHelpActivity("Chances")
-                                                },
-                                            ),
-                                    )
-                                    Text(
-                                        chancesSliderState.value.toInt().toString(),
-                                    )
+                            },
+                        )
+                        Text(
+                            "Cursed",
+                            modifier =
+                                Modifier
+                                    .combinedClickable(
+                                        onClick = {},
+                                        onLongClick = {
+                                            goToHelpScreen("Blessed / Cursed")
+                                        },
+                                    ),
+                        )
+                    }
+                    HorizontalDivider()
+                    Row {
+                        AddOneTextAndLabelContent(
+                            checked = isMandyChecked,
+                            onCheckedChange = { newValue ->
+                                isMandyChecked = newValue
+                                if (isMandyChecked) {
+                                    // both Mandy and Reroll ones on at same time not supported
+                                    isRerollOnesChecked = false
+                                    isSkidsChecked = false
                                 }
-                                Slider(
-                                    state = chancesSliderState,
+                                recalculate(
+                                    calculatorResultText,
+                                    calculatorResultColor,
+                                    diceCountSliderState = diceCountSliderState,
+                                    difficulitySliderState = difficulitySliderState,
+                                    chancesSliderState = chancesSliderState,
+                                    isBlessed = isBlessedChecked,
+                                    isCursed = isCursedChecked,
+                                    isMandyChecked = isMandyChecked,
+                                    isSkidsChecked = isSkidsChecked,
+                                    isRerollOnesChecked = isRerollOnesChecked,
+                                    isAddOneChecked = isAddOneChecked,
+                                    isShotgunChecked = isShotgunChecked,
                                 )
-                            }
-
-                            handleShowFirstTimeDialog()
-                            HorizontalDivider()
-                            Row {
-                                Checkbox(
-                                    checked = isBlessedChecked,
-                                    onCheckedChange = { newValue ->
-                                        isBlessedChecked = newValue
-                                        if (newValue && isCursedChecked) {
-                                            isCursedChecked = false
-                                        }
-
-                                        recalculate(
-                                            calculatorResultText,
-                                            calculatorResultColor,
-                                            diceCountSliderState = diceCountSliderState,
-                                            difficulitySliderState = difficulitySliderState,
-                                            chancesSliderState = chancesSliderState,
-                                            isBlessed = isBlessedChecked,
-                                            isCursed = isCursedChecked,
-                                            isMandyChecked = isMandyChecked,
-                                            isSkidsChecked = isSkidsChecked,
-                                            isRerollOnesChecked = isRerollOnesChecked,
-                                            isAddOneChecked = isAddOneChecked,
-                                            isShotgunChecked = isShotgunChecked,
-                                        )
-                                    },
+                                handleOneTimeAbilityOptionChanged(
+                                    isMandyChecked,
+                                    R.string.mandy_chances_toast,
                                 )
-                                Text(
-                                    "Blessed",
-                                    modifier =
-                                        Modifier
-                                            .combinedClickable(
-                                                onClick = {},
-                                                onLongClick = {
-                                                    startHelpActivity("Blessed / Cursed")
-                                                },
-                                            ),
+                            },
+                            label = "Mandy",
+                            modifier =
+                                Modifier
+                                    .combinedClickable(
+                                        onClick = {
+                                        },
+                                        onLongClick = {
+                                            goToHelpScreen("Mandy")
+                                        },
+                                    ),
+                        )
+                    }
+                    Row {
+                        AddOneTextAndLabelContent(
+                            checked = isSkidsChecked,
+                            onCheckedChange = { newValue ->
+                                isSkidsChecked = newValue
+                                if (isSkidsChecked) {
+                                    // both Mandy and Reroll ones on at same time not supported
+                                    isMandyChecked = false
+                                    isRerollOnesChecked = false
+                                }
+                                recalculate(
+                                    calculatorResultText,
+                                    calculatorResultColor,
+                                    diceCountSliderState = diceCountSliderState,
+                                    difficulitySliderState = difficulitySliderState,
+                                    chancesSliderState = chancesSliderState,
+                                    isBlessed = isBlessedChecked,
+                                    isCursed = isCursedChecked,
+                                    isMandyChecked = isMandyChecked,
+                                    isSkidsChecked = isSkidsChecked,
+                                    isRerollOnesChecked = isRerollOnesChecked,
+                                    isAddOneChecked = isAddOneChecked,
+                                    isShotgunChecked = isShotgunChecked,
                                 )
-                            }
-                            Row {
-                                Checkbox(
-                                    checked = isCursedChecked,
-                                    onCheckedChange = { newValue ->
-                                        isCursedChecked = newValue
-                                        if (newValue && isBlessedChecked) {
-                                            isBlessedChecked = false
-                                        }
-                                        recalculate(
-                                            calculatorResultText,
-                                            calculatorResultColor,
-                                            diceCountSliderState = diceCountSliderState,
-                                            difficulitySliderState = difficulitySliderState,
-                                            chancesSliderState = chancesSliderState,
-                                            isBlessed = isBlessedChecked,
-                                            isCursed = isCursedChecked,
-                                            isMandyChecked = isMandyChecked,
-                                            isSkidsChecked = isSkidsChecked,
-                                            isRerollOnesChecked = isRerollOnesChecked,
-                                            isAddOneChecked = isAddOneChecked,
-                                            isShotgunChecked = isShotgunChecked,
-                                        )
-                                    },
+                                handleOneTimeAbilityOptionChanged(
+                                    isSkidsChecked,
+                                    R.string.skids_chances_toast,
                                 )
-                                Text(
-                                    "Cursed",
-                                    modifier =
-                                        Modifier
-                                            .combinedClickable(
-                                                onClick = {},
-                                                onLongClick = {
-                                                    startHelpActivity("Blessed / Cursed")
-                                                },
-                                            ),
+                            },
+                            label = "Skids",
+                            modifier =
+                                Modifier
+                                    .combinedClickable(
+                                        onClick = {
+                                        },
+                                        onLongClick = {
+                                            goToHelpScreen("Skids")
+                                        },
+                                    ),
+                        )
+                    }
+                    Row {
+                        AddOneTextAndLabelContent(
+                            checked = isRerollOnesChecked,
+                            onCheckedChange = { newValue ->
+                                isRerollOnesChecked = newValue
+                                if (isRerollOnesChecked) {
+                                    // both Mandy and Reroll ones on at same time not supported
+                                    isMandyChecked = false
+                                    isSkidsChecked = false
+                                }
+                                recalculate(
+                                    calculatorResultText,
+                                    calculatorResultColor,
+                                    diceCountSliderState = diceCountSliderState,
+                                    difficulitySliderState = difficulitySliderState,
+                                    chancesSliderState = chancesSliderState,
+                                    isBlessed = isBlessedChecked,
+                                    isCursed = isCursedChecked,
+                                    isMandyChecked = isMandyChecked,
+                                    isSkidsChecked = isSkidsChecked,
+                                    isRerollOnesChecked = isRerollOnesChecked,
+                                    isAddOneChecked = isAddOneChecked,
+                                    isShotgunChecked = isShotgunChecked,
                                 )
-                            }
-                            HorizontalDivider()
-                            Row {
-                                AddOneTextAndLabelContent(
-                                    checked = isMandyChecked,
-                                    onCheckedChange = { newValue ->
-                                        isMandyChecked = newValue
-                                        if (isMandyChecked) {
-                                            // both Mandy and Reroll ones on at same time not supported
-                                            isRerollOnesChecked = false
-                                            isSkidsChecked = false
-                                        }
-                                        recalculate(
-                                            calculatorResultText,
-                                            calculatorResultColor,
-                                            diceCountSliderState = diceCountSliderState,
-                                            difficulitySliderState = difficulitySliderState,
-                                            chancesSliderState = chancesSliderState,
-                                            isBlessed = isBlessedChecked,
-                                            isCursed = isCursedChecked,
-                                            isMandyChecked = isMandyChecked,
-                                            isSkidsChecked = isSkidsChecked,
-                                            isRerollOnesChecked = isRerollOnesChecked,
-                                            isAddOneChecked = isAddOneChecked,
-                                            isShotgunChecked = isShotgunChecked,
-                                        )
-                                        handleOneTimeAbilityOptionChanged(
-                                            isMandyChecked,
-                                            R.string.mandy_chances_toast,
-                                        )
-                                    },
-                                    label = "Mandy",
-                                    modifier =
-                                        Modifier
-                                            .combinedClickable(
-                                                onClick = {
-                                                },
-                                                onLongClick = {
-                                                    startHelpActivity("Mandy")
-                                                },
-                                            ),
+                            },
+                            label = "Reroll Ones",
+                            modifier =
+                                Modifier
+                                    .combinedClickable(
+                                        onClick = {},
+                                        onLongClick = {
+                                            goToHelpScreen("Reroll Ones")
+                                        },
+                                    ),
+                        )
+                    }
+                    HorizontalDivider()
+                    Row {
+                        AddOneTextAndLabelContent(
+                            checked = isAddOneChecked,
+                            onCheckedChange = { newValue ->
+                                isAddOneChecked = newValue
+                                recalculate(
+                                    calculatorResultText,
+                                    calculatorResultColor,
+                                    diceCountSliderState = diceCountSliderState,
+                                    difficulitySliderState = difficulitySliderState,
+                                    chancesSliderState = chancesSliderState,
+                                    isBlessed = isBlessedChecked,
+                                    isCursed = isCursedChecked,
+                                    isMandyChecked = isMandyChecked,
+                                    isSkidsChecked = isSkidsChecked,
+                                    isRerollOnesChecked = isRerollOnesChecked,
+                                    isAddOneChecked = isAddOneChecked,
+                                    isShotgunChecked = isShotgunChecked,
                                 )
-                            }
-                            Row {
-                                AddOneTextAndLabelContent(
-                                    checked = isSkidsChecked,
-                                    onCheckedChange = { newValue ->
-                                        isSkidsChecked = newValue
-                                        if (isSkidsChecked) {
-                                            // both Mandy and Reroll ones on at same time not supported
-                                            isMandyChecked = false
-                                            isRerollOnesChecked = false
-                                        }
-                                        recalculate(
-                                            calculatorResultText,
-                                            calculatorResultColor,
-                                            diceCountSliderState = diceCountSliderState,
-                                            difficulitySliderState = difficulitySliderState,
-                                            chancesSliderState = chancesSliderState,
-                                            isBlessed = isBlessedChecked,
-                                            isCursed = isCursedChecked,
-                                            isMandyChecked = isMandyChecked,
-                                            isSkidsChecked = isSkidsChecked,
-                                            isRerollOnesChecked = isRerollOnesChecked,
-                                            isAddOneChecked = isAddOneChecked,
-                                            isShotgunChecked = isShotgunChecked,
-                                        )
-                                        handleOneTimeAbilityOptionChanged(
-                                            isSkidsChecked,
-                                            R.string.skids_chances_toast,
-                                        )
-                                    },
-                                    label = "Skids",
-                                    modifier =
-                                        Modifier
-                                            .combinedClickable(
-                                                onClick = {
-                                                },
-                                                onLongClick = {
-                                                    startHelpActivity("Skids")
-                                                },
-                                            ),
+                            },
+                            label = "Add One",
+                            modifier =
+                                Modifier
+                                    .combinedClickable(
+                                        onClick = {},
+                                        onLongClick = {
+                                            goToHelpScreen("Add One")
+                                        },
+                                    ),
+                        )
+                    }
+                    Row {
+                        AddOneTextAndLabelContent(
+                            checked = isShotgunChecked,
+                            onCheckedChange = { newValue ->
+                                isShotgunChecked = newValue
+                                recalculate(
+                                    calculatorResultText,
+                                    calculatorResultColor,
+                                    diceCountSliderState = diceCountSliderState,
+                                    difficulitySliderState = difficulitySliderState,
+                                    chancesSliderState = chancesSliderState,
+                                    isBlessed = isBlessedChecked,
+                                    isCursed = isCursedChecked,
+                                    isMandyChecked = isMandyChecked,
+                                    isSkidsChecked = isSkidsChecked,
+                                    isRerollOnesChecked = isRerollOnesChecked,
+                                    isAddOneChecked = isAddOneChecked,
+                                    isShotgunChecked = isShotgunChecked,
                                 )
-                            }
-                            Row {
-                                AddOneTextAndLabelContent(
-                                    checked = isRerollOnesChecked,
-                                    onCheckedChange = { newValue ->
-                                        isRerollOnesChecked = newValue
-                                        if (isRerollOnesChecked) {
-                                            // both Mandy and Reroll ones on at same time not supported
-                                            isMandyChecked = false
-                                            isSkidsChecked = false
-                                        }
-                                        recalculate(
-                                            calculatorResultText,
-                                            calculatorResultColor,
-                                            diceCountSliderState = diceCountSliderState,
-                                            difficulitySliderState = difficulitySliderState,
-                                            chancesSliderState = chancesSliderState,
-                                            isBlessed = isBlessedChecked,
-                                            isCursed = isCursedChecked,
-                                            isMandyChecked = isMandyChecked,
-                                            isSkidsChecked = isSkidsChecked,
-                                            isRerollOnesChecked = isRerollOnesChecked,
-                                            isAddOneChecked = isAddOneChecked,
-                                            isShotgunChecked = isShotgunChecked,
-                                        )
-                                    },
-                                    label = "Reroll Ones",
-                                    modifier =
-                                        Modifier
-                                            .combinedClickable(
-                                                onClick = {},
-                                                onLongClick = {
-                                                    startHelpActivity("Reroll Ones")
-                                                },
-                                            ),
-                                )
-                            }
-                            HorizontalDivider()
-                            Row {
-                                AddOneTextAndLabelContent(
-                                    checked = isAddOneChecked,
-                                    onCheckedChange = { newValue ->
-                                        isAddOneChecked = newValue
-                                        recalculate(
-                                            calculatorResultText,
-                                            calculatorResultColor,
-                                            diceCountSliderState = diceCountSliderState,
-                                            difficulitySliderState = difficulitySliderState,
-                                            chancesSliderState = chancesSliderState,
-                                            isBlessed = isBlessedChecked,
-                                            isCursed = isCursedChecked,
-                                            isMandyChecked = isMandyChecked,
-                                            isSkidsChecked = isSkidsChecked,
-                                            isRerollOnesChecked = isRerollOnesChecked,
-                                            isAddOneChecked = isAddOneChecked,
-                                            isShotgunChecked = isShotgunChecked,
-                                        )
-                                    },
-                                    label = "Add One",
-                                    modifier =
-                                        Modifier
-                                            .combinedClickable(
-                                                onClick = {},
-                                                onLongClick = {
-                                                    startHelpActivity("Add One")
-                                                },
-                                            ),
-                                )
-                            }
-                            Row {
-                                AddOneTextAndLabelContent(
-                                    checked = isShotgunChecked,
-                                    onCheckedChange = { newValue ->
-                                        isShotgunChecked = newValue
-                                        recalculate(
-                                            calculatorResultText,
-                                            calculatorResultColor,
-                                            diceCountSliderState = diceCountSliderState,
-                                            difficulitySliderState = difficulitySliderState,
-                                            chancesSliderState = chancesSliderState,
-                                            isBlessed = isBlessedChecked,
-                                            isCursed = isCursedChecked,
-                                            isMandyChecked = isMandyChecked,
-                                            isSkidsChecked = isSkidsChecked,
-                                            isRerollOnesChecked = isRerollOnesChecked,
-                                            isAddOneChecked = isAddOneChecked,
-                                            isShotgunChecked = isShotgunChecked,
-                                        )
-                                    },
-                                    label = "Shotgun",
-                                    modifier =
-                                        Modifier
-                                            .combinedClickable(
-                                                onClick = {
-                                                    recalculate(
-                                                        calculatorResultText,
-                                                        calculatorResultColor,
-                                                        diceCountSliderState = diceCountSliderState,
-                                                        difficulitySliderState = difficulitySliderState,
-                                                        chancesSliderState = chancesSliderState,
-                                                        isBlessed = isBlessedChecked,
-                                                        isCursed = isCursedChecked,
-                                                        isMandyChecked = isMandyChecked,
-                                                        isSkidsChecked = isSkidsChecked,
-                                                        isRerollOnesChecked = isRerollOnesChecked,
-                                                        isAddOneChecked = isAddOneChecked,
-                                                        isShotgunChecked = isShotgunChecked,
-                                                    )
-                                                },
-                                                onLongClick = {
-                                                    startHelpActivity("Shotgun")
-                                                },
-                                            ),
-                                )
-                            }
-                        }
-                        recalculate(
-                            calculatorResultText,
-                            calculatorResultColor,
-                            diceCountSliderState = diceCountSliderState,
-                            difficulitySliderState = difficulitySliderState,
-                            chancesSliderState = chancesSliderState,
-                            isBlessed = isBlessedChecked,
-                            isCursed = isCursedChecked,
-                            isMandyChecked = isMandyChecked,
-                            isSkidsChecked = isSkidsChecked,
-                            isRerollOnesChecked = isRerollOnesChecked,
-                            isAddOneChecked = isAddOneChecked,
-                            isShotgunChecked = isShotgunChecked,
+                            },
+                            label = "Shotgun",
+                            modifier =
+                                Modifier
+                                    .combinedClickable(
+                                        onClick = {
+                                            recalculate(
+                                                calculatorResultText,
+                                                calculatorResultColor,
+                                                diceCountSliderState = diceCountSliderState,
+                                                difficulitySliderState = difficulitySliderState,
+                                                chancesSliderState = chancesSliderState,
+                                                isBlessed = isBlessedChecked,
+                                                isCursed = isCursedChecked,
+                                                isMandyChecked = isMandyChecked,
+                                                isSkidsChecked = isSkidsChecked,
+                                                isRerollOnesChecked = isRerollOnesChecked,
+                                                isAddOneChecked = isAddOneChecked,
+                                                isShotgunChecked = isShotgunChecked,
+                                            )
+                                        },
+                                        onLongClick = {
+                                            goToHelpScreen("Shotgun")
+                                        },
+                                    ),
                         )
                     }
                 }
+                recalculate(
+                    calculatorResultText,
+                    calculatorResultColor,
+                    diceCountSliderState = diceCountSliderState,
+                    difficulitySliderState = difficulitySliderState,
+                    chancesSliderState = chancesSliderState,
+                    isBlessed = isBlessedChecked,
+                    isCursed = isCursedChecked,
+                    isMandyChecked = isMandyChecked,
+                    isSkidsChecked = isSkidsChecked,
+                    isRerollOnesChecked = isRerollOnesChecked,
+                    isAddOneChecked = isAddOneChecked,
+                    isShotgunChecked = isShotgunChecked,
+                )
             }
+
         }
     }
 
@@ -568,26 +598,6 @@ public class ArkhamCalc : FragmentActivity() {
             super.onRestoreInstanceState(inState)
         } finally {
             mRestoringState = false
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = getMenuInflater()
-        inflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        super.onOptionsItemSelected(item)
-
-        val itemId = item.itemId
-        when (itemId) {
-            R.id.menu_item_help -> {
-                startActivity(Intent(this, ArkhamCalcHelp::class.java))
-                return true
-            }
-
-            else -> return false
         }
     }
 
@@ -622,16 +632,6 @@ public class ArkhamCalc : FragmentActivity() {
                     }
                 }
         builder.create().show()
-    }
-
-    /**
-     * Start the help activity with the specified topic opened. The topic passed
-     * into this method must exist in the help.xml 'topics' array.
-     */
-    private fun startHelpActivity(topic: String) {
-        val helpIntent = Intent(this, ArkhamCalcHelp::class.java)
-        helpIntent.putExtra(ArkhamCalcHelp.BUNDLE_TOPIC, topic)
-        startActivity(helpIntent)
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
