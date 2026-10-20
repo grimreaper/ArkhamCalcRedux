@@ -1066,7 +1066,7 @@ class TestCalculator {
     // 	public void testRerollOnesMandy() {
     // 		int requiredDice = 5;
     // 		int requiredSuccesses = 4;
-    // 		
+    //
     // 		int totalWins = 0;
     // 		for (int i = 0; i < NUMBER_ITERATIONS; i++) {
     // 			int totalSuccesses = 0;
@@ -1084,7 +1084,7 @@ class TestCalculator {
     // 				int dieValue = getRandomDieValue();
     // 				if (dieValue >= 4) {
     // 					totalSuccesses++;
-    // 				}				
+    // 				}
     // 			}
     // 			//mandy part
     // 			int firstRollSuccesses = totalSuccesses;
@@ -1092,13 +1092,13 @@ class TestCalculator {
     // 				int dieValue = getRandomDieValue();
     // 				if (dieValue >= 4) {
     // 					totalSuccesses++;
-    // 				}					
+    // 				}
     // 			}
     // 			if (totalSuccesses >= requiredSuccesses) {
     // 				totalWins++;
     // 			}
     // 		}
-    // 		
+    //
     // 		double percentageWins = (double)totalWins / NUMBER_ITERATIONS;
     // 		Calculator calculator = new Calculator(requiredDice, requiredSuccesses, true, false);
     // 		calculator.setIsRerollOnes(true);
