@@ -1,19 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-feature
+        android:name="android.hardware.faketouch"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.faketouch.multitouch"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.faketouch.multitouch.distinct"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.faketouch.multitouch.jazzhand"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.gamepad"
+        android:required="false" />
 
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ArkhamCalcRedux"
+        android:hardwareAccelerated="true">
         <activity
             android:name="com.eitanadler.arkhamcalcredux2.ArkhamCalc"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.ArkhamCalcRedux"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.action.NOTIFICATION_PREFERENCES" />
             </intent-filter>
         </activity>
+        <property
+            android:name="android.window.PROPERTY_SUPPORTS_MULTI_INSTANCE_SYSTEM_UI"
+            android:value="true" />
+
+        <profileable
+            android:shell="true"
+            tools:targetApi="29" />
+
+        <meta-data
+            android:name="android.software.leanback.supports_touch"
+            android:value="true" />
+        <meta-data
+            android:name="android.webkit.WebView.EnableSafeBrowsing"
+            android:value="true" />
     </application>
 
 </manifest>
