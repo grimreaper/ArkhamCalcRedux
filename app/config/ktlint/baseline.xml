@@ -16,6 +16,6 @@
         <error line="47" column="9" source="compose:modifier-missing-check" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ui/theme/Theme.kt">
-        <error line="44" column="14" source="standard:function-naming" />
+        <error line="37" column="14" source="standard:function-naming" />
     </file>
 </baseline>

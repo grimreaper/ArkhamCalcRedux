@@ -9,13 +9,6 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.brokenkernel.didacticdisco.ui.theme.Pink40
-import com.brokenkernel.didacticdisco.ui.theme.Pink80
-import com.brokenkernel.didacticdisco.ui.theme.Purple40
-import com.brokenkernel.didacticdisco.ui.theme.Purple80
-import com.brokenkernel.didacticdisco.ui.theme.PurpleGrey40
-import com.brokenkernel.didacticdisco.ui.theme.PurpleGrey80
-import com.brokenkernel.didacticdisco.ui.theme.Typography
 
 private val DarkColorScheme =
     darkColorScheme(

@@ -1,4 +1,4 @@
-package com.brokenkernel.didacticdisco.ui.theme
+package com.eitanadler.arkhamcalcredux2.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
