@@ -2,102 +2,36 @@
 <issues format="6" by="lint 9.4.1" type="baseline" client="gradle" dependencies="false" name="AGP (9.4.1)" variant="all" version="9.4.1">
 
     <issue
-        id="UnknownIssueId"
-        message="Unknown issue id &quot;DoNotMockAnything&quot;"
-        errorLine1="    &lt;issue id=&quot;DoNotMockAnything&quot; severity=&quot;error&quot; />"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        id="AvoidUsingNotNullOperator"
+        message="Avoid using the `!!` operator"
+        errorLine1="        get() = random!!.nextInt(6) + 1"
+        errorLine2="                      ~~">
         <location
-            file="lint.xml"
-            line="9"
-            column="5"/>
+            file="src/test/java/com/eitanadler/arkhamcalcredux2/TestCalculator.kt"
+            line="1266"
+            column="23"/>
     </issue>
 
     <issue
-        id="UnknownIssueId"
-        message="Unknown issue id &quot;DoNotMockAnything&quot;"
-        errorLine1="    &lt;issue id=&quot;DoNotMockAnything&quot; severity=&quot;error&quot; />"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        id="DeprecatedCall"
+        message="junit.framework.TestCase.TestCase is deprecated; consider using an alternative."
+        errorLine1="public class TestCalculator : TestCase() {"
+        errorLine2="                              ~~~~~~~~~~">
         <location
-            file="lint.xml"
-            line="9"
-            column="5"/>
+            file="src/test/java/com/eitanadler/arkhamcalcredux2/TestCalculator.kt"
+            line="23"
+            column="31"/>
     </issue>
 
     <issue
-        id="UnknownIssueId"
-        message="Unknown issue id &quot;DoNotMockAnything&quot;"
-        errorLine1="    &lt;issue id=&quot;DoNotMockAnything&quot; severity=&quot;error&quot; />"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        id="DeprecatedCall"
+        message="junit.framework.TestCase.setUp is deprecated; consider using an alternative."
+        errorLine1="        super.setUp()"
+        errorLine2="        ~~~~~~~~~~~~~">
         <location
-            file="lint.xml"
-            line="9"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnknownIssueId"
-        message="Unknown issue id &quot;ComposeNonRestartableComposable&quot;"
-        errorLine1="    &lt;issue id=&quot;ComposeNonRestartableComposable&quot; severity=&quot;error&quot; />"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="lint.xml"
-            line="18"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnknownIssueId"
-        message="Unknown issue id &quot;ComposeNonRestartableComposable&quot;"
-        errorLine1="    &lt;issue id=&quot;ComposeNonRestartableComposable&quot; severity=&quot;error&quot; />"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="lint.xml"
-            line="18"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnknownIssueId"
-        message="Unknown issue id &quot;ComposeNonRestartableComposable&quot;"
-        errorLine1="    &lt;issue id=&quot;ComposeNonRestartableComposable&quot; severity=&quot;error&quot; />"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="lint.xml"
-            line="18"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnknownIssueId"
-        message="Unknown issue id &quot;RawDispatchersUse&quot;"
-        errorLine1="    &lt;issue id=&quot;RawDispatchersUse&quot; severity=&quot;ignore&quot; />"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="lint.xml"
-            line="22"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnknownIssueId"
-        message="Unknown issue id &quot;RawDispatchersUse&quot;"
-        errorLine1="    &lt;issue id=&quot;RawDispatchersUse&quot; severity=&quot;ignore&quot; />"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="lint.xml"
-            line="22"
-            column="5"/>
-    </issue>
-
-    <issue
-        id="UnknownIssueId"
-        message="Unknown issue id &quot;RawDispatchersUse&quot;"
-        errorLine1="    &lt;issue id=&quot;RawDispatchersUse&quot; severity=&quot;ignore&quot; />"
-        errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="lint.xml"
-            line="22"
-            column="5"/>
+            file="src/test/java/com/eitanadler/arkhamcalcredux2/TestCalculator.kt"
+            line="28"
+            column="9"/>
     </issue>
 
     <issue

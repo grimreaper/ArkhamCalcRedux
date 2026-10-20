@@ -44,7 +44,10 @@ internal class TrueMainArkhamUX(
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun ComposableTrueMainArkhamUX(goToHelpScreen: (String) -> Unit) {
+    fun ComposableTrueMainArkhamUX(
+        goToHelpScreen: (String) -> Unit,
+        modifier: Modifier = Modifier,
+    ) {
         val calculatorResultText = rememberSaveable { mutableStateOf("Result!") }
         val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
 

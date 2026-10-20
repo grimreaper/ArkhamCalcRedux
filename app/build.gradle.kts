@@ -102,4 +102,9 @@ dependencies {
     androidTestImplementation(libs.androidx.runner)
 
     ktlintRuleset(libs.ktlintCompose)
+
+    lintChecks(libs.android.securityLint)
+    lintChecks(libs.androidx.lint.gradle)
+    lintChecks(libs.slack.lint.checks)
+    lintChecks(libs.slack.lint.checks.compose)
 }

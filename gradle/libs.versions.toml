@@ -1,5 +1,6 @@
 [versions]
 activityCompose = "1.13.0"
+androidSecurirtyLint = "1.0.4"
 appcompat = "1.8.0"
 compose = "1.12.1"
 composeBom = "2026.09.00"
@@ -16,15 +17,19 @@ ktlint = "14.2.0"
 ktlintComposeVersion = "0.6.8"
 lifecycleViewmodelCompose = "2.11.0"
 lifecycleViewmodelNav3 = "2.12.0-alpha04"
+lintGradle = "1.0.0"
 material3 = "1.5.0-beta01"
 material3AdaptiveNav3 = "1.3.0"
 nav3Core = "1.2.0"
 runner = "1.7.0"
+slackComposeLintChecks = "1.6.1"
+slackLintChecks = "0.11.1"
 sortDependencies = "0.21.0"
 uiViewbinding = "1.12.1"
 versionCatalogUpdate = "1.1.1"
 
 [libraries]
+android-securityLint = { module = "com.android.security.lint:lint", version.ref = "androidSecurirtyLint" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
@@ -36,6 +41,7 @@ androidx-foundation = { module = "androidx.compose.foundation:foundation", versi
 androidx-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNav3" }
+androidx-lint-gradle = { module = "androidx.lint:lint-gradle", version.ref = "lintGradle" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 androidx-material3-adaptive-navigation3 = { module = "androidx.compose.material3.adaptive:adaptive-navigation3", version.ref = "material3AdaptiveNav3" }
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
@@ -48,6 +54,8 @@ gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
 ktlintCompose = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktlintComposeVersion" }
+slack-lint-checks = { module = "com.slack.lint:slack-lint-checks", version.ref = "slackLintChecks" }
+slack-lint-checks-compose = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "slackComposeLintChecks" }
 
 [plugins]
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
