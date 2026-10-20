@@ -3,39 +3,6 @@
 
     <issue
         id="UnusedResources"
-        message="The resource `R.color.colorPrimary` appears to be unused"
-        errorLine1="    &lt;color name=&quot;colorPrimary&quot;>#008577&lt;/color>"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/colors.xml"
-            line="3"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.color.colorPrimaryDark` appears to be unused"
-        errorLine1="    &lt;color name=&quot;colorPrimaryDark&quot;>#00574B&lt;/color>"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/colors.xml"
-            line="4"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.color.colorAccent` appears to be unused"
-        errorLine1="    &lt;color name=&quot;colorAccent&quot;>#D81B60&lt;/color>"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/colors.xml"
-            line="5"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
         message="The resource `R.drawable.icon` appears to be unused">
         <location
             file="src/main/res/drawable-hdpi/icon.png"/>
@@ -72,50 +39,6 @@
             file="src/main/res/values/strings.xml"
             line="8"
             column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.style.AppTheme` appears to be unused"
-        errorLine1="    &lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat.Light.DarkActionBar&quot;>"
-        errorLine2="           ~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/styles.xml"
-            line="4"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.style.AppTheme_NoActionBar` appears to be unused"
-        errorLine1="    &lt;style name=&quot;AppTheme.NoActionBar&quot;>"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/styles.xml"
-            line="11"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.style.AppTheme_AppBarOverlay` appears to be unused"
-        errorLine1="    &lt;style name=&quot;AppTheme.AppBarOverlay&quot; parent=&quot;ThemeOverlay.AppCompat.Dark.ActionBar&quot; />"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/styles.xml"
-            line="16"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.style.AppTheme_PopupOverlay` appears to be unused"
-        errorLine1="    &lt;style name=&quot;AppTheme.PopupOverlay&quot; parent=&quot;ThemeOverlay.AppCompat.Light&quot; />"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/styles.xml"
-            line="18"
-            column="12"/>
     </issue>
 
     <issue
