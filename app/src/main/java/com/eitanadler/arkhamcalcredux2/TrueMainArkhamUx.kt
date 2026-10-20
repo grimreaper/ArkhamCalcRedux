@@ -394,15 +394,11 @@ internal class TrueMainArkhamUX(
         isAddOneChecked: Boolean,
         isShotgunChecked: Boolean,
     ) {
-        val dice: Int = diceCountSliderValue
-        val tough = difficulitySliderValue
-        val chance = chancesSliderValue
-
         val calculator =
             Calculator(
-                mDice = dice,
-                mTough = tough,
-                mNumberOfChances = chance,
+                mDice = diceCountSliderValue,
+                mTough = difficulitySliderValue,
+                mNumberOfChances = chancesSliderValue,
                 mIsBlessed = isBlessed,
                 mIsCursed = isCursed,
                 mIsShotgun = isShotgunChecked,
