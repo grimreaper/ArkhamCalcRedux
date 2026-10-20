@@ -23,7 +23,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
@@ -187,17 +186,17 @@ public class ArkhamCalc : FragmentActivity() {
 
         //attach setOnLongClickListener
         mDiceLabel.setText("Dice:")
-        mDiceLabel.setOnLongClickListener { v: View ->
+        mDiceLabel.setOnLongClickListener {
             startHelpActivity("Dice / Difficulty")
             true
         }
         mToughLabel.setText("Difficulty:")
-        mToughLabel.setOnLongClickListener { v: View ->
+        mToughLabel.setOnLongClickListener {
             startHelpActivity("Dice / Difficulty")
             true
         }
         mChanceLabel.setText("Chances:")
-        mChanceLabel.setOnLongClickListener { v: View ->
+        mChanceLabel.setOnLongClickListener {
             startHelpActivity("Chances")
             true
         }
@@ -277,7 +276,7 @@ public class ArkhamCalc : FragmentActivity() {
         startActivity(helpIntent)
     }
 
-    private fun recalculate() {
+    internal fun recalculate() {
         //get input
         val dice = mDiceSeekBar.progress + 1
         val tough = mToughSeekBar.progress + 1
@@ -313,7 +312,7 @@ public class ArkhamCalc : FragmentActivity() {
         mResultTextView.setTextColor(formatter.color)
     }
 
-    private fun setSeekBarValues() {
+    internal fun setSeekBarValues() {
         mDiceValue.setText((mDiceSeekBar.progress + 1).toString())
         mToughValue.setText((mToughSeekBar.progress + 1).toString())
         mChanceValue.setText((mChanceSeekBar.progress + 1).toString())
@@ -330,7 +329,7 @@ public class ArkhamCalc : FragmentActivity() {
         resourceStringId: Int
     ) {
         if (isAbilityChecked && mChanceSeekBar.progress > 0 && !mRestoringState) {
-            showToast(getResourceString(resourceStringId))
+            showToast(resources.getString((resourceStringId)))
         }
     }
 
@@ -341,22 +340,18 @@ public class ArkhamCalc : FragmentActivity() {
      * Do not show a message if we are in the process of restoring state (because we already showed
      * the message before state was saved).
      */
-    private fun handleOneTimeAbilityChancesChanged(
+    internal fun handleOneTimeAbilityChancesChanged(
         isAbilityChecked: Boolean,
         resourceStringId: Int
     ) {
         if (isAbilityChecked && mPreviousChanceValue <= 0 && mChanceSeekBar.progress > 0 && !mRestoringState) {
-            showToast(getResourceString(resourceStringId))
+            showToast(resources.getString(resourceStringId))
         }
     }
 
     private fun showToast(toastText: String) {
         Toast.makeText(baseContext, toastText, Toast.LENGTH_LONG).show()
 //        Snackbar.make(findViewById(R.id.outerLayout), toastText, Snackbar.LENGTH_LONG).show()
-    }
-
-    private fun getResourceString(resourceStringId: Int): String {
-        return resources.getString(resourceStringId)
     }
 
     private abstract inner class OnSeekBarProgressChangeListener : OnSeekBarChangeListener {
