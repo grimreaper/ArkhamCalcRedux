@@ -1,3 +1,2 @@
 - use navigation instead of dual activity.
 - clean up bad design due to legacy migrations
-- add top title bar to Scaffold

@@ -22,14 +22,21 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation3.runtime.NavEntry
@@ -51,6 +58,7 @@ public class ArkhamCalc : FragmentActivity() {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     internal fun ArkahmCalcOuterScaffold(modifier: Modifier = Modifier) {
         val backStack = remember { mutableStateListOf<ArkhamNavigation>(CalculatorUX) }
@@ -60,6 +68,21 @@ public class ArkhamCalc : FragmentActivity() {
                 Scaffold(
                     snackbarHost = {
                         SnackbarHost(hostState = snackbarHostState)
+                    },
+                    topBar = {
+                        CenterAlignedTopAppBar(
+                            colors =
+                                TopAppBarDefaults.topAppBarColors(
+                                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                    titleContentColor = MaterialTheme.colorScheme.primary,
+                                ),
+                            title = { Text(stringResource(R.string.arkham_horror_calculator)) },
+                            scrollBehavior =
+                                TopAppBarDefaults
+                                    .exitUntilCollapsedScrollBehavior(
+                                        rememberTopAppBarState(),
+                                    ),
+                        )
                     },
                 ) { paddingValues ->
                     NavDisplay(
