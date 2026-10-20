@@ -34,7 +34,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderState
@@ -56,6 +55,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
+import com.eitanadler.arkhamcalcredux2.ui.theme.ArkhamCalcReduxTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -80,7 +80,7 @@ public class ArkhamCalc : FragmentActivity() {
 
         setContent {
             val snackbarHostState = remember { SnackbarHostState() }
-            MaterialTheme {
+            ArkhamCalcReduxTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     Scaffold(
                         snackbarHost = {
