@@ -123,17 +123,6 @@
     </issue>
 
     <issue
-        id="NewerVersionAvailable"
-        message="A newer version of io.nlopez.compose.rules:ktlint than 0.6.6 is available: 0.6.8"
-        errorLine1="ktlintComposeVersion = &quot;0.6.6&quot;"
-        errorLine2="                       ~~~~~~~">
-        <location
-            file="$HOME/svn/android/ArkhamCalcRedux/gradle/libs.versions.toml"
-            line="17"
-            column="24"/>
-    </issue>
-
-    <issue
         id="UnusedResources"
         message="The resource `R.color.colorPrimary` appears to be unused"
         errorLine1="    &lt;color name=&quot;colorPrimary&quot;>#008577&lt;/color>"
@@ -262,17 +251,6 @@
     </issue>
 
     <issue
-        id="UselessParent"
-        message="This `ScrollView` layout or its `LinearLayout` parent is unnecessary"
-        errorLine1="    &lt;ScrollView"
-        errorLine2="     ~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/main.xml"
-            line="11"
-            column="6"/>
-    </issue>
-
-    <issue
         id="IconXmlAndPng"
         message="The following images appear both as density independent `.xml` files and as bitmap files: src/main/res/mipmap-anydpi/ic_launcher.xml, src/main/res/mipmap-hdpi/ic_launcher.png">
         <location
@@ -333,28 +311,6 @@
         message="Missing density variation folders in `src/main/res`: drawable-xhdpi, drawable-xxhdpi">
         <location
             file="src/main/res"/>
-    </issue>
-
-    <issue
-        id="RtlHardcoded"
-        message="Use &quot;`end`&quot; instead of &quot;`right`&quot; to ensure correct behavior in right-to-left locales"
-        errorLine1="                    android:gravity=&quot;right&quot;"
-        errorLine2="                                     ~~~~~">
-        <location
-            file="src/main/res/layout/main.xml"
-            line="47"
-            column="38"/>
-    </issue>
-
-    <issue
-        id="RtlHardcoded"
-        message="Use &quot;`end`&quot; instead of &quot;`right`&quot; to ensure correct behavior in right-to-left locales"
-        errorLine1="                    android:gravity=&quot;right&quot;"
-        errorLine2="                                     ~~~~~">
-        <location
-            file="src/main/res/layout/main.xml"
-            line="79"
-            column="38"/>
     </issue>
 
 </issues>

@@ -21,6 +21,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SeekBar
@@ -39,10 +40,13 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderState
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,8 +71,6 @@ import kotlinx.coroutines.runBlocking
  * The main activity. Routes user input to Calculator and prints its results.
  */
 public class ArkhamCalc : FragmentActivity() {
-    private lateinit var mDiceSeekBar: SeekBar
-    private lateinit var mDiceValue: SettableText
     private lateinit var mToughLabel: SettableText
     private lateinit var mToughSeekBar: SeekBar
     private lateinit var mToughValue: SettableText
@@ -97,6 +99,7 @@ public class ArkhamCalc : FragmentActivity() {
                     ) { innerPadding ->
                         val calculatorResultText = rememberSaveable { mutableStateOf("Result!") }
                         val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
+
                         var isBlessedChecked by remember { mutableStateOf(false) }
                         var isCursedChecked by remember { mutableStateOf(false) }
                         var isMandyChecked by remember { mutableStateOf(false) }
@@ -105,29 +108,65 @@ public class ArkhamCalc : FragmentActivity() {
                         var isAddOneChecked by remember { mutableStateOf(false) }
                         var isShotgunChecked by remember { mutableStateOf(false) }
 
+                        val diceCountSliderState =
+                            rememberSliderState(
+                                value = 1.0f,
+                                steps = DICE_MAX - 2,
+                                valueRange = 1f..DICE_MAX.toFloat(),
+                            )
+
+                        diceCountSliderState.onValueChange = { v: Float ->
+                            diceCountSliderState.value = v
+                            recalculate(
+                                calculatorResultText,
+                                calculatorResultColor,
+                                diceCountSliderState = SliderState(),
+                                isBlessed = isBlessedChecked,
+                                isCursed = isCursedChecked,
+                                isMandyChecked = isMandyChecked,
+                                isSkidsChecked = isSkidsChecked,
+                                isRerollOnesChecked = isRerollOnesChecked,
+                                isAddOneChecked = isAddOneChecked,
+                                isShotgunChecked = isShotgunChecked,
+                            )
+                        }
+
+                        val difficulitySliderState = rememberSliderState()
+                        val chancesSliderState = rememberSliderState()
+
                         Column(
                             modifier = Modifier.padding(innerPadding),
                         ) {
                             Text("Result", fontWeight = FontWeight.Bold)
                             Text(calculatorResultText.value, color = calculatorResultColor.value)
 
-                            Text("Dice:",
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.combinedClickable(
-                                    onClick = {},
-                                    onLongClickLabel = "Show Help For Dice / Difficulty",
-                                    onLongClick = {
-                                        startHelpActivity("Dice / Difficulty")
-                                    },
+                            Column {
+                                Row {
+                                    Text(
+                                        "Dice: ",
+                                        fontWeight = FontWeight.Bold,
+                                        modifier =
+                                            Modifier.combinedClickable(
+                                                onClick = {},
+                                                onLongClickLabel = "Show Help For Dice / Difficulty",
+                                                onLongClick = {
+                                                    startHelpActivity("Dice / Difficulty")
+                                                },
+                                            ),
+                                    )
+                                    Text(
+                                        diceCountSliderState.value.toInt().toString(),
+                                    )
+                                }
+                                Slider(
+                                    state = diceCountSliderState,
                                 )
-                                )
+                            }
 
                             AndroidViewBinding(
                                 MainBinding::inflate,
                                 modifier = Modifier.fillMaxHeight(0.30f),
                             ) {
-                                mDiceSeekBar = findViewById(R.id.diceSeekBar)
-                                mDiceValue = findViewById(R.id.diceValue)
                                 mToughLabel = findViewById(R.id.toughLabel)
                                 mToughSeekBar = findViewById(R.id.toughSeekBar)
                                 mToughValue = findViewById(R.id.toughValue)
@@ -137,35 +176,9 @@ public class ArkhamCalc : FragmentActivity() {
 
                                 calculatorResultColor.value = Color.Red
 
-                                // setup controls
-                                mDiceSeekBar.setMax(DICE_MAX - 1)
                                 mToughSeekBar.setMax(TOUGH_MAX - 1)
                                 mChanceSeekBar.setMax(CHANCE_MAX - 1)
 
-                                // attach setOnSeekBarChangeListener
-                                mDiceSeekBar.setOnSeekBarChangeListener(
-                                    object :
-                                        OnSeekBarProgressChangeListener() {
-                                        public override fun onProgressChanged(
-                                            seekBar: SeekBar,
-                                            progress: Int,
-                                            fromUser: Boolean,
-                                        ) {
-                                            setSeekBarValues()
-                                            recalculate(
-                                                calculatorResultText,
-                                                calculatorResultColor,
-                                                isBlessed = isBlessedChecked,
-                                                isCursed = isCursedChecked,
-                                                isMandyChecked = isMandyChecked,
-                                                isSkidsChecked = isSkidsChecked,
-                                                isRerollOnesChecked = isRerollOnesChecked,
-                                                isAddOneChecked = isAddOneChecked,
-                                                isShotgunChecked = isShotgunChecked,
-                                            )
-                                        }
-                                    },
-                                )
                                 mToughSeekBar.setOnSeekBarChangeListener(
                                     object :
                                         OnSeekBarProgressChangeListener() {
@@ -178,6 +191,7 @@ public class ArkhamCalc : FragmentActivity() {
                                             recalculate(
                                                 calculatorResultText,
                                                 calculatorResultColor,
+                                                diceCountSliderState = diceCountSliderState,
                                                 isBlessed = isBlessedChecked,
                                                 isCursed = isCursedChecked,
                                                 isMandyChecked = isMandyChecked,
@@ -201,6 +215,7 @@ public class ArkhamCalc : FragmentActivity() {
                                             recalculate(
                                                 calculatorResultText,
                                                 calculatorResultColor,
+                                                diceCountSliderState = diceCountSliderState,
                                                 isBlessed = isBlessedChecked,
                                                 isCursed = isCursedChecked,
                                                 isMandyChecked = isMandyChecked,
@@ -242,6 +257,7 @@ public class ArkhamCalc : FragmentActivity() {
                                 recalculate(
                                     calculatorResultText,
                                     calculatorResultColor,
+                                    diceCountSliderState = diceCountSliderState,
                                     isBlessed = isBlessedChecked,
                                     isCursed = isCursedChecked,
                                     isMandyChecked = isMandyChecked,
@@ -266,6 +282,7 @@ public class ArkhamCalc : FragmentActivity() {
                                         recalculate(
                                             calculatorResultText,
                                             calculatorResultColor,
+                                            diceCountSliderState = diceCountSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -299,6 +316,7 @@ public class ArkhamCalc : FragmentActivity() {
                                         recalculate(
                                             calculatorResultText,
                                             calculatorResultColor,
+                                            diceCountSliderState = diceCountSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -335,6 +353,7 @@ public class ArkhamCalc : FragmentActivity() {
                                         recalculate(
                                             calculatorResultText,
                                             calculatorResultColor,
+                                            diceCountSliderState = diceCountSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -373,6 +392,7 @@ public class ArkhamCalc : FragmentActivity() {
                                         recalculate(
                                             calculatorResultText,
                                             calculatorResultColor,
+                                            diceCountSliderState = diceCountSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -411,6 +431,7 @@ public class ArkhamCalc : FragmentActivity() {
                                         recalculate(
                                             calculatorResultText,
                                             calculatorResultColor,
+                                            diceCountSliderState = diceCountSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -439,6 +460,7 @@ public class ArkhamCalc : FragmentActivity() {
                                         recalculate(
                                             calculatorResultText,
                                             calculatorResultColor,
+                                            diceCountSliderState = diceCountSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -467,6 +489,7 @@ public class ArkhamCalc : FragmentActivity() {
                                         recalculate(
                                             calculatorResultText,
                                             calculatorResultColor,
+                                            diceCountSliderState = diceCountSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -484,6 +507,7 @@ public class ArkhamCalc : FragmentActivity() {
                                                     recalculate(
                                                         calculatorResultText,
                                                         calculatorResultColor,
+                                                        diceCountSliderState = diceCountSliderState,
                                                         isBlessed = isBlessedChecked,
                                                         isCursed = isCursedChecked,
                                                         isMandyChecked = isMandyChecked,
@@ -578,9 +602,11 @@ public class ArkhamCalc : FragmentActivity() {
         startActivity(helpIntent)
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     internal fun recalculate(
         calculatorResultText: MutableState<String>,
         calculatorResultColor: MutableState<Color>,
+        diceCountSliderState: SliderState,
         isBlessed: Boolean,
         isCursed: Boolean,
         isMandyChecked: Boolean,
@@ -590,7 +616,12 @@ public class ArkhamCalc : FragmentActivity() {
         isShotgunChecked: Boolean,
     ) {
         // get input
-        val dice = mDiceSeekBar.progress + 1
+        val dice: Int = diceCountSliderState.value.toInt()
+        Log.e(
+            "WTF",
+            "HELLO " + dice,
+        )
+
         val tough = mToughSeekBar.progress + 1
         val chance = mChanceSeekBar.progress + 1
 
@@ -614,12 +645,15 @@ public class ArkhamCalc : FragmentActivity() {
         val formatter = CalculateResultFormatter(result)
 
         calculatorResultText.value = formatter.resultString
+        Log.e(
+            "WTF",
+            "VALUE " + formatter.resultString,
+        )
 
         calculatorResultColor.value = formatter.color
     }
 
     internal fun setSeekBarValues() {
-        mDiceValue.setText((mDiceSeekBar.progress + 1).toString())
         mToughValue.setText((mToughSeekBar.progress + 1).toString())
         mChanceValue.setText((mChanceSeekBar.progress + 1).toString())
     }
