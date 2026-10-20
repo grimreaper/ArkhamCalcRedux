@@ -16,3 +16,4 @@ fastlane/metadata/
 fastlane/report.xml
 fastlane/README.md
 keystore.properties
+.kotlin/
