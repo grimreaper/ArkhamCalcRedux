@@ -32,7 +32,9 @@ internal class CalculateResultFormatter(
                 return Color.Green
             }
             if (mResult > .33) {
-                return Color.Yellow
+                // TODO: yellow(?)
+                // TODO: theme(?)
+                return Color.Blue
             }
             return Color.Red
         }

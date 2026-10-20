@@ -21,18 +21,14 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
@@ -56,12 +52,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.viewinterop.AndroidViewBinding
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
-import com.eitanadler.arkhamcalcredux2.databinding.MainBinding
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -71,12 +65,8 @@ import kotlinx.coroutines.runBlocking
  * The main activity. Routes user input to Calculator and prints its results.
  */
 public class ArkhamCalc : FragmentActivity() {
-    private lateinit var mToughLabel: SettableText
-    private lateinit var mToughSeekBar: SeekBar
-    private lateinit var mToughValue: SettableText
-    private lateinit var mChanceLabel: SettableText
-    private lateinit var mChanceSeekBar: SeekBar
-    private lateinit var mChanceValue: SettableText
+    @OptIn(ExperimentalMaterial3Api::class)
+    private lateinit var chancesSliderState: SliderState
 
     private var mPreviousChanceValue = 0
     private var mRestoringState = false
@@ -114,13 +104,38 @@ public class ArkhamCalc : FragmentActivity() {
                                 steps = DICE_MAX - 2,
                                 valueRange = 1f..DICE_MAX.toFloat(),
                             )
-
+                        val difficulitySliderState = rememberSliderState(
+                            value = 1.0f,
+                            steps = TOUGH_MAX - 2,
+                            valueRange = 1f..TOUGH_MAX.toFloat(),
+                        )
+                        chancesSliderState = rememberSliderState(
+                            value = 1.0f,
+                            steps = CHANCE_MAX - 2,
+                            valueRange = 1f..CHANCE_MAX.toFloat(),
+                        )
                         diceCountSliderState.onValueChange = { v: Float ->
                             diceCountSliderState.value = v
                             recalculate(
                                 calculatorResultText,
                                 calculatorResultColor,
-                                diceCountSliderState = SliderState(),
+                                diceCountSliderState = diceCountSliderState,
+                                difficulitySliderState = difficulitySliderState,
+                                chancesSliderState = chancesSliderState,
+                                isBlessed = isBlessedChecked,
+                                isCursed = isCursedChecked,
+                                isMandyChecked = isMandyChecked,
+                                isSkidsChecked = isSkidsChecked,
+                                isRerollOnesChecked = isRerollOnesChecked,
+                                isAddOneChecked = isAddOneChecked,
+                                isShotgunChecked = isShotgunChecked,
+                            )
+                            recalculate(
+                                calculatorResultText,
+                                calculatorResultColor,
+                                diceCountSliderState = diceCountSliderState,
+                                difficulitySliderState = difficulitySliderState,
+                                chancesSliderState = chancesSliderState,
                                 isBlessed = isBlessedChecked,
                                 isCursed = isCursedChecked,
                                 isMandyChecked = isMandyChecked,
@@ -131,8 +146,54 @@ public class ArkhamCalc : FragmentActivity() {
                             )
                         }
 
-                        val difficulitySliderState = rememberSliderState()
-                        val chancesSliderState = rememberSliderState()
+                        difficulitySliderState.onValueChange = { v: Float ->
+                            difficulitySliderState.value = v
+                            recalculate(
+                                calculatorResultText,
+                                calculatorResultColor,
+                                diceCountSliderState = diceCountSliderState,
+                                difficulitySliderState = difficulitySliderState,
+                                chancesSliderState = chancesSliderState,
+                                isBlessed = isBlessedChecked,
+                                isCursed = isCursedChecked,
+                                isMandyChecked = isMandyChecked,
+                                isSkidsChecked = isSkidsChecked,
+                                isRerollOnesChecked = isRerollOnesChecked,
+                                isAddOneChecked = isAddOneChecked,
+                                isShotgunChecked = isShotgunChecked,
+                            )
+                        }
+
+                        chancesSliderState.onValueChange = { v: Float ->
+                            mPreviousChanceValue = diceCountSliderState.value.toInt()
+                            chancesSliderState.value = v
+                            recalculate(
+                                calculatorResultText,
+                                calculatorResultColor,
+                                diceCountSliderState = diceCountSliderState,
+                                difficulitySliderState = difficulitySliderState,
+                                chancesSliderState = chancesSliderState,
+                                isBlessed = isBlessedChecked,
+                                isCursed = isCursedChecked,
+                                isMandyChecked = isMandyChecked,
+                                isSkidsChecked = isSkidsChecked,
+                                isRerollOnesChecked = isRerollOnesChecked,
+                                isAddOneChecked = isAddOneChecked,
+                                isShotgunChecked = isShotgunChecked,
+                            )
+                            handleOneTimeAbilityChancesChanged(
+                                isMandyChecked,
+                                R.string.mandy_chances_toast,
+                            )
+                            handleOneTimeAbilityChancesChanged(
+                                isRerollOnesChecked,
+                                R.string.reroll_ones_chances_toast,
+                            )
+                            handleOneTimeAbilityChancesChanged(
+                                isSkidsChecked,
+                                R.string.skids_chances_toast,
+                            )
+                        }
 
                         Column(
                             modifier = Modifier.padding(innerPadding),
@@ -162,113 +223,53 @@ public class ArkhamCalc : FragmentActivity() {
                                     state = diceCountSliderState,
                                 )
                             }
-
-                            AndroidViewBinding(
-                                MainBinding::inflate,
-                                modifier = Modifier.fillMaxHeight(0.30f),
-                            ) {
-                                mToughLabel = findViewById(R.id.toughLabel)
-                                mToughSeekBar = findViewById(R.id.toughSeekBar)
-                                mToughValue = findViewById(R.id.toughValue)
-                                mChanceLabel = findViewById(R.id.chanceLabel)
-                                mChanceSeekBar = findViewById(R.id.chanceSeekBar)
-                                mChanceValue = findViewById(R.id.chanceValue)
-
-                                calculatorResultColor.value = Color.Red
-
-                                mToughSeekBar.setMax(TOUGH_MAX - 1)
-                                mChanceSeekBar.setMax(CHANCE_MAX - 1)
-
-                                mToughSeekBar.setOnSeekBarChangeListener(
-                                    object :
-                                        OnSeekBarProgressChangeListener() {
-                                        public override fun onProgressChanged(
-                                            seekBar: SeekBar,
-                                            progress: Int,
-                                            fromUser: Boolean,
-                                        ) {
-                                            setSeekBarValues()
-                                            recalculate(
-                                                calculatorResultText,
-                                                calculatorResultColor,
-                                                diceCountSliderState = diceCountSliderState,
-                                                isBlessed = isBlessedChecked,
-                                                isCursed = isCursedChecked,
-                                                isMandyChecked = isMandyChecked,
-                                                isSkidsChecked = isSkidsChecked,
-                                                isRerollOnesChecked = isRerollOnesChecked,
-                                                isAddOneChecked = isAddOneChecked,
-                                                isShotgunChecked = isShotgunChecked,
-                                            )
-                                        }
-                                    },
-                                )
-                                mChanceSeekBar.setOnSeekBarChangeListener(
-                                    object :
-                                        OnSeekBarProgressChangeListener() {
-                                        public override fun onProgressChanged(
-                                            seekBar: SeekBar,
-                                            progress: Int,
-                                            fromUser: Boolean,
-                                        ) {
-                                            setSeekBarValues()
-                                            recalculate(
-                                                calculatorResultText,
-                                                calculatorResultColor,
-                                                diceCountSliderState = diceCountSliderState,
-                                                isBlessed = isBlessedChecked,
-                                                isCursed = isCursedChecked,
-                                                isMandyChecked = isMandyChecked,
-                                                isSkidsChecked = isSkidsChecked,
-                                                isRerollOnesChecked = isRerollOnesChecked,
-                                                isAddOneChecked = isAddOneChecked,
-                                                isShotgunChecked = isShotgunChecked,
-                                            )
-
-                                            mPreviousChanceValue = this.previousProgress
-                                            handleOneTimeAbilityChancesChanged(
-                                                isMandyChecked,
-                                                R.string.mandy_chances_toast,
-                                            )
-                                            handleOneTimeAbilityChancesChanged(
-                                                isRerollOnesChecked,
-                                                R.string.reroll_ones_chances_toast,
-                                            )
-                                            handleOneTimeAbilityChancesChanged(
-                                                isSkidsChecked,
-                                                R.string.skids_chances_toast,
-                                            )
-                                        }
-                                    },
-                                )
-                                mToughLabel.setText("Difficulty:")
-                                mToughLabel.setOnLongClickListener {
-                                    startHelpActivity("Dice / Difficulty")
-                                    true
+                            Column {
+                                Row {
+                                    Text(
+                                        "Difficulty: ",
+                                        fontWeight = FontWeight.Bold,
+                                        modifier =
+                                            Modifier.combinedClickable(
+                                                onClick = {},
+                                                onLongClickLabel = "Show Help For Dice / Difficulty",
+                                                onLongClick = {
+                                                    startHelpActivity("Dice / Difficulty")
+                                                },
+                                            ),
+                                    )
+                                    Text(
+                                        difficulitySliderState.value.toInt().toString(),
+                                    )
                                 }
-                                mChanceLabel.setText("Chances:")
-                                mChanceLabel.setOnLongClickListener {
-                                    startHelpActivity("Chances")
-                                    true
-                                }
-
-                                // first calculation
-                                setSeekBarValues()
-                                recalculate(
-                                    calculatorResultText,
-                                    calculatorResultColor,
-                                    diceCountSliderState = diceCountSliderState,
-                                    isBlessed = isBlessedChecked,
-                                    isCursed = isCursedChecked,
-                                    isMandyChecked = isMandyChecked,
-                                    isSkidsChecked = isSkidsChecked,
-                                    isRerollOnesChecked = isRerollOnesChecked,
-                                    isAddOneChecked = isAddOneChecked,
-                                    isShotgunChecked = isShotgunChecked,
+                                Slider(
+                                    state = difficulitySliderState,
                                 )
-
-                                handleShowFirstTimeDialog()
                             }
+
+                            Column {
+                                Row {
+                                    Text(
+                                        "Chances: ",
+                                        fontWeight = FontWeight.Bold,
+                                        modifier =
+                                            Modifier.combinedClickable(
+                                                onClick = {},
+                                                onLongClickLabel = "Show Help For Chances",
+                                                onLongClick = {
+                                                    startHelpActivity("Chances")
+                                                },
+                                            ),
+                                    )
+                                    Text(
+                                        chancesSliderState.value.toInt().toString(),
+                                    )
+                                }
+                                Slider(
+                                    state = chancesSliderState,
+                                )
+                            }
+
+                            handleShowFirstTimeDialog()
                             HorizontalDivider()
                             Row {
                                 Checkbox(
@@ -283,6 +284,8 @@ public class ArkhamCalc : FragmentActivity() {
                                             calculatorResultText,
                                             calculatorResultColor,
                                             diceCountSliderState = diceCountSliderState,
+                                            difficulitySliderState = difficulitySliderState,
+                                            chancesSliderState = chancesSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -317,6 +320,8 @@ public class ArkhamCalc : FragmentActivity() {
                                             calculatorResultText,
                                             calculatorResultColor,
                                             diceCountSliderState = diceCountSliderState,
+                                            difficulitySliderState = difficulitySliderState,
+                                            chancesSliderState = chancesSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -354,6 +359,8 @@ public class ArkhamCalc : FragmentActivity() {
                                             calculatorResultText,
                                             calculatorResultColor,
                                             diceCountSliderState = diceCountSliderState,
+                                            difficulitySliderState = difficulitySliderState,
+                                            chancesSliderState = chancesSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -393,6 +400,8 @@ public class ArkhamCalc : FragmentActivity() {
                                             calculatorResultText,
                                             calculatorResultColor,
                                             diceCountSliderState = diceCountSliderState,
+                                            difficulitySliderState = difficulitySliderState,
+                                            chancesSliderState = chancesSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -432,6 +441,8 @@ public class ArkhamCalc : FragmentActivity() {
                                             calculatorResultText,
                                             calculatorResultColor,
                                             diceCountSliderState = diceCountSliderState,
+                                            difficulitySliderState = difficulitySliderState,
+                                            chancesSliderState = chancesSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -461,6 +472,8 @@ public class ArkhamCalc : FragmentActivity() {
                                             calculatorResultText,
                                             calculatorResultColor,
                                             diceCountSliderState = diceCountSliderState,
+                                            difficulitySliderState = difficulitySliderState,
+                                            chancesSliderState = chancesSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -490,6 +503,8 @@ public class ArkhamCalc : FragmentActivity() {
                                             calculatorResultText,
                                             calculatorResultColor,
                                             diceCountSliderState = diceCountSliderState,
+                                            difficulitySliderState = difficulitySliderState,
+                                            chancesSliderState = chancesSliderState,
                                             isBlessed = isBlessedChecked,
                                             isCursed = isCursedChecked,
                                             isMandyChecked = isMandyChecked,
@@ -508,6 +523,8 @@ public class ArkhamCalc : FragmentActivity() {
                                                         calculatorResultText,
                                                         calculatorResultColor,
                                                         diceCountSliderState = diceCountSliderState,
+                                                        difficulitySliderState = difficulitySliderState,
+                                                        chancesSliderState = chancesSliderState,
                                                         isBlessed = isBlessedChecked,
                                                         isCursed = isCursedChecked,
                                                         isMandyChecked = isMandyChecked,
@@ -607,6 +624,7 @@ public class ArkhamCalc : FragmentActivity() {
         calculatorResultText: MutableState<String>,
         calculatorResultColor: MutableState<Color>,
         diceCountSliderState: SliderState,
+        chancesSliderState: SliderState,
         isBlessed: Boolean,
         isCursed: Boolean,
         isMandyChecked: Boolean,
@@ -614,16 +632,12 @@ public class ArkhamCalc : FragmentActivity() {
         isRerollOnesChecked: Boolean,
         isAddOneChecked: Boolean,
         isShotgunChecked: Boolean,
+        difficulitySliderState: SliderState,
     ) {
         // get input
         val dice: Int = diceCountSliderState.value.toInt()
-        Log.e(
-            "WTF",
-            "HELLO " + dice,
-        )
-
-        val tough = mToughSeekBar.progress + 1
-        val chance = mChanceSeekBar.progress + 1
+        val tough = difficulitySliderState.value.toInt()
+        val chance = chancesSliderState.value.toInt()
 
         // calculate
         val calculator =
@@ -645,17 +659,7 @@ public class ArkhamCalc : FragmentActivity() {
         val formatter = CalculateResultFormatter(result)
 
         calculatorResultText.value = formatter.resultString
-        Log.e(
-            "WTF",
-            "VALUE " + formatter.resultString,
-        )
-
         calculatorResultColor.value = formatter.color
-    }
-
-    internal fun setSeekBarValues() {
-        mToughValue.setText((mToughSeekBar.progress + 1).toString())
-        mChanceValue.setText((mChanceSeekBar.progress + 1).toString())
     }
 
     /**
@@ -664,11 +668,12 @@ public class ArkhamCalc : FragmentActivity() {
      * Do not show a message if we are in the process of restoring state (because we already showed
      * the message before state was saved).
      */
+    @OptIn(ExperimentalMaterial3Api::class)
     private fun handleOneTimeAbilityOptionChanged(
         isAbilityChecked: Boolean,
         resourceStringId: Int,
     ) {
-        if (isAbilityChecked && mChanceSeekBar.progress > 0 && !mRestoringState) {
+        if (isAbilityChecked && chancesSliderState.value.toInt() > 0 && !mRestoringState) {
             showToast(resources.getString((resourceStringId)))
         }
     }
@@ -680,11 +685,12 @@ public class ArkhamCalc : FragmentActivity() {
      * Do not show a message if we are in the process of restoring state (because we already showed
      * the message before state was saved).
      */
+    @OptIn(ExperimentalMaterial3Api::class)
     internal fun handleOneTimeAbilityChancesChanged(
         isAbilityChecked: Boolean,
         resourceStringId: Int,
     ) {
-        if (isAbilityChecked && mPreviousChanceValue <= 0 && mChanceSeekBar.progress > 0 && !mRestoringState) {
+        if (isAbilityChecked && mPreviousChanceValue <= 0 && chancesSliderState.value.toInt() > 0 && !mRestoringState) {
             showToast(resources.getString(resourceStringId))
         }
     }
@@ -692,24 +698,6 @@ public class ArkhamCalc : FragmentActivity() {
     private fun showToast(toastText: String) {
         Toast.makeText(baseContext, toastText, Toast.LENGTH_LONG).show()
 //        Snackbar.make(findViewById(R.id.outerLayout), toastText, Snackbar.LENGTH_LONG).show()
-    }
-
-    private abstract inner class OnSeekBarProgressChangeListener : OnSeekBarChangeListener {
-        var previousProgress: Int = 0
-            private set
-
-        abstract override fun onProgressChanged(
-            seekBar: SeekBar,
-            progress: Int,
-            fromUser: Boolean,
-        )
-
-        override fun onStartTrackingTouch(seekBar: SeekBar) {
-            this.previousProgress = seekBar.progress
-        }
-
-        override fun onStopTrackingTouch(seekBar: SeekBar) {
-        }
     }
 
     public companion object {
