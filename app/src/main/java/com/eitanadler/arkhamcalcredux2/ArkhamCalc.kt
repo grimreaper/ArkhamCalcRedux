@@ -542,6 +542,20 @@ public class ArkhamCalc : FragmentActivity() {
                                 )
                             }
                         }
+                        recalculate(
+                            calculatorResultText,
+                            calculatorResultColor,
+                            diceCountSliderState = diceCountSliderState,
+                            difficulitySliderState = difficulitySliderState,
+                            chancesSliderState = chancesSliderState,
+                            isBlessed = isBlessedChecked,
+                            isCursed = isCursedChecked,
+                            isMandyChecked = isMandyChecked,
+                            isSkidsChecked = isSkidsChecked,
+                            isRerollOnesChecked = isRerollOnesChecked,
+                            isAddOneChecked = isAddOneChecked,
+                            isShotgunChecked = isShotgunChecked,
+                        )
                     }
                 }
             }
