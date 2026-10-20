@@ -36,6 +36,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -114,7 +115,7 @@ public class ArkhamCalc : FragmentActivity() {
 
                             AndroidViewBinding(
                                 MainBinding::inflate,
-                                modifier = Modifier.fillMaxHeight(0.75f),
+                                modifier = Modifier.fillMaxHeight(0.50f),
                             ) {
                                 // find controls
                                 mDiceLabel = findViewById(R.id.diceLabel)
@@ -205,7 +206,7 @@ public class ArkhamCalc : FragmentActivity() {
 
                                             mPreviousChanceValue = this.previousProgress
                                             handleOneTimeAbilityChancesChanged(
-                                                mAllModifiers.isMandyChecked(),
+                                                isMandyChecked,
                                                 R.string.mandy_chances_toast,
                                             )
                                             handleOneTimeAbilityChancesChanged(
@@ -233,32 +234,10 @@ public class ArkhamCalc : FragmentActivity() {
                                         isShotgunChecked = isShotgunChecked,
                                     )
                                 }
-                                mAllModifiers.setMandyOnChangedEvent {
-                                    if (mAllModifiers.isMandyChecked()) {
-                                        // both Mandy and Reroll ones on at same time not supported
-                                        mAllModifiers.setRerollChecked(false)
-                                        mAllModifiers.setSkidsChecked(false)
-                                    }
-                                    recalculate(
-                                        calculatorResultText,
-                                        calculatorResultColor,
-                                        isBlessed = isBlessedChecked,
-                                        isCursed = isCursedChecked,
-                                        isMandyChecked = isMandyChecked,
-                                        isSkidsChecked = isSkidsChecked,
-                                        isRerollOnesChecked = isRerollOnesChecked,
-                                        isAddOneChecked = isAddOneChecked,
-                                        isShotgunChecked = isShotgunChecked,
-                                    )
-                                    handleOneTimeAbilityOptionChanged(
-                                        mAllModifiers.isMandyChecked(),
-                                        R.string.mandy_chances_toast,
-                                    )
-                                }
                                 mAllModifiers.setRerollOnChangedEvent {
                                     if (mAllModifiers.isRerollChecked()) {
                                         // both Mandy and Reroll ones on at same time not supported
-                                        mAllModifiers.setMandyChecked(false)
+                                        isMandyChecked = false
                                         mAllModifiers.setSkidsChecked(false)
                                     }
                                     recalculate(
@@ -280,7 +259,7 @@ public class ArkhamCalc : FragmentActivity() {
                                 mAllModifiers.setSkidsOnChangedEvent {
                                     if (mAllModifiers.isSkidsChecked()) {
                                         // both Mandy and Reroll ones on at same time not supported
-                                        mAllModifiers.setMandyChecked(false)
+                                        isMandyChecked = false
                                         mAllModifiers.setRerollChecked(false)
                                     }
                                     recalculate(
@@ -333,6 +312,7 @@ public class ArkhamCalc : FragmentActivity() {
 
                                 handleShowFirstTimeDialog()
                             }
+                            HorizontalDivider()
                             Row {
                                 Checkbox(
                                     checked = isBlessedChecked,
@@ -396,6 +376,45 @@ public class ArkhamCalc : FragmentActivity() {
                                                 onClick = {},
                                                 onLongClick = {
                                                     startHelpActivity("Blessed / Cursed")
+                                                },
+                                            ),
+                                )
+                            }
+                            HorizontalDivider()
+                            Row {
+                                AddOneTextAndLabelContent(
+                                    checked = isMandyChecked,
+                                    onCheckedChange = { newValue ->
+                                        isMandyChecked = newValue
+                                        if (isMandyChecked) {
+                                            // both Mandy and Reroll ones on at same time not supported
+                                            mAllModifiers.setRerollChecked(false)
+                                            mAllModifiers.setSkidsChecked(false)
+                                        }
+                                        recalculate(
+                                            calculatorResultText,
+                                            calculatorResultColor,
+                                            isBlessed = isBlessedChecked,
+                                            isCursed = isCursedChecked,
+                                            isMandyChecked = isMandyChecked,
+                                            isSkidsChecked = isSkidsChecked,
+                                            isRerollOnesChecked = isRerollOnesChecked,
+                                            isAddOneChecked = isAddOneChecked,
+                                            isShotgunChecked = isShotgunChecked,
+                                        )
+                                        handleOneTimeAbilityOptionChanged(
+                                            isMandyChecked,
+                                            R.string.mandy_chances_toast,
+                                        )
+                                    },
+                                    label = "Mandy",
+                                    modifier =
+                                        Modifier
+                                            .combinedClickable(
+                                                onClick = {
+                                                },
+                                                onLongClick = {
+                                                    startHelpActivity("Mandy")
                                                 },
                                             ),
                                 )
@@ -495,7 +514,6 @@ public class ArkhamCalc : FragmentActivity() {
         val tough = mToughSeekBar.progress + 1
         val chance = mChanceSeekBar.progress + 1
         val isShotgun = mAllModifiers.isShotgunChecked()
-        val isMandy = mAllModifiers.isMandyChecked()
         val isRerollOnes = mAllModifiers.isRerollChecked()
         val isSkidsOnes = mAllModifiers.isSkidsChecked()
         val isAddOne = mAllModifiers.isAddOneChecked()
@@ -509,7 +527,7 @@ public class ArkhamCalc : FragmentActivity() {
                 mIsBlessed = isBlessed,
                 mIsCursed = isCursed,
                 mIsShotgun = isShotgun,
-                mIsMandy = isMandy,
+                mIsMandy = isMandyChecked,
                 mIsRerollOnes = isRerollOnes,
                 mIsSkids = isSkidsOnes,
                 mIsAddOne = isAddOne,

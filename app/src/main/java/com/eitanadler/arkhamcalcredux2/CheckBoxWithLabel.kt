@@ -19,19 +19,15 @@ public class AllModifierOptions(
     context: Context,
     attrs: AttributeSet,
 ) : AbstractComposeView(context, attrs) {
-    private val _mandyCheckBox = MutableStateFlow(false)
     private val _skidsOnesCheckBox = MutableStateFlow(false)
     private val _rerollOnesCheckBox = MutableStateFlow(false)
     private val _addOneCheckBox = MutableStateFlow(false)
     private val _shotgunCheckBox = MutableStateFlow(false)
 
-    private var mandyEvent: (() -> Unit)? = null
     private var skidsEvent: (() -> Unit)? = null
     private var rerollOnesEvent: (() -> Unit)? = null
     private var addOneEvent: (() -> Unit)? = null
     private var shotgunEvent: (() -> Unit)? = null
-
-    public fun isMandyChecked(): Boolean = _mandyCheckBox.value
 
     public fun isSkidsChecked(): Boolean = _skidsOnesCheckBox.value
 
@@ -40,10 +36,6 @@ public class AllModifierOptions(
     public fun isAddOneChecked(): Boolean = _addOneCheckBox.value
 
     public fun isShotgunChecked(): Boolean = _shotgunCheckBox.value
-
-    public fun setMandyChecked(new: Boolean) {
-        _mandyCheckBox.value = new
-    }
 
     public fun setSkidsChecked(new: Boolean) {
         _skidsOnesCheckBox.value = new
@@ -59,10 +51,6 @@ public class AllModifierOptions(
 
     public fun setShotgunChecked(new: Boolean) {
         _shotgunCheckBox.value = new
-    }
-
-    public fun setMandyOnChangedEvent(event: () -> Unit) {
-        mandyEvent = event
     }
 
     public fun setSkidsOnChangedEvent(event: () -> Unit) {
@@ -96,7 +84,6 @@ public class AllModifierOptions(
 
     @Composable
     override fun Content() {
-        val mandyCheckBox = _mandyCheckBox.collectAsState()
         val skidsOnesCheckBox = _skidsOnesCheckBox.collectAsState()
         val rerollOnesCheckBox = _rerollOnesCheckBox.collectAsState()
         val addOneCheckBox = _addOneCheckBox.collectAsState()
@@ -104,22 +91,7 @@ public class AllModifierOptions(
 
         Column {
             val context = LocalContext.current
-            AddOneTextAndLabelContent(
-                checked = mandyCheckBox.value,
-                onCheckedChange = {
-                    _mandyCheckBox.value = it
-                    mandyEvent?.invoke()
-                },
-                label = "Mandy",
-                modifier =
-                    Modifier
-                        .combinedClickable(
-                            onClick = {},
-                            onLongClick = {
-                                startHelpActivity(context, "Mandy")
-                            },
-                        ),
-            )
+
             AddOneTextAndLabelContent(
                 checked = skidsOnesCheckBox.value,
                 onCheckedChange = {
