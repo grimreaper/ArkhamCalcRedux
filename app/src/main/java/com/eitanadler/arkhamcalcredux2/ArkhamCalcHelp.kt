@@ -98,6 +98,6 @@ public class ArkhamCalcHelp : FragmentActivity() {
     }
 
     internal companion object {
-        val BUNDLE_TOPIC: String = "BUNDLE_TOPIC"
+        const val BUNDLE_TOPIC: String = "BUNDLE_TOPIC"
     }
 }

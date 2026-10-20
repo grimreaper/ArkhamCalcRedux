@@ -7,7 +7,6 @@ constraintlayout = "2.2.2"
 coreKtx = "1.19.1"
 datastorePreferences = "1.2.1"
 foundation = "1.12.1"
-fragmentCompose = "1.9.1"
 gradle = "9.4.1"
 junit = "4.13.2"
 kotlin = "2.4.21"
@@ -35,7 +34,6 @@ androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx"
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
 androidx-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
-androidx-fragment-compose = { module = "androidx.fragment:fragment-compose", version.ref = "fragmentCompose" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycleViewmodelNav3" }
 androidx-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
