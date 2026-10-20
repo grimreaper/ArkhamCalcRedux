@@ -15,9 +15,10 @@ import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.flow.MutableStateFlow
 
-public class AllModifierOptions(context: Context, attrs: AttributeSet) :
-    AbstractComposeView(context, attrs) {
-
+public class AllModifierOptions(
+    context: Context,
+    attrs: AttributeSet,
+) : AbstractComposeView(context, attrs) {
     private val _mandyCheckBox = MutableStateFlow(false)
     private val _skidsOnesCheckBox = MutableStateFlow(false)
     private val _rerollOnesCheckBox = MutableStateFlow(false)
@@ -30,25 +31,15 @@ public class AllModifierOptions(context: Context, attrs: AttributeSet) :
     private var addOneEvent: (() -> Unit)? = null
     private var shotgunEvent: (() -> Unit)? = null
 
-    public fun isMandyChecked(): Boolean {
-        return _mandyCheckBox.value
-    }
+    public fun isMandyChecked(): Boolean = _mandyCheckBox.value
 
-    public fun isSkidsChecked(): Boolean {
-        return _skidsOnesCheckBox.value
-    }
+    public fun isSkidsChecked(): Boolean = _skidsOnesCheckBox.value
 
-    public fun isRerollChecked(): Boolean {
-        return _rerollOnesCheckBox.value
-    }
+    public fun isRerollChecked(): Boolean = _rerollOnesCheckBox.value
 
-    public fun isAddOneChecked(): Boolean {
-        return _addOneCheckBox.value
-    }
+    public fun isAddOneChecked(): Boolean = _addOneCheckBox.value
 
-    public fun isShotgunChecked(): Boolean {
-        return _shotgunCheckBox.value
-    }
+    public fun isShotgunChecked(): Boolean = _shotgunCheckBox.value
 
     public fun setMandyChecked(new: Boolean) {
         _mandyCheckBox.value = new
@@ -94,12 +85,14 @@ public class AllModifierOptions(context: Context, attrs: AttributeSet) :
      * Start the help activity with the specified topic opened. The topic passed
      * into this method must exist in the help.xml 'topics' array.
      */
-    private fun startHelpActivity(context: Context, topic: String) {
+    private fun startHelpActivity(
+        context: Context,
+        topic: String,
+    ) {
         val helpIntent = Intent(context, ArkhamCalcHelp::class.java)
         helpIntent.putExtra(ArkhamCalcHelp.BUNDLE_TOPIC, topic)
         context.startActivity(helpIntent)
     }
-
 
     @Composable
     override fun Content() {
@@ -108,7 +101,6 @@ public class AllModifierOptions(context: Context, attrs: AttributeSet) :
         val rerollOnesCheckBox = _rerollOnesCheckBox.collectAsState()
         val addOneCheckBox = _addOneCheckBox.collectAsState()
         val shotgunCheckBox = _shotgunCheckBox.collectAsState()
-
 
         Column {
             val context = LocalContext.current
@@ -119,13 +111,14 @@ public class AllModifierOptions(context: Context, attrs: AttributeSet) :
                     mandyEvent?.invoke()
                 },
                 label = "Mandy",
-                modifier = Modifier
-                    .combinedClickable(
-                        onClick = {},
-                        onLongClick = {
-                            startHelpActivity(context, "Mandy")
-                        }
-                    ),
+                modifier =
+                    Modifier
+                        .combinedClickable(
+                            onClick = {},
+                            onLongClick = {
+                                startHelpActivity(context, "Mandy")
+                            },
+                        ),
             )
             AddOneTextAndLabelContent(
                 checked = skidsOnesCheckBox.value,
@@ -134,15 +127,15 @@ public class AllModifierOptions(context: Context, attrs: AttributeSet) :
                     skidsEvent?.invoke()
                 },
                 label = "Skids",
-                modifier = Modifier
-                    .combinedClickable(
-                        onClick = {},
-                        onLongClick = {
-                            startHelpActivity(context, "Skids")
-                        }
-                    ),
-
-                )
+                modifier =
+                    Modifier
+                        .combinedClickable(
+                            onClick = {},
+                            onLongClick = {
+                                startHelpActivity(context, "Skids")
+                            },
+                        ),
+            )
             AddOneTextAndLabelContent(
                 checked = rerollOnesCheckBox.value,
                 onCheckedChange = {
@@ -150,13 +143,14 @@ public class AllModifierOptions(context: Context, attrs: AttributeSet) :
                     rerollOnesEvent?.invoke()
                 },
                 label = "Reroll Ones",
-                modifier = Modifier
-                    .combinedClickable(
-                        onClick = {},
-                        onLongClick = {
-                            startHelpActivity(context, "Reroll Ones")
-                        }
-                    ),
+                modifier =
+                    Modifier
+                        .combinedClickable(
+                            onClick = {},
+                            onLongClick = {
+                                startHelpActivity(context, "Reroll Ones")
+                            },
+                        ),
             )
             AddOneTextAndLabelContent(
                 checked = addOneCheckBox.value,
@@ -165,13 +159,14 @@ public class AllModifierOptions(context: Context, attrs: AttributeSet) :
                     addOneEvent?.invoke()
                 },
                 label = "Add One",
-                modifier = Modifier
-                    .combinedClickable(
-                        onClick = {},
-                        onLongClick = {
-                            startHelpActivity(context, "Add One")
-                        }
-                    ),
+                modifier =
+                    Modifier
+                        .combinedClickable(
+                            onClick = {},
+                            onLongClick = {
+                                startHelpActivity(context, "Add One")
+                            },
+                        ),
             )
             AddOneTextAndLabelContent(
                 checked = shotgunCheckBox.value,
@@ -180,13 +175,14 @@ public class AllModifierOptions(context: Context, attrs: AttributeSet) :
                     shotgunEvent?.invoke()
                 },
                 label = "Shotgun",
-                modifier = Modifier
-                    .combinedClickable(
-                        onClick = {},
-                        onLongClick = {
-                            startHelpActivity(context, "Shotgun")
-                        }
-                    ),
+                modifier =
+                    Modifier
+                        .combinedClickable(
+                            onClick = {},
+                            onLongClick = {
+                                startHelpActivity(context, "Shotgun")
+                            },
+                        ),
             )
         }
     }
@@ -203,5 +199,4 @@ internal fun AddOneTextAndLabelContent(
         Checkbox(checked = checked, onCheckedChange = onCheckedChange)
         Text(text = label, modifier = modifier) // wrong place for it, but leave for now
     }
-
 }

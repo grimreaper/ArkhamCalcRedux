@@ -23,8 +23,9 @@ import java.text.NumberFormat
  * Given the result of a Calculator, determines appropriate formatting to be
  * displayed on UI.
  */
-internal class CalculateResultFormatter
-    (private val mResult: Double) {
+internal class CalculateResultFormatter(
+    private val mResult: Double,
+) {
     val color: Color
         get() {
             if (mResult > .66) {
@@ -39,18 +40,17 @@ internal class CalculateResultFormatter
     val resultString: String
         get() {
             if (mResult >= .9995) {
-                //show ">99.9%" instead of 100%
+                // show ">99.9%" instead of 100%
                 return almostOneResultString
             }
             if (mResult > 0 && mResult < 0.0005) {
-                //show "<0.1% instead of 0%
+                // show "<0.1% instead of 0%
                 return almostZeroResultString
             }
             return numberFormat.format(mResult)
         }
 
     companion object {
-
         private val almostZeroResultString: String
             get() = "<" + numberFormat.format(.001)
 

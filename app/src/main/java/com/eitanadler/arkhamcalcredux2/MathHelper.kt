@@ -23,9 +23,10 @@ internal object MathHelper {
     /**
      * From n, choose r.  See http://en.wikipedia.org/wiki/Combination
      */
-    fun nCr(n: Int, r: Int): Long {
-        return factorial(n) / (factorial(n - r) * factorial(r))
-    }
+    fun nCr(
+        n: Int,
+        r: Int,
+    ): Long = factorial(n) / (factorial(n - r) * factorial(r))
 
     private fun factorial(n: Int): Long {
         if (n <= 1) return 1

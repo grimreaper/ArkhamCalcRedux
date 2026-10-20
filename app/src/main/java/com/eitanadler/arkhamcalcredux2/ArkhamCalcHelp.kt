@@ -40,7 +40,6 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.FragmentActivity
 
-
 @Composable
 public fun NewArkhamCalcHelp() {
     MaterialTheme {
@@ -49,7 +48,7 @@ public fun NewArkhamCalcHelp() {
         Scaffold { innerPadding: PaddingValues ->
             LazyColumn(
                 modifier = Modifier.consumeWindowInsets(innerPadding),
-                contentPadding = innerPadding
+                contentPadding = innerPadding,
             ) {
                 helpTopics.forEachIndexed { index, topic ->
                     item {
@@ -59,13 +58,12 @@ public fun NewArkhamCalcHelp() {
                                 if (isExpanded) {
                                     Icon(
                                         painter = painterResource(R.drawable.arrow_drop_down_24px),
-                                        contentDescription = stringResource(R.string.expanded)
+                                        contentDescription = stringResource(R.string.expanded),
                                     )
-
                                 } else {
                                     Icon(
                                         painter = painterResource(R.drawable.arrow_drop_up_24px),
-                                        contentDescription = stringResource(R.string.collapsed)
+                                        contentDescription = stringResource(R.string.collapsed),
                                     )
                                 }
                             },
@@ -75,7 +73,7 @@ public fun NewArkhamCalcHelp() {
                                     Text(helpContent[index])
                                 }
                             },
-                            modifier = Modifier.clickable { isExpanded = !isExpanded }
+                            modifier = Modifier.clickable { isExpanded = !isExpanded },
                         )
                     }
                 }

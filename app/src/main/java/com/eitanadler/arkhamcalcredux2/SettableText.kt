@@ -13,9 +13,10 @@ import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.flow.MutableStateFlow
 
-public class SettableText(context: Context, attrs: AttributeSet) :
-    AbstractComposeView(context, attrs) {
-
+public class SettableText(
+    context: Context,
+    attrs: AttributeSet,
+) : AbstractComposeView(context, attrs) {
     private val _text = MutableStateFlow("100%")
     private val _colour: MutableStateFlow<Color> = MutableStateFlow(Color.Black)
 
@@ -26,7 +27,6 @@ public class SettableText(context: Context, attrs: AttributeSet) :
     public fun setTextColor(colour: Color) {
         _colour.value = colour
     }
-
 
     @Composable
     override fun Content() {
@@ -51,6 +51,6 @@ internal fun SettableTextContent(
         text = text,
         fontWeight = FontWeight.Bold,
         color = colour,
-        modifier = modifier
+        modifier = modifier,
     )
 }

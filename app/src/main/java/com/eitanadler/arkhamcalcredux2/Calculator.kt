@@ -22,8 +22,7 @@ import kotlin.math.pow
  * The probability engine. Using a combination of constructor and property
  * inputs, calculates the probability of a successful encounter.
  */
-internal data class Calculator
-    (
+internal data class Calculator(
     private val mDice: Int,
     private val mTough: Int,
     private val mNumberOfChances: Int,
@@ -34,8 +33,7 @@ internal data class Calculator
     private val mIsRerollOnes: Boolean = false,
     private val mIsSkids: Boolean = false,
     private val mIsAddOne: Boolean = false,
-    ) {
-
+) {
     /**
      * Calculate probability of success given all calculator properties
      */
@@ -61,18 +59,23 @@ internal data class Calculator
             probSuccess,
             probMandySuccess,
             probRerollOnesSuccess,
-            mNumberOfChances
+            mNumberOfChances,
         )
     }
 
-    private fun baseCalc(totalDice: Int, totalToughness: Int): Double {
+    private fun baseCalc(
+        totalDice: Int,
+        totalToughness: Int,
+    ): Double {
         var probSuccess = 0.0
 
         for (i in totalToughness..totalDice) {
-            probSuccess += getProbExactSuccess(
-                totalDice, i,
-                this.probOneSuccess
-            )
+            probSuccess +=
+                getProbExactSuccess(
+                    totalDice,
+                    i,
+                    this.probOneSuccess,
+                )
         }
         if (mIsShotgun) {
             probSuccess += handleIsShotgun(totalDice, totalToughness)
@@ -88,7 +91,7 @@ internal data class Calculator
                     getProbExactSuccess(
                         mDice,
                         sixSuccesses,
-                        probSix
+                        probSix,
                     )
                 val sixSuccessValue =
                     if (mIsShotgun) 2 * sixSuccesses else sixSuccesses
@@ -96,15 +99,17 @@ internal data class Calculator
                 var nonSixSuccesses = 0
                 while (nonSixSuccesses + sixSuccessValue < mTough) {
                     val probFirstRoll: Double =
-                        probExactSixes * getProbExactSuccess(
-                            mDice - sixSuccesses,
-                            nonSixSuccesses,
-                            this.probSuccessWithoutSix
+                        probExactSixes *
+                            getProbExactSuccess(
+                                mDice - sixSuccesses,
+                                nonSixSuccesses,
+                                this.probSuccessWithoutSix,
+                            )
+                    probSuccessMandy += probFirstRoll *
+                        baseCalc(
+                            mDice - sixSuccesses - nonSixSuccesses,
+                            mTough - sixSuccessValue - nonSixSuccesses,
                         )
-                    probSuccessMandy += probFirstRoll * baseCalc(
-                        mDice - sixSuccesses - nonSixSuccesses,
-                        mTough - sixSuccessValue - nonSixSuccesses
-                    )
                     nonSixSuccesses++
                 }
             }
@@ -114,28 +119,36 @@ internal data class Calculator
     private fun getProbRerollOnes(numberOfOnesRerolls: Int): Double {
         var probSuccessRerollOnes = 0.0
         for (sixSuccesses in 0..<mTough) {
-            val probExactSixes: Double = getProbExactSuccess(
-                mDice, sixSuccesses,
-                probSix
-            )
+            val probExactSixes: Double =
+                getProbExactSuccess(
+                    mDice,
+                    sixSuccesses,
+                    probSix,
+                )
             val sixSuccessValue = if (mIsShotgun) 2 * sixSuccesses else sixSuccesses
 
             var nonSixSuccesses = 0
             while (nonSixSuccesses + sixSuccessValue < mTough) {
-                val probFirstRollSuccesses: Double = probExactSixes * getProbExactSuccess(
-                    mDice - sixSuccesses, nonSixSuccesses,
-                    this.probSuccessWithoutSix
-                )
+                val probFirstRollSuccesses: Double =
+                    probExactSixes *
+                        getProbExactSuccess(
+                            mDice - sixSuccesses,
+                            nonSixSuccesses,
+                            this.probSuccessWithoutSix,
+                        )
                 for (ones in 1..mDice - nonSixSuccesses - sixSuccesses) {
-                    val probExactOnes: Double = getProbExactSuccess(
-                        mDice - nonSixSuccesses - sixSuccesses, ones,
-                        this.probOneWithoutSuccesses
-                    )
+                    val probExactOnes: Double =
+                        getProbExactSuccess(
+                            mDice - nonSixSuccesses - sixSuccesses,
+                            ones,
+                            this.probOneWithoutSuccesses,
+                        )
                     val probFirstRoll = probFirstRollSuccesses * probExactOnes
-                    probSuccessRerollOnes += probFirstRoll * baseCalc(
-                        ones * numberOfOnesRerolls,
-                        mTough - sixSuccessValue - nonSixSuccesses
-                    )
+                    probSuccessRerollOnes += probFirstRoll *
+                        baseCalc(
+                            ones * numberOfOnesRerolls,
+                            mTough - sixSuccessValue - nonSixSuccesses,
+                        )
                 }
                 nonSixSuccesses++
             }
@@ -144,29 +157,36 @@ internal data class Calculator
         return probSuccessRerollOnes
     }
 
-    private fun handleIsShotgun(totalDice: Int, totalToughness: Int): Double {
+    private fun handleIsShotgun(
+        totalDice: Int,
+        totalToughness: Int,
+    ): Double {
         var probSuccessShotgun = 0.0
-        //go from one six to either all sixes or to the toughness, whichever comes first.
-        //once we get to the toughness (i.e. on a 5 to do 3, once we get to three sixes), 
-        //we've already counted in the base calculation.
+        // go from one six to either all sixes or to the toughness, whichever comes first.
+        // once we get to the toughness (i.e. on a 5 to do 3, once we get to three sixes),
+        // we've already counted in the base calculation.
         var i = 1
         while (i < totalToughness && i <= totalDice) {
-            val exactSixes: Double = getProbExactSuccess(
-                totalDice, i,
-                probSix
-            )
+            val exactSixes: Double =
+                getProbExactSuccess(
+                    totalDice,
+                    i,
+                    probSix,
+                )
             val remainingSuccessesRequired = totalToughness - 2 * i
             var j = 0
             while (i + j < totalToughness && i + j <= totalDice) {
-                //j represents the number of non-sixes that are successes. Don't count sixes + successes
-                //that are >= toughness - those have already been counted in base calc
+                // j represents the number of non-sixes that are successes. Don't count sixes + successes
+                // that are >= toughness - those have already been counted in base calc
                 if (j >= remainingSuccessesRequired) {
-                    //i.e. the non-six successes (j) are enough to win. Count all the ways to roll exactly that many
-                    //sixes and with the remaining dice roll that many non-six successes.
-                    probSuccessShotgun += exactSixes * getProbExactSuccess(
-                        totalDice - i, j,
-                        this.probSuccessWithoutSix
-                    )
+                    // i.e. the non-six successes (j) are enough to win. Count all the ways to roll exactly that many
+                    // sixes and with the remaining dice roll that many non-six successes.
+                    probSuccessShotgun += exactSixes *
+                        getProbExactSuccess(
+                            totalDice - i,
+                            j,
+                            this.probSuccessWithoutSix,
+                        )
                 }
                 j++
             }
@@ -182,7 +202,7 @@ internal data class Calculator
         get() {
             val numerator = 1.0
             var denominator =
-                4.0 //without any perks, prob of one without success is 1/4 (1, 2, 3, 4)
+                4.0 // without any perks, prob of one without success is 1/4 (1, 2, 3, 4)
             if (mIsBlessed) {
                 denominator--
             }
@@ -199,7 +219,7 @@ internal data class Calculator
         get() {
             val denominator = 6.0
             var numerator =
-                2.0 //without any perks, prob of success is 2/6 (rolling a 5 or rolling a 6)
+                2.0 // without any perks, prob of success is 2/6 (rolling a 5 or rolling a 6)
 
             if (mIsBlessed) {
                 numerator++
@@ -221,14 +241,14 @@ internal data class Calculator
             probSuccessOneChance: Double,
             probMandySuccess: Double,
             probRerollOnesSuccess: Double,
-            numberOfChances: Int
+            numberOfChances: Int,
         ): Double {
-            //mandy can only be used once - if you have any other chances, they won't include Mandy
+            // mandy can only be used once - if you have any other chances, they won't include Mandy
             val probFailureFirstChance =
                 1 - probSuccessOneChance - probMandySuccess - probRerollOnesSuccess
             val probFailureOtherChances = 1 - probSuccessOneChance
 
-            //note, numberOfChances always > 0, the exponent will never be < 0
+            // note, numberOfChances always > 0, the exponent will never be < 0
             val probFailureAllChances =
                 probFailureFirstChance * probFailureOtherChances.pow((numberOfChances - 1).toDouble())
             return 1 - probFailureAllChances
@@ -237,12 +257,11 @@ internal data class Calculator
         private fun getProbExactSuccess(
             totalDice: Int,
             exactSuccesses: Int,
-            probOneSuccess: Double
-        ): Double {
-            return MathHelper.nCr(
+            probOneSuccess: Double,
+        ): Double =
+            MathHelper.nCr(
                 totalDice,
-                exactSuccesses
+                exactSuccesses,
             ) * probOneSuccess.pow(exactSuccesses.toDouble()) * (1 - probOneSuccess).pow((totalDice - exactSuccesses).toDouble())
-        }
     }
 }

@@ -114,9 +114,9 @@ public class ArkhamCalc : FragmentActivity() {
 
                             AndroidViewBinding(
                                 MainBinding::inflate,
-                                modifier = Modifier.fillMaxHeight(0.75f)
+                                modifier = Modifier.fillMaxHeight(0.75f),
                             ) {
-                                //find controls
+                                // find controls
                                 mDiceLabel = findViewById(R.id.diceLabel)
                                 mDiceSeekBar = findViewById(R.id.diceSeekBar)
                                 mDiceValue = findViewById(R.id.diceValue)
@@ -130,89 +130,95 @@ public class ArkhamCalc : FragmentActivity() {
 
                                 calculatorResultColor.value = Color.Red
 
-                                //setup controls
+                                // setup controls
                                 mDiceSeekBar.setMax(DICE_MAX - 1)
                                 mToughSeekBar.setMax(TOUGH_MAX - 1)
                                 mChanceSeekBar.setMax(CHANCE_MAX - 1)
 
-                                //attach setOnSeekBarChangeListener
-                                mDiceSeekBar.setOnSeekBarChangeListener(object :
-                                    OnSeekBarProgressChangeListener() {
-                                    public override fun onProgressChanged(
-                                        seekBar: SeekBar,
-                                        progress: Int,
-                                        fromUser: Boolean
-                                    ) {
-                                        setSeekBarValues()
-                                        recalculate(
-                                            calculatorResultText,
-                                            calculatorResultColor,
-                                            isBlessed = isBlessedChecked,
-                                            isCursed = isCursedChecked,
-                                            isMandyChecked = isMandyChecked,
-                                            isSkidsChecked = isSkidsChecked,
-                                            isRerollOnesChecked = isRerollOnesChecked,
-                                            isAddOneChecked = isAddOneChecked,
-                                            isShotgunChecked = isShotgunChecked,
-                                        )
-                                    }
-                                })
-                                mToughSeekBar.setOnSeekBarChangeListener(object :
-                                    OnSeekBarProgressChangeListener() {
-                                    public override fun onProgressChanged(
-                                        seekBar: SeekBar,
-                                        progress: Int,
-                                        fromUser: Boolean
-                                    ) {
-                                        setSeekBarValues()
-                                        recalculate(
-                                            calculatorResultText,
-                                            calculatorResultColor,
-                                            isBlessed = isBlessedChecked,
-                                            isCursed = isCursedChecked,
-                                            isMandyChecked = isMandyChecked,
-                                            isSkidsChecked = isSkidsChecked,
-                                            isRerollOnesChecked = isRerollOnesChecked,
-                                            isAddOneChecked = isAddOneChecked,
-                                            isShotgunChecked = isShotgunChecked,
-                                        )
-                                    }
-                                })
-                                mChanceSeekBar.setOnSeekBarChangeListener(object :
-                                    OnSeekBarProgressChangeListener() {
-                                    public override fun onProgressChanged(
-                                        seekBar: SeekBar,
-                                        progress: Int,
-                                        fromUser: Boolean
-                                    ) {
-                                        setSeekBarValues()
-                                        recalculate(
-                                            calculatorResultText,
-                                            calculatorResultColor,
-                                            isBlessed = isBlessedChecked,
-                                            isCursed = isCursedChecked,
-                                            isMandyChecked = isMandyChecked,
-                                            isSkidsChecked = isSkidsChecked,
-                                            isRerollOnesChecked = isRerollOnesChecked,
-                                            isAddOneChecked = isAddOneChecked,
-                                            isShotgunChecked = isShotgunChecked,
-                                        )
+                                // attach setOnSeekBarChangeListener
+                                mDiceSeekBar.setOnSeekBarChangeListener(
+                                    object :
+                                        OnSeekBarProgressChangeListener() {
+                                        public override fun onProgressChanged(
+                                            seekBar: SeekBar,
+                                            progress: Int,
+                                            fromUser: Boolean,
+                                        ) {
+                                            setSeekBarValues()
+                                            recalculate(
+                                                calculatorResultText,
+                                                calculatorResultColor,
+                                                isBlessed = isBlessedChecked,
+                                                isCursed = isCursedChecked,
+                                                isMandyChecked = isMandyChecked,
+                                                isSkidsChecked = isSkidsChecked,
+                                                isRerollOnesChecked = isRerollOnesChecked,
+                                                isAddOneChecked = isAddOneChecked,
+                                                isShotgunChecked = isShotgunChecked,
+                                            )
+                                        }
+                                    },
+                                )
+                                mToughSeekBar.setOnSeekBarChangeListener(
+                                    object :
+                                        OnSeekBarProgressChangeListener() {
+                                        public override fun onProgressChanged(
+                                            seekBar: SeekBar,
+                                            progress: Int,
+                                            fromUser: Boolean,
+                                        ) {
+                                            setSeekBarValues()
+                                            recalculate(
+                                                calculatorResultText,
+                                                calculatorResultColor,
+                                                isBlessed = isBlessedChecked,
+                                                isCursed = isCursedChecked,
+                                                isMandyChecked = isMandyChecked,
+                                                isSkidsChecked = isSkidsChecked,
+                                                isRerollOnesChecked = isRerollOnesChecked,
+                                                isAddOneChecked = isAddOneChecked,
+                                                isShotgunChecked = isShotgunChecked,
+                                            )
+                                        }
+                                    },
+                                )
+                                mChanceSeekBar.setOnSeekBarChangeListener(
+                                    object :
+                                        OnSeekBarProgressChangeListener() {
+                                        public override fun onProgressChanged(
+                                            seekBar: SeekBar,
+                                            progress: Int,
+                                            fromUser: Boolean,
+                                        ) {
+                                            setSeekBarValues()
+                                            recalculate(
+                                                calculatorResultText,
+                                                calculatorResultColor,
+                                                isBlessed = isBlessedChecked,
+                                                isCursed = isCursedChecked,
+                                                isMandyChecked = isMandyChecked,
+                                                isSkidsChecked = isSkidsChecked,
+                                                isRerollOnesChecked = isRerollOnesChecked,
+                                                isAddOneChecked = isAddOneChecked,
+                                                isShotgunChecked = isShotgunChecked,
+                                            )
 
-                                        mPreviousChanceValue = this.previousProgress
-                                        handleOneTimeAbilityChancesChanged(
-                                            mAllModifiers.isMandyChecked(),
-                                            R.string.mandy_chances_toast
-                                        )
-                                        handleOneTimeAbilityChancesChanged(
-                                            mAllModifiers.isRerollChecked(),
-                                            R.string.reroll_ones_chances_toast
-                                        )
-                                        handleOneTimeAbilityChancesChanged(
-                                            mAllModifiers.isSkidsChecked(),
-                                            R.string.skids_chances_toast
-                                        )
-                                    }
-                                })
+                                            mPreviousChanceValue = this.previousProgress
+                                            handleOneTimeAbilityChancesChanged(
+                                                mAllModifiers.isMandyChecked(),
+                                                R.string.mandy_chances_toast,
+                                            )
+                                            handleOneTimeAbilityChancesChanged(
+                                                mAllModifiers.isRerollChecked(),
+                                                R.string.reroll_ones_chances_toast,
+                                            )
+                                            handleOneTimeAbilityChancesChanged(
+                                                mAllModifiers.isSkidsChecked(),
+                                                R.string.skids_chances_toast,
+                                            )
+                                        }
+                                    },
+                                )
 
                                 mAllModifiers.setShotgunOnChangedEvent {
                                     recalculate(
@@ -229,7 +235,7 @@ public class ArkhamCalc : FragmentActivity() {
                                 }
                                 mAllModifiers.setMandyOnChangedEvent {
                                     if (mAllModifiers.isMandyChecked()) {
-                                        //both Mandy and Reroll ones on at same time not supported
+                                        // both Mandy and Reroll ones on at same time not supported
                                         mAllModifiers.setRerollChecked(false)
                                         mAllModifiers.setSkidsChecked(false)
                                     }
@@ -246,12 +252,12 @@ public class ArkhamCalc : FragmentActivity() {
                                     )
                                     handleOneTimeAbilityOptionChanged(
                                         mAllModifiers.isMandyChecked(),
-                                        R.string.mandy_chances_toast
+                                        R.string.mandy_chances_toast,
                                     )
                                 }
                                 mAllModifiers.setRerollOnChangedEvent {
                                     if (mAllModifiers.isRerollChecked()) {
-                                        //both Mandy and Reroll ones on at same time not supported
+                                        // both Mandy and Reroll ones on at same time not supported
                                         mAllModifiers.setMandyChecked(false)
                                         mAllModifiers.setSkidsChecked(false)
                                     }
@@ -268,12 +274,12 @@ public class ArkhamCalc : FragmentActivity() {
                                     )
                                     handleOneTimeAbilityOptionChanged(
                                         mAllModifiers.isRerollChecked(),
-                                        R.string.reroll_ones_chances_toast
+                                        R.string.reroll_ones_chances_toast,
                                     )
                                 }
                                 mAllModifiers.setSkidsOnChangedEvent {
                                     if (mAllModifiers.isSkidsChecked()) {
-                                        //both Mandy and Reroll ones on at same time not supported
+                                        // both Mandy and Reroll ones on at same time not supported
                                         mAllModifiers.setMandyChecked(false)
                                         mAllModifiers.setRerollChecked(false)
                                     }
@@ -290,11 +296,11 @@ public class ArkhamCalc : FragmentActivity() {
                                     )
                                     handleOneTimeAbilityOptionChanged(
                                         mAllModifiers.isSkidsChecked(),
-                                        R.string.skids_chances_toast
+                                        R.string.skids_chances_toast,
                                     )
                                 }
 
-                                //attach setOnLongClickListener
+                                // attach setOnLongClickListener
                                 mDiceLabel.setText("Dice:")
                                 mDiceLabel.setOnLongClickListener {
                                     startHelpActivity("Dice / Difficulty")
@@ -311,7 +317,7 @@ public class ArkhamCalc : FragmentActivity() {
                                     true
                                 }
 
-                                //first calculation
+                                // first calculation
                                 setSeekBarValues()
                                 recalculate(
                                     calculatorResultText,
@@ -351,13 +357,14 @@ public class ArkhamCalc : FragmentActivity() {
                                 )
                                 Text(
                                     "Blessed",
-                                    modifier = Modifier
-                                        .combinedClickable(
-                                            onClick = {},
-                                            onLongClick = {
-                                                startHelpActivity("Blessed / Cursed")
-                                            }
-                                        ),
+                                    modifier =
+                                        Modifier
+                                            .combinedClickable(
+                                                onClick = {},
+                                                onLongClick = {
+                                                    startHelpActivity("Blessed / Cursed")
+                                                },
+                                            ),
                                 )
                             }
                             Row {
@@ -381,14 +388,16 @@ public class ArkhamCalc : FragmentActivity() {
                                         )
                                     },
                                 )
-                                Text("Cursed",
-                                    modifier = Modifier
-                                        .combinedClickable(
-                                            onClick = {},
-                                            onLongClick = {
-                                                startHelpActivity("Blessed / Cursed")
-                                            }
-                                        ),
+                                Text(
+                                    "Cursed",
+                                    modifier =
+                                        Modifier
+                                            .combinedClickable(
+                                                onClick = {},
+                                                onLongClick = {
+                                                    startHelpActivity("Blessed / Cursed")
+                                                },
+                                            ),
                                 )
                             }
                         }
@@ -396,8 +405,6 @@ public class ArkhamCalc : FragmentActivity() {
                 }
             }
         }
-
-
     }
 
     override fun onRestoreInstanceState(inState: Bundle) {
@@ -435,26 +442,30 @@ public class ArkhamCalc : FragmentActivity() {
      */
     private fun handleShowFirstTimeDialog() {
         val prefKey = stringPreferencesKey(PREFS_KEY_FIRST_TIME_16)
-        val prefResultFlow: Flow<String?> = dataStore.data.map { preferences ->
-            preferences[prefKey]
-        }
-        val prefResult: String? = runBlocking {
-            prefResultFlow.first()
-        }
+        val prefResultFlow: Flow<String?> =
+            dataStore.data.map { preferences ->
+                preferences[prefKey]
+            }
+        val prefResult: String? =
+            runBlocking {
+                prefResultFlow.first()
+            }
         if (prefResult != null) return
 
-        val builder = AlertDialog.Builder(this)
-            .setMessage(R.string.first_dialog_message)
-            .setNeutralButton(
-                R.string.first_dialog_button
-            ) { dialog: DialogInterface, which: Int ->
-                dialog.cancel()
-                runBlocking {
-                    dataStore.edit { settings ->
-                        settings[prefKey] = "a"
+        val builder =
+            AlertDialog
+                .Builder(this)
+                .setMessage(R.string.first_dialog_message)
+                .setNeutralButton(
+                    R.string.first_dialog_button,
+                ) { dialog: DialogInterface, which: Int ->
+                    dialog.cancel()
+                    runBlocking {
+                        dataStore.edit { settings ->
+                            settings[prefKey] = "a"
+                        }
                     }
                 }
-            }
         builder.create().show()
     }
 
@@ -479,7 +490,7 @@ public class ArkhamCalc : FragmentActivity() {
         isAddOneChecked: Boolean,
         isShotgunChecked: Boolean,
     ) {
-        //get input
+        // get input
         val dice = mDiceSeekBar.progress + 1
         val tough = mToughSeekBar.progress + 1
         val chance = mChanceSeekBar.progress + 1
@@ -489,22 +500,23 @@ public class ArkhamCalc : FragmentActivity() {
         val isSkidsOnes = mAllModifiers.isSkidsChecked()
         val isAddOne = mAllModifiers.isAddOneChecked()
 
-        //calculate
-        val calculator = Calculator(
-            mDice = dice,
-            mTough = tough,
-            mNumberOfChances = chance,
-            mIsBlessed = isBlessed,
-            mIsCursed = isCursed,
-            mIsShotgun = isShotgun,
-            mIsMandy = isMandy,
-            mIsRerollOnes = isRerollOnes,
-            mIsSkids = isSkidsOnes,
-            mIsAddOne = isAddOne,
-        )
+        // calculate
+        val calculator =
+            Calculator(
+                mDice = dice,
+                mTough = tough,
+                mNumberOfChances = chance,
+                mIsBlessed = isBlessed,
+                mIsCursed = isCursed,
+                mIsShotgun = isShotgun,
+                mIsMandy = isMandy,
+                mIsRerollOnes = isRerollOnes,
+                mIsSkids = isSkidsOnes,
+                mIsAddOne = isAddOne,
+            )
         val result = calculator.calculate()
 
-        //format and set ui
+        // format and set ui
         val formatter = CalculateResultFormatter(result)
 
         calculatorResultText.value = formatter.resultString
@@ -526,7 +538,7 @@ public class ArkhamCalc : FragmentActivity() {
      */
     private fun handleOneTimeAbilityOptionChanged(
         isAbilityChecked: Boolean,
-        resourceStringId: Int
+        resourceStringId: Int,
     ) {
         if (isAbilityChecked && mChanceSeekBar.progress > 0 && !mRestoringState) {
             showToast(resources.getString((resourceStringId)))
@@ -542,7 +554,7 @@ public class ArkhamCalc : FragmentActivity() {
      */
     internal fun handleOneTimeAbilityChancesChanged(
         isAbilityChecked: Boolean,
-        resourceStringId: Int
+        resourceStringId: Int,
     ) {
         if (isAbilityChecked && mPreviousChanceValue <= 0 && mChanceSeekBar.progress > 0 && !mRestoringState) {
             showToast(resources.getString(resourceStringId))
@@ -559,8 +571,9 @@ public class ArkhamCalc : FragmentActivity() {
             private set
 
         abstract override fun onProgressChanged(
-            seekBar: SeekBar, progress: Int,
-            fromUser: Boolean
+            seekBar: SeekBar,
+            progress: Int,
+            fromUser: Boolean,
         )
 
         override fun onStartTrackingTouch(seekBar: SeekBar) {
