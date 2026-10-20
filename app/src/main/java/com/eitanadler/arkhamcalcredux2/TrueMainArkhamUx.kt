@@ -256,7 +256,7 @@ internal class TrueMainArkhamUX(
             Row {
                 val context = LocalContext.current
                 val resources = LocalResources.current
-                AddOneTextAndLabelContent(
+                CheckboxAndLabelWithHelp(
                     checked = isMandyChecked,
                     onCheckedChange = { newValue ->
                         isMandyChecked = newValue
@@ -274,21 +274,13 @@ internal class TrueMainArkhamUX(
                         )
                     },
                     label = "Mandy",
-                    modifier =
-                        Modifier
-                            .combinedClickable(
-                                onClick = {
-                                },
-                                onLongClick = {
-                                    goToHelpScreen("Mandy")
-                                },
-                            ),
+                    goToHelpScreen = goToHelpScreen,
                 )
             }
             Row {
                 val context = LocalContext.current
                 val resources = LocalResources.current
-                AddOneTextAndLabelContent(
+                CheckboxAndLabelWithHelp(
                     checked = isSkidsChecked,
                     onCheckedChange = { newValue ->
                         isSkidsChecked = newValue
@@ -305,20 +297,12 @@ internal class TrueMainArkhamUX(
                             R.string.skids_chances_toast,
                         )
                     },
+                    goToHelpScreen = goToHelpScreen,
                     label = "Skids",
-                    modifier =
-                        Modifier
-                            .combinedClickable(
-                                onClick = {
-                                },
-                                onLongClick = {
-                                    goToHelpScreen("Skids")
-                                },
-                            ),
                 )
             }
             Row {
-                AddOneTextAndLabelContent(
+                CheckboxAndLabelWithHelp(
                     checked = isRerollOnesChecked,
                     onCheckedChange = { newValue ->
                         isRerollOnesChecked = newValue
@@ -329,53 +313,31 @@ internal class TrueMainArkhamUX(
                         }
                         simpleInternalRecalculate()
                     },
+                    goToHelpScreen = goToHelpScreen,
                     label = "Reroll Ones",
-                    modifier =
-                        Modifier
-                            .combinedClickable(
-                                onClick = {},
-                                onLongClick = {
-                                    goToHelpScreen("Reroll Ones")
-                                },
-                            ),
                 )
             }
             HorizontalDivider()
             Row {
-                AddOneTextAndLabelContent(
+                CheckboxAndLabelWithHelp(
                     checked = isAddOneChecked,
                     onCheckedChange = { newValue ->
                         isAddOneChecked = newValue
                         simpleInternalRecalculate()
                     },
+                    goToHelpScreen = goToHelpScreen,
                     label = "Add One",
-                    modifier =
-                        Modifier
-                            .combinedClickable(
-                                onClick = {},
-                                onLongClick = {
-                                    goToHelpScreen("Add One")
-                                },
-                            ),
                 )
             }
             Row {
-                AddOneTextAndLabelContent(
+                CheckboxAndLabelWithHelp(
                     checked = isShotgunChecked,
                     onCheckedChange = { newValue ->
                         isShotgunChecked = newValue
                         simpleInternalRecalculate()
                     },
+                    goToHelpScreen = goToHelpScreen,
                     label = "Shotgun",
-                    modifier =
-                        Modifier
-                            .combinedClickable(
-                                onClick = {
-                                },
-                                onLongClick = {
-                                    goToHelpScreen("Shotgun")
-                                },
-                            ),
                 )
             }
         }

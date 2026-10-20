@@ -11,4 +11,5 @@
     <string name="expanded">Expanded</string>
     <string name="collapsed">Collapsed</string>
     <string name="arkham_horror_calculator">Arkham Horror Calculator</string>
+    <string name="go_to_help_screen_by_label">Go to %1$s</string>
 </resources>
