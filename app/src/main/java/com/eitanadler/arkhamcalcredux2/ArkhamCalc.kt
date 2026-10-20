@@ -32,6 +32,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
+import com.eitanadler.arkhamcalcredux2.databinding.MainBinding
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -58,24 +59,29 @@ public class ArkhamCalc : FragmentActivity() {
 
     private val Context.dataStore by preferencesDataStore(name = "settings")
 
+    private lateinit var binding: MainBinding
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        setContentView(R.layout.main)
+        binding = MainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
 
         //find controls
-        mDiceLabel = findViewById(R.id.diceLabel)
-        mDiceSeekBar = findViewById(R.id.diceSeekBar)
-        mDiceValue = findViewById(R.id.diceValue)
-        mToughLabel = findViewById(R.id.toughLabel)
-        mToughSeekBar = findViewById(R.id.toughSeekBar)
-        mToughValue = findViewById(R.id.toughValue)
-        mChanceLabel = findViewById(R.id.chanceLabel)
-        mChanceSeekBar = findViewById(R.id.chanceSeekBar)
-        mChanceValue = findViewById(R.id.chanceValue)
-        mResultTextView = findViewById(R.id.resultTextView)
-        mAllModifiers = findViewById(R.id.allModifiers)
+        mDiceLabel = binding.diceLabel
+        mDiceSeekBar = binding.diceSeekBar
+        mDiceValue = binding.diceValue
+        mToughLabel = binding.toughLabel
+        mToughSeekBar = binding.toughSeekBar
+        mToughValue = binding.toughValue
+        mChanceLabel = binding.chanceLabel
+        mChanceSeekBar = binding.chanceSeekBar
+        mChanceValue = binding.chanceValue
+        mResultTextView = binding.resultTextView
+        mAllModifiers = binding.allModifiers
 
         mResultTextView.setTextColor(Color.Red)
 
