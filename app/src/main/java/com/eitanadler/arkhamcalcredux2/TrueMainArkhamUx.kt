@@ -147,7 +147,7 @@ internal class TrueMainArkhamUX(
             )
         }
 
-        Column {
+        Column(modifier) {
             Text("Result", fontWeight = FontWeight.Bold)
             Text(calculatorResultText.value, color = calculatorResultColor.value)
 
