@@ -440,7 +440,7 @@ internal class TrueMainArkhamUX(
         isAbilityChecked: Boolean,
         resourceStringId: Int,
     ) {
-        if (isAbilityChecked && chancesSliderState.value.toInt() > 0) {
+        if (isAbilityChecked && chancesSliderState.value.toInt() > 1) {
             showToast(baseContext, resources.getString((resourceStringId)))
         }
     }
