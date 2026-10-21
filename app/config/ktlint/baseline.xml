@@ -12,14 +12,14 @@
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ArkhamDropdown.kt">
         <error line="19" column="14" source="standard:function-naming" />
     </file>
-    <file name="src/main/java/com/eitanadler/arkhamcalcredux2/CheckBoxWithLabel.kt">
-        <error line="12" column="14" source="standard:function-naming" />
-    </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/TrueMainArkhamUx.kt">
         <error line="1" column="1" source="standard:filename" />
-        <error line="60" column="9" source="standard:function-naming" />
+        <error line="61" column="9" source="standard:function-naming" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ui/theme/Theme.kt">
         <error line="37" column="14" source="standard:function-naming" />
+    </file>
+    <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ux/CheckBoxWithLabel.kt">
+        <error line="15" column="14" source="standard:function-naming" />
     </file>
 </baseline>
