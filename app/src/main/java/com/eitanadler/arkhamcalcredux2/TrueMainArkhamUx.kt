@@ -62,16 +62,16 @@ internal class TrueMainArkhamUX(
         goToHelpScreen: (String) -> Unit,
         modifier: Modifier = Modifier,
     ) {
-        val calculatorResultText = rememberSaveable { mutableStateOf("Result!") }
+        val calculatorResultText = remember { mutableStateOf("Result!") }
         val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
 
         val (selectedBlessOption, onBlessOptionSelected) = remember { mutableStateOf(BlessOption.NORMAL) }
 
-        var isMandyChecked by remember { mutableStateOf(false) }
-        var isSkidsChecked by remember { mutableStateOf(false) }
-        var isRerollOnesChecked by remember { mutableStateOf(false) }
-        var isAddOneChecked by remember { mutableStateOf(false) }
-        var isShotgunChecked by remember { mutableStateOf(false) }
+        var isMandyChecked by rememberSaveable { mutableStateOf(false) }
+        var isSkidsChecked by rememberSaveable { mutableStateOf(false) }
+        var isRerollOnesChecked by rememberSaveable { mutableStateOf(false) }
+        var isAddOneChecked by rememberSaveable { mutableStateOf(false) }
+        var isShotgunChecked by rememberSaveable { mutableStateOf(false) }
 
         val diceCountSliderState =
             rememberSliderState(
