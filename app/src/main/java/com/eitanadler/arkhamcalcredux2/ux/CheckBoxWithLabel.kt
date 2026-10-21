@@ -2,6 +2,7 @@ package com.eitanadler.arkhamcalcredux2.ux
 
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,16 +21,18 @@ internal fun CheckboxAndLabelWithHelp(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier.combinedClickable(
-            role = Role.Checkbox,
-            onClick = {
-                onCheckedChange(!checked)
-            },
-            onLongClickLabel = stringResource(R.string.go_to_help_screen_by_label, label),
-            onLongClick = {
-                goToHelpScreen(label)
-            },
-        ),
+        modifier
+            .fillMaxWidth()
+            .combinedClickable(
+                role = Role.Checkbox,
+                onClick = {
+                    onCheckedChange(!checked)
+                },
+                onLongClickLabel = stringResource(R.string.go_to_help_screen_by_label, label),
+                onLongClick = {
+                    goToHelpScreen(label)
+                },
+            ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Checkbox(checked = checked, onCheckedChange = onCheckedChange)
