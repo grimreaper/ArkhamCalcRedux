@@ -86,7 +86,7 @@ public class ArkhamCalc : FragmentActivity() {
                                 ArkhamDropdown(
                                     goToHelpMenu = {
                                         if (backStack.last() !is HelpScreen) {
-                                            backStack.add(HelpScreen(""))
+                                            backStack.add(HelpScreen())
                                         }
                                     },
                                     goToAboutScreen = {
@@ -118,7 +118,7 @@ public class ArkhamCalc : FragmentActivity() {
 
                                 is HelpScreen ->
                                     NavEntry(key) {
-                                        ArkhamCalcHelpTab()
+                                        ArkhamCalcHelpTab(specificTopic = key.topic)
                                     }
 
                                 LibrariesScreen ->

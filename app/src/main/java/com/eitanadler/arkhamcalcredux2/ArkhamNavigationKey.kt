@@ -5,7 +5,7 @@ internal sealed interface ArkhamNavigationKey
 internal data object CalculatorUXScreen : ArkhamNavigationKey
 
 internal data class HelpScreen(
-    val topic: String,
+    val topic: String? = null,
 ) : ArkhamNavigationKey
 
 internal data object LibrariesScreen : ArkhamNavigationKey

@@ -7,7 +7,7 @@
         <error line="63" column="18" source="standard:function-naming" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ArkhamCalcHelp.kt">
-        <error line="36" column="14" source="standard:function-naming" />
+        <error line="40" column="14" source="standard:function-naming" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ArkhamDropdown.kt">
         <error line="19" column="14" source="standard:function-naming" />

@@ -19,28 +19,52 @@ package com.eitanadler.arkhamcalcredux2
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import kotlinx.coroutines.launch
 
 @Composable
-internal fun ArkhamCalcHelpTab(modifier: Modifier = Modifier) {
+internal fun ArkhamCalcHelpTab(
+    modifier: Modifier = Modifier,
+    specificTopic: String? = null,
+) {
     val helpTopics: Array<String> = stringArrayResource(R.array.topics)
     val helpContent: Array<String> = stringArrayResource(R.array.contents)
+    val coroutineScope = rememberCoroutineScope()
 
-    LazyColumn {
+    val listState = rememberLazyListState()
+    LaunchedEffect(Unit) {
+        if (specificTopic != null) {
+            val topicToIndexMap = helpTopics.mapIndexed { index, string -> string to index }.toMap()
+            val topicIndex = topicToIndexMap.getOrDefault(specificTopic, null)
+            if (topicIndex != null) {
+                coroutineScope.launch {
+                    listState.scrollToItem(index = topicIndex)
+                }
+            }
+        }
+    }
+
+    LazyColumn(state = listState) {
         helpTopics.forEachIndexed { index, topic ->
-            item {
-                var isExpanded by remember { mutableStateOf(true) }
+            item(key = topic) {
+                val initialValueForOpenClose =
+                    specificTopic == null || topic == specificTopic
+
+                var isExpanded by remember { mutableStateOf(initialValueForOpenClose) }
                 ListItem(
                     leadingContent = {
                         if (isExpanded) {
