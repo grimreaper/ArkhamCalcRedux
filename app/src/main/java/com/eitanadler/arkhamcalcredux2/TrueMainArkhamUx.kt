@@ -376,6 +376,7 @@ internal class TrueMainArkhamUX(
                     goToHelpScreen = goToHelpScreen,
                 )
             }
+            HorizontalDivider()
         }
         simpleInternalRecalculate()
     }
