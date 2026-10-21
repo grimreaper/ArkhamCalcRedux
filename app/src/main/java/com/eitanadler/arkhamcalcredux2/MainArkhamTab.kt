@@ -80,17 +80,21 @@ internal fun MainArkhamTab(
         )
 
     fun simpleInternalRecalculate() {
+        val calculator =
+            Calculator(
+                mDice = diceCountSliderState.value.toInt(),
+                mTough = difficultySliderState.value.toInt(),
+                mNumberOfChances = chancesSliderState.value.toInt(),
+                mBlessStatus = selectedBlessOption,
+                mIsShotgun = isShotgunChecked,
+                mIsRerollOnes = isRerollOnesChecked,
+                mIsAddOne = isAddOneChecked,
+                mInvestigatorOption = selectedInvestigatorOption,
+            )
         recalculate(
             calculatorResultText,
             calculatorResultColor,
-            diceCountSliderValue = diceCountSliderState.value.toInt(),
-            difficultySliderValue = difficultySliderState.value.toInt(),
-            chancesSliderValue = chancesSliderState.value.toInt(),
-            blessedStatus = selectedBlessOption,
-            investigatorStatus = selectedInvestigatorOption,
-            isRerollOnesChecked = isRerollOnesChecked,
-            isAddOneChecked = isAddOneChecked,
-            isShotgunChecked = isShotgunChecked,
+            calculator,
         )
     }
 
@@ -395,26 +399,8 @@ internal fun MainArkhamTab(
 private fun recalculate(
     calculatorResultText: MutableState<String>,
     calculatorResultColor: MutableState<Color>,
-    diceCountSliderValue: Int,
-    chancesSliderValue: Int,
-    difficultySliderValue: Int,
-    blessedStatus: BlessOption,
-    isRerollOnesChecked: Boolean,
-    isAddOneChecked: Boolean,
-    isShotgunChecked: Boolean,
-    investigatorStatus: InvestigatorOption,
+    calculator: Calculator,
 ) {
-    val calculator =
-        Calculator(
-            mDice = diceCountSliderValue,
-            mTough = difficultySliderValue,
-            mNumberOfChances = chancesSliderValue,
-            mBlessStatus = blessedStatus,
-            mIsShotgun = isShotgunChecked,
-            mIsRerollOnes = isRerollOnesChecked,
-            mIsAddOne = isAddOneChecked,
-            mInvestigatorOption = investigatorStatus,
-        )
     val result = calculator.calculate()
 
     val formatter = CalculateResultFormatter(result)
