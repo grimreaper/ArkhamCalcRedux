@@ -47,8 +47,6 @@ import com.eitanadler.arkhamcalcredux2.ui.theme.ArkhamCalcReduxTheme
  * The main activity. Routes user input to Calculator and prints its results.
  */
 public class ArkhamCalc : ComponentActivity() {
-    private val Context.dataStore by preferencesDataStore(name = "settings")
-
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -131,5 +129,9 @@ public class ArkhamCalc : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private companion object {
+        val Context.dataStore by preferencesDataStore(name = "settings")
     }
 }
