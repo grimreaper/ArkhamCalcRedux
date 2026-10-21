@@ -17,7 +17,6 @@ import androidx.compose.material3.SliderState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -79,7 +78,7 @@ internal fun MainArkhamTab(
             valueRange = 1f..CHANCE_MAX.toFloat(),
         )
 
-    fun simpleInternalRecalculate() {
+    fun recalculate() {
         val calculator =
             Calculator(
                 mDice = diceCountSliderState.value.toInt(),
@@ -91,26 +90,27 @@ internal fun MainArkhamTab(
                 mIsAddOne = isAddOneChecked,
                 mInvestigatorOption = selectedInvestigatorOption,
             )
-        recalculate(
-            calculatorResultText,
-            calculatorResultColor,
-            calculator,
-        )
+        val result = calculator.calculate()
+
+        val formatter = CalculateResultFormatter(result)
+
+        calculatorResultText.value = formatter.resultString
+        calculatorResultColor.value = formatter.color
     }
 
     diceCountSliderState.onValueChange = { v: Float ->
         diceCountSliderState.value = v
-        simpleInternalRecalculate()
+        recalculate()
     }
 
     difficultySliderState.onValueChange = { v: Float ->
         difficultySliderState.value = v
-        simpleInternalRecalculate()
+        recalculate()
     }
 
     chancesSliderState.onValueChange = { v: Float ->
         chancesSliderState.value = v
-        simpleInternalRecalculate()
+        recalculate()
     }
 
     Column(modifier) {
@@ -223,7 +223,7 @@ internal fun MainArkhamTab(
                                 ).combinedClickable(
                                     onClick = {
                                         onBlessOptionSelected(option)
-                                        simpleInternalRecalculate()
+                                        recalculate()
                                     },
                                     onLongClick = {
                                         goToHelpScreen("Blessed / Cursed")
@@ -285,7 +285,7 @@ internal fun MainArkhamTab(
                                             isRerollOnesEnabled = true
                                         }
                                         onInvestigatorOptionSelected(option)
-                                        simpleInternalRecalculate()
+                                        recalculate()
                                     },
                                     onLongClick = {
                                         goToHelpScreen(option.helpLabel)
@@ -342,7 +342,7 @@ internal fun MainArkhamTab(
                     checked = isRerollOnesChecked,
                     onCheckedChange = { newValue ->
                         isRerollOnesChecked = newValue
-                        simpleInternalRecalculate()
+                        recalculate()
                     },
                     goToHelpScreen = goToHelpScreen,
                     label = "Reroll Ones",
@@ -363,7 +363,7 @@ internal fun MainArkhamTab(
                     checked = isAddOneChecked,
                     onCheckedChange = { newValue ->
                         isAddOneChecked = newValue
-                        simpleInternalRecalculate()
+                        recalculate()
                     },
                     label = "Add One",
                     goToHelpScreen = goToHelpScreen,
@@ -376,7 +376,7 @@ internal fun MainArkhamTab(
                     checked = isShotgunChecked,
                     onCheckedChange = { newValue ->
                         isShotgunChecked = newValue
-                        simpleInternalRecalculate()
+                        recalculate()
                     },
                     label = "Shotgun",
                     goToHelpScreen = goToHelpScreen,
@@ -393,18 +393,6 @@ internal fun MainArkhamTab(
         )
         HorizontalDivider()
     }
-    simpleInternalRecalculate()
+    recalculate()
 }
 
-private fun recalculate(
-    calculatorResultText: MutableState<String>,
-    calculatorResultColor: MutableState<Color>,
-    calculator: Calculator,
-) {
-    val result = calculator.calculate()
-
-    val formatter = CalculateResultFormatter(result)
-
-    calculatorResultText.value = formatter.resultString
-    calculatorResultColor.value = formatter.color
-}
