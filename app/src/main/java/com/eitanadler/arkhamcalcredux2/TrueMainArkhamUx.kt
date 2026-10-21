@@ -78,7 +78,7 @@ internal class TrueMainArkhamUX(
                 steps = DICE_MAX - 2,
                 valueRange = 1f..DICE_MAX.toFloat(),
             )
-        val difficulitySliderState =
+        val difficultySliderState =
             rememberSliderState(
                 value = 1.0f,
                 steps = TOUGH_MAX - 2,
@@ -96,7 +96,7 @@ internal class TrueMainArkhamUX(
                 calculatorResultText,
                 calculatorResultColor,
                 diceCountSliderValue = diceCountSliderState.value.toInt(),
-                difficulitySliderValue = difficulitySliderState.value.toInt(),
+                difficultySliderValue = difficultySliderState.value.toInt(),
                 chancesSliderValue = chancesSliderState.value.toInt(),
                 blessedStatus = selectedBlessOption,
                 isMandyChecked = isMandyChecked,
@@ -112,8 +112,8 @@ internal class TrueMainArkhamUX(
             simpleInternalRecalculate()
         }
 
-        difficulitySliderState.onValueChange = { v: Float ->
-            difficulitySliderState.value = v
+        difficultySliderState.onValueChange = { v: Float ->
+            difficultySliderState.value = v
             simpleInternalRecalculate()
         }
 
@@ -187,11 +187,11 @@ internal class TrueMainArkhamUX(
                             ),
                     )
                     Text(
-                        difficulitySliderState.value.toInt().toString(),
+                        difficultySliderState.value.toInt().toString(),
                     )
                 }
                 Slider(
-                    state = difficulitySliderState,
+                    state = difficultySliderState,
                 )
             }
 
@@ -362,7 +362,10 @@ internal class TrueMainArkhamUX(
      * Potentially show a dialog depending on if the user has ever opened
      * this version of the app; otherwise do nothing.
      */
-    private fun handleShowFirstTimeDialog(context: Context, crScope: CoroutineScope) {
+    private fun handleShowFirstTimeDialog(
+        context: Context,
+        crScope: CoroutineScope,
+    ) {
         val prefKey = stringPreferencesKey(PREFS_KEY_FIRST_TIME_16)
         val prefResultFlow: Flow<String?> =
             dataStore.data.map { preferences ->
@@ -387,7 +390,6 @@ internal class TrueMainArkhamUX(
                     }
             builder.create().show()
         }
-
     }
 
     private fun recalculate(
@@ -395,7 +397,7 @@ internal class TrueMainArkhamUX(
         calculatorResultColor: MutableState<Color>,
         diceCountSliderValue: Int,
         chancesSliderValue: Int,
-        difficulitySliderValue: Int,
+        difficultySliderValue: Int,
         blessedStatus: BlessOption,
         isMandyChecked: Boolean,
         isSkidsChecked: Boolean,
@@ -406,7 +408,7 @@ internal class TrueMainArkhamUX(
         val calculator =
             Calculator(
                 mDice = diceCountSliderValue,
-                mTough = difficulitySliderValue,
+                mTough = difficultySliderValue,
                 mNumberOfChances = chancesSliderValue,
                 mIsBlessed = blessedStatus == BlessOption.BLESS,
                 mIsCursed = blessedStatus == BlessOption.CURSED,

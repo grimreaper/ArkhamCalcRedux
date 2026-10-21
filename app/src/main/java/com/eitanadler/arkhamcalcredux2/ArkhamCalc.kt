@@ -54,13 +54,13 @@ public class ArkhamCalc : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            ArkahmCalcOuterScaffold()
+            ArkhamCalcOuterScaffold()
         }
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    internal fun ArkahmCalcOuterScaffold(modifier: Modifier = Modifier) {
+    internal fun ArkhamCalcOuterScaffold(modifier: Modifier = Modifier) {
         val backStack = remember { mutableStateListOf<ArkhamNavigationKey>(CalculatorUXScreen) }
         ArkhamCalcReduxTheme {
             Surface(modifier = Modifier.fillMaxSize()) {
