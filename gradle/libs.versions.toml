@@ -2,6 +2,8 @@
 aboutLibraries = "15.3.0"
 activityCompose = "1.13.0"
 androidSecurirtyLint = "1.0.4"
+animationCore = "1.12.1"
+animation = "1.12.1"
 appcompat = "1.8.0"
 compose = "1.12.1"
 composeBom = "2026.09.00"
@@ -10,10 +12,12 @@ coreKtx = "1.19.1"
 datastorePreferences = "1.2.1"
 dependencyAnalysis = "3.19.2"
 foundation = "1.12.1"
+fragmentVersion = "1.9.1"
 gradle = "9.4.1"
 junit = "4.13.2"
 kotlin = "2.4.21"
 kotlinSerialization = "2.4.21"
+kotlinxCoroutinesCore = "1.11.0"
 kotlinxSerializationCore = "1.12.0"
 ktlint = "14.2.0"
 ktlintComposeVersion = "0.6.8"
@@ -24,9 +28,13 @@ material3 = "1.5.0-beta01"
 material3AdaptiveNav3 = "1.3.0"
 nav3Core = "1.2.0"
 runner = "1.7.0"
+runtimeSaveable = "1.12.1"
 slackComposeLintChecks = "1.6.1"
 slackLintChecks = "0.11.1"
 sortDependencies = "0.21.0"
+uiGraphics = "1.12.1"
+uiText = "1.12.1"
+uiUnit = "1.12.1"
 uiViewbinding = "1.12.1"
 versionCatalogUpdate = "1.1.1"
 
@@ -34,13 +42,22 @@ versionCatalogUpdate = "1.1.1"
 aboutlibraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibraries" }
 aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "aboutLibraries" }
 android-securityLint = { module = "com.android.security.lint:lint", version.ref = "androidSecurirtyLint" }
+androidx-activity = { module = "androidx.activity:activity", version.ref = "activityCompose" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "animation" }
+androidx-compose-animation-core = { module = "androidx.compose.animation:animation-core", version.ref = "animationCore" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+androidx-compose-runtime-saveable = { module = "androidx.compose.runtime:runtime-saveable", version.ref = "runtimeSaveable" }
+androidx-compose-ui-unit = { module = "androidx.compose.ui:ui-unit", version.ref = "uiUnit" }
+androidx-compose-ui-text = { module = "androidx.compose.ui:ui-text", version.ref = "uiText" }
+androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "uiGraphics" }
 androidx-compose-ui-viewbinding = { module = "androidx.compose.ui:ui-viewbinding", version.ref = "uiViewbinding" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-datastore-core = { module = "androidx.datastore:datastore-core", version.ref = "datastorePreferences" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferences" }
 androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
 androidx-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
@@ -54,8 +71,10 @@ androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 androidx-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
 androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+fragment = { module = "androidx.fragment:fragment", version.ref = "fragmentVersion" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
 ktlintCompose = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktlintComposeVersion" }
 slack-lint-checks = { module = "com.slack.lint:slack-lint-checks", version.ref = "slackLintChecks" }
