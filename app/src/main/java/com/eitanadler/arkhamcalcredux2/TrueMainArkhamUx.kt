@@ -334,6 +334,25 @@ internal class TrueMainArkhamUX(
             )
             HorizontalDivider()
             ListItem(
+                overlineContent = {
+                    Text(
+                        "Skills & Weapons",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier =
+                            Modifier.combinedClickable(
+                                onClick = {},
+                                onLongClickLabel =
+                                    stringResource(
+                                        R.string.go_to_help_screen_by_label,
+                                        "Skills & Weapons",
+                                    ),
+                                onLongClick = {
+                                    // TODO: consider making this useful
+                                    goToHelpScreen("Skills & Weapons")
+                                },
+                            ),
+                    )
+                },
                 headlineContent = {
                     CheckboxAndLabelWithHelp(
                         enabled = isRerollOnesEnabled,
@@ -379,6 +398,14 @@ internal class TrueMainArkhamUX(
                         label = "Shotgun",
                         goToHelpScreen = goToHelpScreen,
                     )
+                },
+                supportingContent = {
+                    if (
+                        isShotgunChecked &&
+                        difficultySliderState.value.toInt() == 1
+                    ) {
+                        Text("Shotgun has no effect when difficulty is equal to 1.")
+                    }
                 },
             )
             HorizontalDivider()
