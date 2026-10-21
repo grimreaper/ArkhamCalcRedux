@@ -102,7 +102,6 @@ dependencies {
     implementation(libs.androidx.runtime)
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.tooling)
-    implementation(libs.fragment)
     implementation(libs.kotlinx.coroutines.core)
 
     testImplementation(libs.junit)

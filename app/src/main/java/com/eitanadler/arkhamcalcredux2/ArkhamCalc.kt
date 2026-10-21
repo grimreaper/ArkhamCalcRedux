@@ -18,6 +18,7 @@ package com.eitanadler.arkhamcalcredux2
 
 import android.content.Context
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,7 +39,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.fragment.app.FragmentActivity
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.eitanadler.arkhamcalcredux2.ui.theme.ArkhamCalcReduxTheme
@@ -46,7 +46,7 @@ import com.eitanadler.arkhamcalcredux2.ui.theme.ArkhamCalcReduxTheme
 /**
  * The main activity. Routes user input to Calculator and prints its results.
  */
-public class ArkhamCalc : FragmentActivity() {
+public class ArkhamCalc : ComponentActivity() {
     private val Context.dataStore by preferencesDataStore(name = "settings")
 
     public override fun onCreate(savedInstanceState: Bundle?) {
