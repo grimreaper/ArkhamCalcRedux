@@ -29,7 +29,6 @@ internal object MathHelper {
     ): Long = factorial(n) / (factorial(n - r) * factorial(r))
 
     private fun factorial(n: Int): Long {
-
         if (n <= 1) return 1
         return n * factorial(n - 1)
     }

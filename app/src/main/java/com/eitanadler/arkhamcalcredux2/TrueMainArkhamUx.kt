@@ -14,6 +14,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Slider
@@ -153,8 +154,13 @@ internal class TrueMainArkhamUX(
         }
 
         Column(modifier) {
-            Text("Result", fontWeight = FontWeight.Bold)
-            Text(calculatorResultText.value, color = calculatorResultColor.value)
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text("Result", fontWeight = FontWeight.Bold)
+                Text(calculatorResultText.value, color = calculatorResultColor.value)
+            }
 
             Column {
                 Row {
@@ -229,153 +235,171 @@ internal class TrueMainArkhamUX(
             val crScope = rememberCoroutineScope()
             handleShowFirstTimeDialog(LocalContext.current, crScope)
             HorizontalDivider()
-            Column(Modifier.selectableGroup()) {
-                Text(
-                    "Blessed / Cursed",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier =
-                        Modifier.combinedClickable(
-                            onClick = {},
-                            onLongClickLabel =
-                                stringResource(
-                                    R.string.go_to_help_screen_by_label,
-                                    "Blessed / Cursed",
-                                ),
-                            onLongClick = {
-                                goToHelpScreen("Blessed / Cursed")
-                            },
-                        ),
-                )
-                BlessOption.entries.forEach { option ->
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .selectable(
-                                selected = (option == selectedBlessOption),
+            ListItem(
+                overlineContent = {
+                    Text(
+                        "Blessed / Cursed",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier =
+                            Modifier.combinedClickable(
                                 onClick = {},
-                                role = Role.RadioButton,
-                            ).combinedClickable(
-                                onClick = {
-                                    onBlessOptionSelected(option)
-                                    simpleInternalRecalculate()
-                                },
+                                onLongClickLabel =
+                                    stringResource(
+                                        R.string.go_to_help_screen_by_label,
+                                        "Blessed / Cursed",
+                                    ),
                                 onLongClick = {
                                     goToHelpScreen("Blessed / Cursed")
                                 },
-                            ).padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        RadioButton(
-                            selected = (option == selectedBlessOption),
-                            onClick = null, // null recommended for accessibility with screen readers
-                        )
-                        Text(
-                            text = option.text,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(start = 16.dp),
-                        )
+                            ),
+                    )
+                },
+                headlineContent = {
+                    Column(modifier = Modifier.selectableGroup()) {
+                        BlessOption.entries.forEach { option ->
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .selectable(
+                                        selected = (option == selectedBlessOption),
+                                        onClick = {},
+                                        role = Role.RadioButton,
+                                    ).combinedClickable(
+                                        onClick = {
+                                            onBlessOptionSelected(option)
+                                            simpleInternalRecalculate()
+                                        },
+                                        onLongClick = {
+                                            goToHelpScreen("Blessed / Cursed")
+                                        },
+                                    ).padding(horizontal = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                RadioButton(
+                                    selected = (option == selectedBlessOption),
+                                    onClick = null, // null recommended for accessibility with screen readers
+                                )
+                                Text(
+                                    text = option.text,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(start = 16.dp),
+                                )
+                            }
+                        }
                     }
-                }
-            }
+                },
+            )
             HorizontalDivider()
-            Column(Modifier.selectableGroup()) {
-                Text(
-                    "Investigator",
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier =
-                        Modifier.combinedClickable(
-                            onClick = {},
-                            onLongClickLabel =
-                                stringResource(
-                                    R.string.go_to_help_screen_by_label,
-                                    "Investigator",
-                                ),
-                            onLongClick = {
-                                // TODO: consider making this useful
-                                goToHelpScreen("Investigator")
-                            },
-                        ),
-                )
-                InvestigatorOption.entries.forEach { option ->
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .selectable(
-                                selected = (option == selectedInvestigatorOption),
-                                onClick = { },
-                                role = Role.RadioButton,
-                            ).combinedClickable(
-                                onClick = {
-                                    if (option != InvestigatorOption.NORMAL) {
-                                        isRerollOnesChecked = false
-                                        isRerollOnesEnabled = false
-                                    } else {
-                                        isRerollOnesEnabled = true
-                                    }
-                                    onInvestigatorOptionSelected(option)
-                                    simpleInternalRecalculate()
-                                    if (option.singleUseChanceNotice != null) {
-                                        handleOneTimeAbilityOptionChanged(
-                                            baseContext = context,
-                                            resources = resources,
-                                            isAbilityChecked = (option == selectedInvestigatorOption),
-                                            resourceStringId = option.singleUseChanceNotice,
-                                        )
-                                    }
-                                },
+            ListItem(
+                overlineContent = {
+                    Text(
+                        "Investigator",
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier =
+                            Modifier.combinedClickable(
+                                onClick = {},
+                                onLongClickLabel =
+                                    stringResource(
+                                        R.string.go_to_help_screen_by_label,
+                                        "Investigator",
+                                    ),
                                 onLongClick = {
-                                    goToHelpScreen(option.helpLabel)
+                                    // TODO: consider making this useful
+                                    goToHelpScreen("Investigator")
                                 },
-                            ).padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        RadioButton(
-                            selected = (option == selectedInvestigatorOption),
-                            onClick = null, // null recommended for accessibility with screen readers
-                        )
-                        Text(
-                            text = option.textLabel,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(start = 16.dp),
-                        )
+                            ),
+                    )
+                },
+                headlineContent = {
+                    Column(Modifier.selectableGroup()) {
+                        InvestigatorOption.entries.forEach { option ->
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .selectable(
+                                        selected = (option == selectedInvestigatorOption),
+                                        onClick = { },
+                                        role = Role.RadioButton,
+                                    ).combinedClickable(
+                                        onClick = {
+                                            if (option != InvestigatorOption.NORMAL) {
+                                                isRerollOnesChecked = false
+                                                isRerollOnesEnabled = false
+                                            } else {
+                                                isRerollOnesEnabled = true
+                                            }
+                                            onInvestigatorOptionSelected(option)
+                                            simpleInternalRecalculate()
+                                            if (option.singleUseChanceNotice != null) {
+                                                handleOneTimeAbilityOptionChanged(
+                                                    baseContext = context,
+                                                    resources = resources,
+                                                    isAbilityChecked = (option == selectedInvestigatorOption),
+                                                    resourceStringId = option.singleUseChanceNotice,
+                                                )
+                                            }
+                                        },
+                                        onLongClick = {
+                                            goToHelpScreen(option.helpLabel)
+                                        },
+                                    ).padding(horizontal = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                RadioButton(
+                                    selected = (option == selectedInvestigatorOption),
+                                    onClick = null, // null recommended for accessibility with screen readers
+                                )
+                                Text(
+                                    text = option.textLabel,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(start = 16.dp),
+                                )
+                            }
+                        }
                     }
-                }
-            }
+                },
+            )
             HorizontalDivider()
-            Row {
-                CheckboxAndLabelWithHelp(
-                    enabled = isRerollOnesEnabled,
-                    checked = isRerollOnesChecked,
-                    onCheckedChange = { newValue ->
-                        isRerollOnesChecked = newValue
-                        simpleInternalRecalculate()
-                    },
-                    goToHelpScreen = goToHelpScreen,
-                    label = "Reroll Ones",
-                )
-            }
-            Row {
-                CheckboxAndLabelWithHelp(
-                    checked = isAddOneChecked,
-                    onCheckedChange = { newValue ->
-                        isAddOneChecked = newValue
-                        simpleInternalRecalculate()
-                    },
-                    label = "Add One",
-                    goToHelpScreen = goToHelpScreen,
-                )
-            }
-            Row {
-                CheckboxAndLabelWithHelp(
-                    checked = isShotgunChecked,
-                    onCheckedChange = { newValue ->
-                        isShotgunChecked = newValue
-                        simpleInternalRecalculate()
-                    },
-                    label = "Shotgun",
-                    goToHelpScreen = goToHelpScreen,
-                )
-            }
+            ListItem(
+                headlineContent = {
+                    CheckboxAndLabelWithHelp(
+                        enabled = isRerollOnesEnabled,
+                        checked = isRerollOnesChecked,
+                        onCheckedChange = { newValue ->
+                            isRerollOnesChecked = newValue
+                            simpleInternalRecalculate()
+                        },
+                        goToHelpScreen = goToHelpScreen,
+                        label = "Reroll Ones",
+                    )
+                },
+            )
+            ListItem(
+                headlineContent = {
+                    CheckboxAndLabelWithHelp(
+                        checked = isAddOneChecked,
+                        onCheckedChange = { newValue ->
+                            isAddOneChecked = newValue
+                            simpleInternalRecalculate()
+                        },
+                        label = "Add One",
+                        goToHelpScreen = goToHelpScreen,
+                    )
+                },
+            )
+            ListItem(
+                headlineContent = {
+                    CheckboxAndLabelWithHelp(
+                        checked = isShotgunChecked,
+                        onCheckedChange = { newValue ->
+                            isShotgunChecked = newValue
+                            simpleInternalRecalculate()
+                        },
+                        label = "Shotgun",
+                        goToHelpScreen = goToHelpScreen,
+                    )
+                },
+            )
             HorizontalDivider()
         }
         simpleInternalRecalculate()
