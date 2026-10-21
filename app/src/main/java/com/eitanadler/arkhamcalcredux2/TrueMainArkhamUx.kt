@@ -3,8 +3,6 @@ package com.eitanadler.arkhamcalcredux2
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.res.Resources
-import android.widget.Toast
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
@@ -124,33 +121,9 @@ internal class TrueMainArkhamUX(
             simpleInternalRecalculate()
         }
 
-        val context = LocalContext.current
-        val resources = LocalResources.current
         chancesSliderState.onValueChange = { v: Float ->
-            val mPreviousChanceValue = chancesSliderState.value.toInt()
             chancesSliderState.value = v
             simpleInternalRecalculate()
-            handleOneTimeAbilityChancesChanged(
-                baseContext = context,
-                resources = resources,
-                previousChanceValue = mPreviousChanceValue,
-                selectedInvestigatorOption == InvestigatorOption.MANDY,
-                R.string.mandy_chances_toast,
-            )
-            handleOneTimeAbilityChancesChanged(
-                baseContext = context,
-                resources = resources,
-                previousChanceValue = mPreviousChanceValue,
-                isRerollOnesChecked,
-                R.string.reroll_ones_chances_toast,
-            )
-            handleOneTimeAbilityChancesChanged(
-                baseContext = context,
-                resources = resources,
-                previousChanceValue = mPreviousChanceValue,
-                selectedInvestigatorOption == InvestigatorOption.MANDY,
-                R.string.skids_chances_toast,
-            )
         }
 
         Column(modifier) {
@@ -330,14 +303,6 @@ internal class TrueMainArkhamUX(
                                             }
                                             onInvestigatorOptionSelected(option)
                                             simpleInternalRecalculate()
-                                            if (option.singleUseChanceNotice != null) {
-                                                handleOneTimeAbilityOptionChanged(
-                                                    baseContext = context,
-                                                    resources = resources,
-                                                    isAbilityChecked = (option == selectedInvestigatorOption),
-                                                    resourceStringId = option.singleUseChanceNotice,
-                                                )
-                                            }
                                         },
                                         onLongClick = {
                                             goToHelpScreen(option.helpLabel)
@@ -358,6 +323,14 @@ internal class TrueMainArkhamUX(
                         }
                     }
                 },
+                supportingContent = {
+                    if (
+                        selectedInvestigatorOption.singleUseChanceNotice != null &&
+                        chancesSliderState.value.toInt() > 1
+                    ) {
+                        Text(stringResource(selectedInvestigatorOption.singleUseChanceNotice))
+                    }
+                },
             )
             HorizontalDivider()
             ListItem(
@@ -372,6 +345,14 @@ internal class TrueMainArkhamUX(
                         goToHelpScreen = goToHelpScreen,
                         label = "Reroll Ones",
                     )
+                },
+                supportingContent = {
+                    if (
+                        isRerollOnesChecked &&
+                        chancesSliderState.value.toInt() > 1
+                    ) {
+                        Text(stringResource(R.string.reroll_ones_chances_message))
+                    }
                 },
             )
             ListItem(
@@ -468,51 +449,6 @@ internal class TrueMainArkhamUX(
 
         calculatorResultText.value = formatter.resultString
         calculatorResultColor.value = formatter.color
-    }
-
-    /**
-     * Show a message to the user regarding this one-time ability if user has more than one chance.
-     * Case where ability has been changed; check number of chances.
-     * Do not show a message if we are in the process of restoring state (because we already showed
-     * the message before state was saved).
-     */
-    @OptIn(ExperimentalMaterial3Api::class)
-    private fun handleOneTimeAbilityOptionChanged(
-        baseContext: Context,
-        resources: Resources,
-        isAbilityChecked: Boolean,
-        resourceStringId: Int,
-    ) {
-        if (isAbilityChecked && chancesSliderState.value.toInt() > 1) {
-            showToast(baseContext, resources.getString((resourceStringId)))
-        }
-    }
-
-    /**
-     * Show a message to the user regarding this one-time ability if user has more than one chance.
-     * Case where number of chances have changed; check if ability is selected and chances have changed
-     * from one to > 1.
-     * Do not show a message if we are in the process of restoring state (because we already showed
-     * the message before state was saved).
-     */
-    @OptIn(ExperimentalMaterial3Api::class)
-    private fun handleOneTimeAbilityChancesChanged(
-        baseContext: Context,
-        resources: Resources,
-        previousChanceValue: Int,
-        isAbilityChecked: Boolean,
-        resourceStringId: Int,
-    ) {
-        if (isAbilityChecked && previousChanceValue <= 1 && chancesSliderState.value > 1f) {
-            showToast(baseContext, resources.getString(resourceStringId))
-        }
-    }
-
-    private fun showToast(
-        baseContext: Context,
-        toastText: String,
-    ) {
-        Toast.makeText(baseContext, toastText, Toast.LENGTH_LONG).show()
     }
 
     companion object {
