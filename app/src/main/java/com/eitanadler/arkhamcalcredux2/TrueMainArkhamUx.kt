@@ -8,9 +8,14 @@ import android.widget.Toast
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.Checkbox
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderState
 import androidx.compose.material3.Text
@@ -22,11 +27,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -35,6 +44,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
+
+internal enum class BlessOption(
+    val text: String,
+) {
+    NORMAL("Normal"),
+    BLESS("Blessed"),
+    CURSED("Cursed"),
+}
 
 internal class TrueMainArkhamUX(
     private val dataStore: DataStore<Preferences>,
@@ -51,8 +68,8 @@ internal class TrueMainArkhamUX(
         val calculatorResultText = rememberSaveable { mutableStateOf("Result!") }
         val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
 
-        var isBlessedChecked by remember { mutableStateOf(false) }
-        var isCursedChecked by remember { mutableStateOf(false) }
+        val (selectedBlessOption, onBlessOptionSelected) = remember { mutableStateOf(BlessOption.NORMAL) }
+
         var isMandyChecked by remember { mutableStateOf(false) }
         var isSkidsChecked by remember { mutableStateOf(false) }
         var isRerollOnesChecked by remember { mutableStateOf(false) }
@@ -85,8 +102,7 @@ internal class TrueMainArkhamUX(
                 diceCountSliderValue = diceCountSliderState.value.toInt(),
                 difficulitySliderValue = difficulitySliderState.value.toInt(),
                 chancesSliderValue = chancesSliderState.value.toInt(),
-                isBlessed = isBlessedChecked,
-                isCursed = isCursedChecked,
+                blessedStatus = selectedBlessOption,
                 isMandyChecked = isMandyChecked,
                 isSkidsChecked = isSkidsChecked,
                 isRerollOnesChecked = isRerollOnesChecked,
@@ -208,52 +224,48 @@ internal class TrueMainArkhamUX(
 
             handleShowFirstTimeDialog(LocalContext.current)
             HorizontalDivider()
-            Row {
-                Checkbox(
-                    checked = isBlessedChecked,
-                    onCheckedChange = { newValue ->
-                        isBlessedChecked = newValue
-                        if (newValue && isCursedChecked) {
-                            isCursedChecked = false
-                        }
-
-                        simpleInternalRecalculate()
-                    },
-                )
+            Column(Modifier.selectableGroup()) {
                 Text(
-                    "Blessed",
+                    "Blessed / Cursed",
+                    style = MaterialTheme.typography.titleMedium,
                     modifier =
+                        Modifier.combinedClickable(
+                            onClick = {},
+                            onLongClickLabel =
+                                stringResource(
+                                    R.string.go_to_help_screen_by_label,
+                                    "Blessed / Cursed",
+                                ),
+                            onLongClick = {
+                                goToHelpScreen("Blessed / Cursed")
+                            },
+                        ),
+                )
+                BlessOption.entries.forEach { option ->
+                    Row(
                         Modifier
-                            .combinedClickable(
-                                onClick = {},
-                                onLongClick = {
-                                    goToHelpScreen("Blessed / Cursed")
+                            .fillMaxWidth()
+                            .selectable(
+                                selected = (option == selectedBlessOption),
+                                onClick = {
+                                    onBlessOptionSelected(option)
+                                    simpleInternalRecalculate()
                                 },
-                            ),
-                )
-            }
-            Row {
-                Checkbox(
-                    checked = isCursedChecked,
-                    onCheckedChange = { newValue ->
-                        isCursedChecked = newValue
-                        if (newValue && isBlessedChecked) {
-                            isBlessedChecked = false
-                        }
-                        simpleInternalRecalculate()
-                    },
-                )
-                Text(
-                    "Cursed",
-                    modifier =
-                        Modifier
-                            .combinedClickable(
-                                onClick = {},
-                                onLongClick = {
-                                    goToHelpScreen("Blessed / Cursed")
-                                },
-                            ),
-                )
+                                role = Role.RadioButton,
+                            ).padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(
+                            selected = (option == selectedBlessOption),
+                            onClick = null, // null recommended for accessibility with screen readers
+                        )
+                        Text(
+                            text = option.text,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(start = 16.dp),
+                        )
+                    }
+                }
             }
             HorizontalDivider()
             Row {
@@ -386,8 +398,7 @@ internal class TrueMainArkhamUX(
         diceCountSliderValue: Int,
         chancesSliderValue: Int,
         difficulitySliderValue: Int,
-        isBlessed: Boolean,
-        isCursed: Boolean,
+        blessedStatus: BlessOption,
         isMandyChecked: Boolean,
         isSkidsChecked: Boolean,
         isRerollOnesChecked: Boolean,
@@ -399,8 +410,8 @@ internal class TrueMainArkhamUX(
                 mDice = diceCountSliderValue,
                 mTough = difficulitySliderValue,
                 mNumberOfChances = chancesSliderValue,
-                mIsBlessed = isBlessed,
-                mIsCursed = isCursed,
+                mIsBlessed = blessedStatus == BlessOption.BLESS,
+                mIsCursed = blessedStatus == BlessOption.CURSED,
                 mIsShotgun = isShotgunChecked,
                 mIsMandy = isMandyChecked,
                 mIsRerollOnes = isRerollOnesChecked,
