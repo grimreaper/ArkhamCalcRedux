@@ -22,7 +22,7 @@
         android:required="false" />
 
     <application
-        android:icon="@drawable/icon"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.ArkhamCalcRedux"
