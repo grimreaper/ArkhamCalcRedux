@@ -85,6 +85,7 @@ dependencies {
     implementation(libs.aboutlibraries.core)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.annotation)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.compose.animation)
     implementation(libs.androidx.compose.animation.core)

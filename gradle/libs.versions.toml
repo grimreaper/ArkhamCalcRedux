@@ -5,6 +5,7 @@ agp = "9.4.1"
 androidSecurirtyLint = "1.0.4"
 animation = "1.12.1"
 animationCore = "1.12.1"
+annotation = "1.11.0"
 appcompat = "1.8.0"
 compose = "1.12.1"
 composeBom = "2026.09.00"
@@ -45,6 +46,7 @@ aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref
 android-securityLint = { module = "com.android.security.lint:lint", version.ref = "androidSecurirtyLint" }
 androidx-activity = { module = "androidx.activity:activity", version.ref = "activityCompose" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "animation" }
 androidx-compose-animation-core = { module = "androidx.compose.animation:animation-core", version.ref = "animationCore" }

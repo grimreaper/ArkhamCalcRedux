@@ -43,6 +43,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.eitanadler.arkhamcalcredux2.game.BlessOption
+import com.eitanadler.arkhamcalcredux2.game.InvestigatorOption
 import com.eitanadler.arkhamcalcredux2.ux.CheckboxAndLabelWithHelp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -66,9 +67,14 @@ internal class TrueMainArkhamUX(
         val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
 
         val (selectedBlessOption, onBlessOptionSelected) = remember { mutableStateOf(BlessOption.NORMAL) }
+        val (selectedInvestigatorOption, onInvestigatorOptionSelected) =
+            remember {
+                mutableStateOf(
+                    InvestigatorOption.NORMAL,
+                )
+            }
 
-        var isMandyChecked by rememberSaveable { mutableStateOf(false) }
-        var isSkidsChecked by rememberSaveable { mutableStateOf(false) }
+        var isRerollOnesEnabled by rememberSaveable { mutableStateOf(true) }
         var isRerollOnesChecked by rememberSaveable { mutableStateOf(false) }
         var isAddOneChecked by rememberSaveable { mutableStateOf(false) }
         var isShotgunChecked by rememberSaveable { mutableStateOf(false) }
@@ -100,8 +106,7 @@ internal class TrueMainArkhamUX(
                 difficultySliderValue = difficultySliderState.value.toInt(),
                 chancesSliderValue = chancesSliderState.value.toInt(),
                 blessedStatus = selectedBlessOption,
-                isMandyChecked = isMandyChecked,
-                isSkidsChecked = isSkidsChecked,
+                investigatorStatus = selectedInvestigatorOption,
                 isRerollOnesChecked = isRerollOnesChecked,
                 isAddOneChecked = isAddOneChecked,
                 isShotgunChecked = isShotgunChecked,
@@ -128,7 +133,7 @@ internal class TrueMainArkhamUX(
                 baseContext = context,
                 resources = resources,
                 previousChanceValue = mPreviousChanceValue,
-                isMandyChecked,
+                selectedInvestigatorOption == InvestigatorOption.MANDY,
                 R.string.mandy_chances_toast,
             )
             handleOneTimeAbilityChancesChanged(
@@ -142,7 +147,7 @@ internal class TrueMainArkhamUX(
                 baseContext = context,
                 resources = resources,
                 previousChanceValue = mPreviousChanceValue,
-                isSkidsChecked,
+                selectedInvestigatorOption == InvestigatorOption.MANDY,
                 R.string.skids_chances_toast,
             )
         }
@@ -247,11 +252,16 @@ internal class TrueMainArkhamUX(
                             .fillMaxWidth()
                             .selectable(
                                 selected = (option == selectedBlessOption),
+                                onClick = {},
+                                role = Role.RadioButton,
+                            ).combinedClickable(
                                 onClick = {
                                     onBlessOptionSelected(option)
                                     simpleInternalRecalculate()
                                 },
-                                role = Role.RadioButton,
+                                onLongClick = {
+                                    goToHelpScreen("Blessed / Cursed")
+                                },
                             ).padding(horizontal = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
@@ -268,71 +278,82 @@ internal class TrueMainArkhamUX(
                 }
             }
             HorizontalDivider()
-            Row {
-                val context = LocalContext.current
-                val resources = LocalResources.current
-                CheckboxAndLabelWithHelp(
-                    checked = isMandyChecked,
-                    onCheckedChange = { newValue ->
-                        isMandyChecked = newValue
-                        if (isMandyChecked) {
-                            // both Mandy and Reroll ones on at same time not supported
-                            isRerollOnesChecked = false
-                            isSkidsChecked = false
-                        }
-                        simpleInternalRecalculate()
-                        handleOneTimeAbilityOptionChanged(
-                            baseContext = context,
-                            resources = resources,
-                            isAbilityChecked = isMandyChecked,
-                            resourceStringId = R.string.mandy_chances_toast,
-                        )
-                    },
-                    label = "Mandy",
-                    goToHelpScreen = goToHelpScreen,
+            Column(Modifier.selectableGroup()) {
+                Text(
+                    "Investigator",
+                    style = MaterialTheme.typography.titleMedium,
+                    modifier =
+                        Modifier.combinedClickable(
+                            onClick = {},
+                            onLongClickLabel =
+                                stringResource(
+                                    R.string.go_to_help_screen_by_label,
+                                    "Investigator",
+                                ),
+                            onLongClick = {
+                                // TODO: consider making this useful
+                                goToHelpScreen("Investigator")
+                            },
+                        ),
                 )
-            }
-            Row {
-                val context = LocalContext.current
-                val resources = LocalResources.current
-                CheckboxAndLabelWithHelp(
-                    checked = isSkidsChecked,
-                    onCheckedChange = { newValue ->
-                        isSkidsChecked = newValue
-                        if (isSkidsChecked) {
-                            // both Mandy and Reroll ones on at same time not supported
-                            isMandyChecked = false
-                            isRerollOnesChecked = false
-                        }
-                        simpleInternalRecalculate()
-                        handleOneTimeAbilityOptionChanged(
-                            baseContext = context,
-                            resources = resources,
-                            isAbilityChecked = isSkidsChecked,
-                            R.string.skids_chances_toast,
+                InvestigatorOption.entries.forEach { option ->
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .selectable(
+                                selected = (option == selectedInvestigatorOption),
+                                onClick = { },
+                                role = Role.RadioButton,
+                            ).combinedClickable(
+                                onClick = {
+                                    if (option != InvestigatorOption.NORMAL) {
+                                        isRerollOnesChecked = false
+                                        isRerollOnesEnabled = false
+                                    } else {
+                                        isRerollOnesEnabled = true
+                                    }
+                                    onInvestigatorOptionSelected(option)
+                                    simpleInternalRecalculate()
+                                    if (option.singleUseChanceNotice != null) {
+                                        handleOneTimeAbilityOptionChanged(
+                                            baseContext = context,
+                                            resources = resources,
+                                            isAbilityChecked = (option == selectedInvestigatorOption),
+                                            resourceStringId = option.singleUseChanceNotice,
+                                        )
+                                    }
+                                },
+                                onLongClick = {
+                                    goToHelpScreen(option.helpLabel)
+                                },
+                            ).padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        RadioButton(
+                            selected = (option == selectedInvestigatorOption),
+                            onClick = null, // null recommended for accessibility with screen readers
                         )
-                    },
-                    goToHelpScreen = goToHelpScreen,
-                    label = "Skids",
-                )
+                        Text(
+                            text = option.textLabel,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(start = 16.dp),
+                        )
+                    }
+                }
             }
+            HorizontalDivider()
             Row {
                 CheckboxAndLabelWithHelp(
+                    enabled = isRerollOnesEnabled,
                     checked = isRerollOnesChecked,
                     onCheckedChange = { newValue ->
                         isRerollOnesChecked = newValue
-                        if (isRerollOnesChecked) {
-                            // both Mandy and Reroll ones on at same time not supported
-                            isMandyChecked = false
-                            isSkidsChecked = false
-                        }
                         simpleInternalRecalculate()
                     },
                     goToHelpScreen = goToHelpScreen,
                     label = "Reroll Ones",
                 )
             }
-            HorizontalDivider()
             Row {
                 CheckboxAndLabelWithHelp(
                     checked = isAddOneChecked,
@@ -340,8 +361,8 @@ internal class TrueMainArkhamUX(
                         isAddOneChecked = newValue
                         simpleInternalRecalculate()
                     },
-                    goToHelpScreen = goToHelpScreen,
                     label = "Add One",
+                    goToHelpScreen = goToHelpScreen,
                 )
             }
             Row {
@@ -351,8 +372,8 @@ internal class TrueMainArkhamUX(
                         isShotgunChecked = newValue
                         simpleInternalRecalculate()
                     },
-                    goToHelpScreen = goToHelpScreen,
                     label = "Shotgun",
+                    goToHelpScreen = goToHelpScreen,
                 )
             }
         }
@@ -400,11 +421,10 @@ internal class TrueMainArkhamUX(
         chancesSliderValue: Int,
         difficultySliderValue: Int,
         blessedStatus: BlessOption,
-        isMandyChecked: Boolean,
-        isSkidsChecked: Boolean,
         isRerollOnesChecked: Boolean,
         isAddOneChecked: Boolean,
         isShotgunChecked: Boolean,
+        investigatorStatus: InvestigatorOption,
     ) {
         val calculator =
             Calculator(
@@ -413,9 +433,7 @@ internal class TrueMainArkhamUX(
                 mNumberOfChances = chancesSliderValue,
                 mBlessStatus = blessedStatus,
                 mIsShotgun = isShotgunChecked,
-                mIsMandy = isMandyChecked,
                 mIsRerollOnes = isRerollOnesChecked,
-                mIsSkids = isSkidsChecked,
                 mIsAddOne = isAddOneChecked,
             )
         val result = calculator.calculate()

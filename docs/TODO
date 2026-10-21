@@ -1,1 +1,3 @@
 - clean up bad design due to legacy migrations
+- make "Investigator" a useful help topic
+- use typed values instead of strings and names for Help

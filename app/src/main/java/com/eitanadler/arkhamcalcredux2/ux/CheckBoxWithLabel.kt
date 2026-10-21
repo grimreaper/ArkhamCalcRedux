@@ -19,11 +19,13 @@ internal fun CheckboxAndLabelWithHelp(
     label: String,
     goToHelpScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     Row(
         modifier
             .fillMaxWidth()
             .combinedClickable(
+                enabled = enabled,
                 role = Role.Checkbox,
                 onClick = {
                     onCheckedChange(!checked)
@@ -35,7 +37,11 @@ internal fun CheckboxAndLabelWithHelp(
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Checkbox(checked = checked, onCheckedChange = onCheckedChange)
+        Checkbox(
+            enabled = enabled,
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+        )
         Text(text = label)
     }
 }

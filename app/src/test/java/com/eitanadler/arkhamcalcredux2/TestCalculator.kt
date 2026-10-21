@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*
 package com.eitanadler.arkhamcalcredux2
 
 import com.eitanadler.arkhamcalcredux2.game.BlessOption
+import com.eitanadler.arkhamcalcredux2.game.InvestigatorOption
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -147,9 +148,7 @@ class TestCalculator {
                 mNumberOfChances = 1,
                 mBlessStatus = BlessOption.BLESSED,
                 mIsShotgun = false,
-                mIsMandy = false,
                 mIsRerollOnes = false,
-                mIsSkids = false,
                 mIsAddOne = false,
             )
         Assert.assertEquals(percentageWins, blessedCalc.calculate(), EPS)
@@ -508,7 +507,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsMandy = true,
+                mInvestigatorOption = InvestigatorOption.MANDY,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -546,7 +545,7 @@ class TestCalculator {
                 requiredSuccesses,
                 mNumberOfChances = 1,
                 mBlessStatus = BlessOption.CURSED,
-                mIsMandy = true,
+                mInvestigatorOption = InvestigatorOption.MANDY,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -589,7 +588,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsMandy = true,
+                mInvestigatorOption = InvestigatorOption.MANDY,
                 mIsShotgun = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -605,7 +604,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsMandy = true,
+                mInvestigatorOption = InvestigatorOption.MANDY,
             )
 
         Assert.assertEquals(0.0, calculator.calculate(), 0.0)
@@ -622,9 +621,7 @@ class TestCalculator {
                 mTough = requiredSuccesses,
                 mNumberOfChances = 2,
                 mIsShotgun = false,
-                mIsMandy = false,
                 mIsRerollOnes = false,
-                mIsSkids = false,
                 mIsAddOne = false,
             )
 
@@ -634,9 +631,8 @@ class TestCalculator {
                 mTough = requiredSuccesses,
                 mNumberOfChances = 1,
                 mIsShotgun = false,
-                mIsMandy = true,
+                mInvestigatorOption = InvestigatorOption.MANDY,
                 mIsRerollOnes = false,
-                mIsSkids = false,
                 mIsAddOne = false,
             )
         Assert.assertEquals(twoChancesCalc.calculate(), mandyCalc.calculate(), EPS)
@@ -685,7 +681,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 2,
-                mIsMandy = true,
+                mInvestigatorOption = InvestigatorOption.MANDY,
             )
 
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS) // two chances
@@ -764,7 +760,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsSkids = true,
+                mInvestigatorOption = InvestigatorOption.SKIDS,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -884,7 +880,7 @@ class TestCalculator {
                 requiredSuccesses,
                 mNumberOfChances = 1,
                 mBlessStatus = BlessOption.BLESSED,
-                mIsSkids = true,
+                mInvestigatorOption = InvestigatorOption.SKIDS,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -1025,7 +1021,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsSkids = true,
+                mInvestigatorOption = InvestigatorOption.SKIDS,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
     }
@@ -1265,7 +1261,7 @@ class TestCalculator {
                 requiredSuccesses,
                 mNumberOfChances = 1,
                 mBlessStatus = BlessOption.CURSED,
-                mIsMandy = true,
+                mInvestigatorOption = InvestigatorOption.MANDY,
                 mIsAddOne = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)

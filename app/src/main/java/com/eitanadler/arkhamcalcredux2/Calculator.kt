@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*
 package com.eitanadler.arkhamcalcredux2
 
 import com.eitanadler.arkhamcalcredux2.game.BlessOption
+import com.eitanadler.arkhamcalcredux2.game.InvestigatorOption
 import kotlin.math.pow
 
 /**
@@ -28,10 +29,9 @@ internal data class Calculator(
     private val mTough: Int,
     private val mNumberOfChances: Int,
     private val mBlessStatus: BlessOption = BlessOption.NORMAL,
+    private val mInvestigatorOption: InvestigatorOption = InvestigatorOption.NORMAL,
     private val mIsShotgun: Boolean = false,
-    private val mIsMandy: Boolean = false,
     private val mIsRerollOnes: Boolean = false,
-    private val mIsSkids: Boolean = false,
     private val mIsAddOne: Boolean = false,
 ) {
     /**
@@ -47,11 +47,11 @@ internal data class Calculator(
 
         var probMandySuccess = 0.0
         var probRerollOnesSuccess = 0.0
-        if (mIsMandy) {
+        if (mInvestigatorOption == InvestigatorOption.MANDY) {
             probMandySuccess = this.probMandyReroll
         } else if (mIsRerollOnes) {
             probRerollOnesSuccess = getProbRerollOnes(1)
-        } else if (mIsSkids) {
+        } else if (mInvestigatorOption == InvestigatorOption.SKIDS) {
             probRerollOnesSuccess = getProbRerollOnes(2)
         }
 
