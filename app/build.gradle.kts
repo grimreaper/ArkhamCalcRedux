@@ -79,6 +79,7 @@ kotlin {
 
 dependencies {
     implementation(enforcedPlatform(libs.androidx.compose.bom))
+    implementation(enforcedPlatform(libs.kotlin.bom))
     implementation(libs.aboutlibraries.compose.core)
     implementation(libs.aboutlibraries.compose.m3)
     implementation(libs.aboutlibraries.core)
