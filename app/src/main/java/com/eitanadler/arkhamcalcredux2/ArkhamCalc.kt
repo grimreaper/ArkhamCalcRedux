@@ -105,9 +105,7 @@ public class ArkhamCalc : ComponentActivity() {
                             when (key) {
                                 is CalculatorUXScreen ->
                                     NavEntry(key) {
-                                        TrueMainArkhamUX(
-                                            dataStore,
-                                        ).ComposableTrueMainArkhamTab(
+                                        ComposableTrueMainArkhamTab(
                                             goToHelpScreen = { topic ->
                                                 backStack.add(HelpScreen(topic))
                                             },
