@@ -21,10 +21,12 @@ import androidx.compose.material3.SliderState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -40,18 +42,12 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.eitanadler.arkhamcalcredux2.game.BlessOption
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
-
-internal enum class BlessOption(
-    val text: String,
-) {
-    NORMAL("Normal"),
-    BLESS("Blessed"),
-    CURSED("Cursed"),
-}
+import kotlinx.coroutines.launch
 
 internal class TrueMainArkhamUX(
     private val dataStore: DataStore<Preferences>,
@@ -222,7 +218,10 @@ internal class TrueMainArkhamUX(
                 )
             }
 
-            handleShowFirstTimeDialog(LocalContext.current)
+            LaunchedEffect(Unit) { }
+
+            val crScope = rememberCoroutineScope()
+            handleShowFirstTimeDialog(LocalContext.current, crScope)
             HorizontalDivider()
             Column(Modifier.selectableGroup()) {
                 Text(
@@ -363,33 +362,32 @@ internal class TrueMainArkhamUX(
      * Potentially show a dialog depending on if the user has ever opened
      * this version of the app; otherwise do nothing.
      */
-    private fun handleShowFirstTimeDialog(context: Context) {
+    private fun handleShowFirstTimeDialog(context: Context, crScope: CoroutineScope) {
         val prefKey = stringPreferencesKey(PREFS_KEY_FIRST_TIME_16)
         val prefResultFlow: Flow<String?> =
             dataStore.data.map { preferences ->
                 preferences[prefKey]
             }
-        val prefResult: String? =
-            runBlocking {
-                prefResultFlow.first()
-            }
-        if (prefResult != null) return
-
-        val builder =
-            AlertDialog
-                .Builder(context)
-                .setMessage(R.string.first_dialog_message)
-                .setNeutralButton(
-                    R.string.first_dialog_button,
-                ) { dialog: DialogInterface, which: Int ->
-                    dialog.cancel()
-                    runBlocking {
-                        dataStore.edit { settings ->
-                            settings[prefKey] = "a"
+        crScope.launch {
+            val prefResult = prefResultFlow.first()
+            if (prefResult != null) return@launch
+            val builder =
+                AlertDialog
+                    .Builder(context)
+                    .setMessage(R.string.first_dialog_message)
+                    .setNeutralButton(
+                        R.string.first_dialog_button,
+                    ) { dialog: DialogInterface, _: Int ->
+                        dialog.dismiss()
+                        crScope.launch {
+                            dataStore.edit { settings ->
+                                settings[prefKey] = "a"
+                            }
                         }
                     }
-                }
-        builder.create().show()
+            builder.create().show()
+        }
+
     }
 
     private fun recalculate(
