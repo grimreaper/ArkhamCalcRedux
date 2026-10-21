@@ -121,7 +121,7 @@ internal class TrueMainArkhamUX(
         val context = LocalContext.current
         val resources = LocalResources.current
         chancesSliderState.onValueChange = { v: Float ->
-            val mPreviousChanceValue = diceCountSliderState.value.toInt()
+            val mPreviousChanceValue = chancesSliderState.value.toInt()
             chancesSliderState.value = v
             simpleInternalRecalculate()
             handleOneTimeAbilityChancesChanged(
