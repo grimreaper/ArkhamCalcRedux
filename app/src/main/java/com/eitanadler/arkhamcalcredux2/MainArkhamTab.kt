@@ -40,7 +40,7 @@ private const val CHANCE_MAX = 6
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ComposableTrueMainArkhamTab(
+internal fun MainArkhamTab(
     goToHelpScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
