@@ -88,7 +88,7 @@ public class ArkhamCalc : ComponentActivity() {
                                         }
                                     },
                                     goToAboutScreen = {
-                                        if (backStack.last() !is HelpScreen) {
+                                        if (backStack.last() !is LibrariesScreen) {
                                             backStack.add(LibrariesScreen)
                                         }
                                     },
