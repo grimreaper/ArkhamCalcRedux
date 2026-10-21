@@ -435,6 +435,7 @@ internal class TrueMainArkhamUX(
                 mIsShotgun = isShotgunChecked,
                 mIsRerollOnes = isRerollOnesChecked,
                 mIsAddOne = isAddOneChecked,
+                mInvestigatorOption = investigatorStatus,
             )
         val result = calculator.calculate()
 
