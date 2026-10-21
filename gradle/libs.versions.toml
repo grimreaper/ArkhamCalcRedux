@@ -1,9 +1,10 @@
 [versions]
 aboutLibraries = "15.3.0"
 activityCompose = "1.13.0"
+agp = "9.4.1"
 androidSecurirtyLint = "1.0.4"
-animationCore = "1.12.1"
 animation = "1.12.1"
+animationCore = "1.12.1"
 appcompat = "1.8.0"
 compose = "1.12.1"
 composeBom = "2026.09.00"
@@ -39,6 +40,7 @@ uiViewbinding = "1.12.1"
 versionCatalogUpdate = "1.1.1"
 
 [libraries]
+aboutlibraries-compose-core = { module = "com.mikepenz:aboutlibraries-compose-core", version.ref = "aboutLibraries" }
 aboutlibraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibraries" }
 aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "aboutLibraries" }
 android-securityLint = { module = "com.android.security.lint:lint", version.ref = "androidSecurirtyLint" }
@@ -49,9 +51,9 @@ androidx-compose-animation = { module = "androidx.compose.animation:animation", 
 androidx-compose-animation-core = { module = "androidx.compose.animation:animation-core", version.ref = "animationCore" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 androidx-compose-runtime-saveable = { module = "androidx.compose.runtime:runtime-saveable", version.ref = "runtimeSaveable" }
-androidx-compose-ui-unit = { module = "androidx.compose.ui:ui-unit", version.ref = "uiUnit" }
-androidx-compose-ui-text = { module = "androidx.compose.ui:ui-text", version.ref = "uiText" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "uiGraphics" }
+androidx-compose-ui-text = { module = "androidx.compose.ui:ui-text", version.ref = "uiText" }
+androidx-compose-ui-unit = { module = "androidx.compose.ui:ui-unit", version.ref = "uiUnit" }
 androidx-compose-ui-viewbinding = { module = "androidx.compose.ui:ui-viewbinding", version.ref = "uiViewbinding" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
@@ -83,6 +85,7 @@ slack-lint-checks-compose = { module = "com.slack.lint.compose:compose-lint-chec
 [plugins]
 aboutLibraries = { id = "com.mikepenz.aboutlibraries.plugin", version.ref = "aboutLibraries" }
 aboutLibrariesAndroid = { id = "com.mikepenz.aboutlibraries.plugin.android", version.ref = "aboutLibraries" }
+android-application = { id = "com.android.application", version.ref = "agp" }
 dependencyAnalysis = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysis" }
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

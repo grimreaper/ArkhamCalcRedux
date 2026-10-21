@@ -2,7 +2,9 @@ import java.io.IOException
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.aboutLibraries)
+    alias(libs.plugins.aboutLibrariesAndroid)
+    alias(libs.plugins.android.application)
 //    alias(libs.plugins.sortDependencies)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.kotlin.compose)
@@ -77,13 +79,15 @@ kotlin {
 
 dependencies {
     implementation(enforcedPlatform(libs.androidx.compose.bom))
+    implementation(libs.aboutlibraries.compose.m3)
+    implementation(libs.aboutlibraries.core)
+    implementation(libs.aboutlibraries.compose.core)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.foundation)
     implementation(libs.androidx.foundation.layout)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.material3.adaptive.navigation3)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.runtime)

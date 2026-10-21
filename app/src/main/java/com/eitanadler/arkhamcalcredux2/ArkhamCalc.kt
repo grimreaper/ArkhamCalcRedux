@@ -61,7 +61,7 @@ public class ArkhamCalc : FragmentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     internal fun ArkahmCalcOuterScaffold(modifier: Modifier = Modifier) {
-        val backStack = remember { mutableStateListOf<ArkhamNavigation>(CalculatorUX) }
+        val backStack = remember { mutableStateListOf<ArkhamNavigation>(CalculatorUXScreen) }
         ArkhamCalcReduxTheme {
             Surface(modifier = Modifier.fillMaxSize()) {
                 val snackbarHostState = remember { SnackbarHostState() }
@@ -89,6 +89,11 @@ public class ArkhamCalc : FragmentActivity() {
                                             backStack.add(HelpScreen(""))
                                         }
                                     },
+                                    goToAboutScreen = {
+                                        if (backStack.last() !is HelpScreen) {
+                                            backStack.add(LibrariesScreen)
+                                        }
+                                    },
                                 )
                             },
                         )
@@ -100,7 +105,7 @@ public class ArkhamCalc : FragmentActivity() {
                         onBack = { backStack.removeLastOrNull() },
                         entryProvider = { key ->
                             when (key) {
-                                is CalculatorUX ->
+                                is CalculatorUXScreen ->
                                     NavEntry(key) {
                                         TrueMainArkhamUX(
                                             dataStore,
@@ -114,6 +119,11 @@ public class ArkhamCalc : FragmentActivity() {
                                 is HelpScreen ->
                                     NavEntry(key) {
                                         NewArkhamCalcHelp()
+                                    }
+
+                                LibrariesScreen ->
+                                    NavEntry(key) {
+                                        LibrariesTab()
                                     }
                             }
                         },

@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 @Composable
 internal fun ArkhamDropdown(
     goToHelpMenu: () -> Unit,
+    goToAboutScreen: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -35,9 +36,22 @@ internal fun ArkhamDropdown(
             onDismissRequest = { expanded = false },
         ) {
             DropdownMenuItem(
+                leadingIcon = {
+                    Icon(
+                        painter = painterResource(R.drawable.help_24px),
+                        contentDescription = "Help Icon",
+                    )
+                },
                 text = { Text(stringResource(R.string.menu_item_string_help)) },
                 onClick = {
                     goToHelpMenu()
+                    expanded = false
+                },
+            )
+            DropdownMenuItem(
+                text = { Text("Open Source Libraries") },
+                onClick = {
+                    goToAboutScreen()
                     expanded = false
                 },
             )

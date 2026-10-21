@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <baseline version="1.0">
+    <file name="src/main/java/com/eitanadler/arkhamcalcredux2/AboutLibrariesTab.kt">
+        <error line="12" column="14" source="standard:function-naming" />
+    </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ArkhamCalc.kt">
         <error line="63" column="18" source="standard:function-naming" />
     </file>
