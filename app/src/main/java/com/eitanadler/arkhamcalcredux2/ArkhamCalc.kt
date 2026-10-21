@@ -61,7 +61,7 @@ public class ArkhamCalc : ComponentActivity() {
     internal fun ArkhamCalcOuterScaffold(modifier: Modifier = Modifier) {
         val backStack = remember { mutableStateListOf<ArkhamNavigationKey>(CalculatorUXScreen) }
         ArkhamCalcReduxTheme {
-            Surface(modifier = Modifier.fillMaxSize()) {
+            Surface(modifier = modifier.fillMaxSize()) {
                 val snackbarHostState = remember { SnackbarHostState() }
                 Scaffold(
                     snackbarHost = {
