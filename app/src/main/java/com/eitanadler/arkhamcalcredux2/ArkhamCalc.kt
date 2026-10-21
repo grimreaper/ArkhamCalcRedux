@@ -61,7 +61,7 @@ public class ArkhamCalc : FragmentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     internal fun ArkahmCalcOuterScaffold(modifier: Modifier = Modifier) {
-        val backStack = remember { mutableStateListOf<ArkhamNavigation>(CalculatorUXScreen) }
+        val backStack = remember { mutableStateListOf<ArkhamNavigationKey>(CalculatorUXScreen) }
         ArkhamCalcReduxTheme {
             Surface(modifier = Modifier.fillMaxSize()) {
                 val snackbarHostState = remember { SnackbarHostState() }
@@ -109,7 +109,7 @@ public class ArkhamCalc : FragmentActivity() {
                                     NavEntry(key) {
                                         TrueMainArkhamUX(
                                             dataStore,
-                                        ).ComposableTrueMainArkhamUX(
+                                        ).ComposableTrueMainArkhamTab(
                                             goToHelpScreen = { topic ->
                                                 backStack.add(HelpScreen(topic))
                                             },
@@ -118,7 +118,7 @@ public class ArkhamCalc : FragmentActivity() {
 
                                 is HelpScreen ->
                                     NavEntry(key) {
-                                        NewArkhamCalcHelp()
+                                        ArkhamCalcHelpTab()
                                     }
 
                                 LibrariesScreen ->

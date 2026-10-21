@@ -61,7 +61,7 @@ internal class TrueMainArkhamUX(
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun ComposableTrueMainArkhamUX(
+    fun ComposableTrueMainArkhamTab(
         goToHelpScreen: (String) -> Unit,
         modifier: Modifier = Modifier,
     ) {
