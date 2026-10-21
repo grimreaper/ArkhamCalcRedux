@@ -16,6 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
 package com.eitanadler.arkhamcalcredux2
 
+import com.eitanadler.arkhamcalcredux2.game.BlessOption
 import kotlin.math.pow
 
 /**
@@ -26,8 +27,7 @@ internal data class Calculator(
     private val mDice: Int,
     private val mTough: Int,
     private val mNumberOfChances: Int,
-    private val mIsBlessed: Boolean = false,
-    private val mIsCursed: Boolean = false,
+    private val mBlessStatus: BlessOption = BlessOption.NORMAL,
     private val mIsShotgun: Boolean = false,
     private val mIsMandy: Boolean = false,
     private val mIsRerollOnes: Boolean = false,
@@ -204,13 +204,11 @@ internal data class Calculator(
         get() {
             val numerator = 1.0
             var denominator =
-                4.0 // without any perks, prob of one without success is 1/4 (1, 2, 3, 4)
-            if (mIsBlessed) {
-                denominator--
-            }
-            if (mIsCursed) {
-                denominator++
-            }
+                when (mBlessStatus) {
+                    BlessOption.BLESSED -> 3.0
+                    BlessOption.CURSED -> 5.0
+                    else -> 4.0 // without any perks, prob of one without success is 1/4 (1, 2, 3, 4)
+                }
             if (mIsAddOne) {
                 denominator--
             }
@@ -223,10 +221,9 @@ internal data class Calculator(
             var numerator =
                 2.0 // without any perks, prob of success is 2/6 (rolling a 5 or rolling a 6)
 
-            if (mIsBlessed) {
+            if (mBlessStatus == BlessOption.BLESSED) {
                 numerator++
-            }
-            if (mIsCursed) {
+            } else if (mBlessStatus == BlessOption.CURSED) {
                 numerator--
             }
             if (mIsAddOne) {

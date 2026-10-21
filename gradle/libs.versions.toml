@@ -74,7 +74,7 @@ androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 junit = { module = "junit:junit", version.ref = "junit" }
-kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref="kotlin" }
+kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
 ktlintCompose = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktlintComposeVersion" }

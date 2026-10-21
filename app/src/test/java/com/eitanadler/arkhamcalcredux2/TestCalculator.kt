@@ -16,6 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
 package com.eitanadler.arkhamcalcredux2
 
+import com.eitanadler.arkhamcalcredux2.game.BlessOption
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -50,7 +51,7 @@ class TestCalculator {
                 1,
                 1,
                 mNumberOfChances = 1,
-                mIsBlessed = true,
+                mBlessStatus = BlessOption.BLESSED,
             ).calculate(),
             EPS,
         )
@@ -113,8 +114,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = true,
-                mIsCursed = false,
+                mBlessStatus = BlessOption.BLESSED,
             ).calculate(),
             EPS,
         )
@@ -145,8 +145,7 @@ class TestCalculator {
                 mDice = requiredDice,
                 mTough = requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = true,
-                mIsCursed = false,
+                mBlessStatus = BlessOption.BLESSED,
                 mIsShotgun = false,
                 mIsMandy = false,
                 mIsRerollOnes = false,
@@ -182,8 +181,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = true,
+                mBlessStatus = BlessOption.CURSED,
             ).calculate(),
             EPS,
         )
@@ -214,7 +212,7 @@ class TestCalculator {
                 mDice = requiredDice,
                 mTough = requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsCursed = true,
+                mBlessStatus = BlessOption.CURSED,
             )
         Assert.assertEquals(percentageWins, calc.calculate(), EPS)
     }
@@ -293,8 +291,6 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsShotgun = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -327,7 +323,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = true,
+                mBlessStatus = BlessOption.BLESSED,
                 mIsShotgun = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -358,8 +354,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = true,
+                mBlessStatus = BlessOption.CURSED,
                 mIsShotgun = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -392,8 +387,6 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsShotgun = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -406,8 +399,6 @@ class TestCalculator {
                 4,
                 1,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsShotgun = true,
             )
         Assert.assertEquals(
@@ -415,8 +406,6 @@ class TestCalculator {
                 4,
                 1,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
             ).calculate(),
             shotgunCalc.calculate(),
             0.0,
@@ -450,8 +439,6 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsShotgun = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -484,8 +471,6 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsShotgun = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -523,8 +508,6 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsMandy = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -562,8 +545,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = true,
+                mBlessStatus = BlessOption.CURSED,
                 mIsMandy = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -607,8 +589,6 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsMandy = true,
                 mIsShotgun = true,
             )
@@ -625,8 +605,6 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsMandy = true,
             )
 
@@ -643,8 +621,6 @@ class TestCalculator {
                 mDice = requiredDice,
                 mTough = requiredSuccesses,
                 mNumberOfChances = 2,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsShotgun = false,
                 mIsMandy = false,
                 mIsRerollOnes = false,
@@ -657,8 +633,6 @@ class TestCalculator {
                 mDice = requiredDice,
                 mTough = requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsShotgun = false,
                 mIsMandy = true,
                 mIsRerollOnes = false,
@@ -711,8 +685,6 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 2,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsMandy = true,
             )
 
@@ -753,8 +725,6 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsRerollOnes = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -794,8 +764,6 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = false,
-                mIsCursed = false,
                 mIsSkids = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -835,7 +803,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsCursed = true,
+                mBlessStatus = BlessOption.CURSED,
                 mIsRerollOnes = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -875,7 +843,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = true,
+                mBlessStatus = BlessOption.BLESSED,
                 mIsRerollOnes = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -915,7 +883,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = true,
+                mBlessStatus = BlessOption.BLESSED,
                 mIsSkids = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -1114,7 +1082,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = true,
+                mBlessStatus = BlessOption.BLESSED,
             )
         val addOneCalc =
             Calculator(
@@ -1151,7 +1119,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = true,
+                mBlessStatus = BlessOption.BLESSED,
                 mIsAddOne = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -1182,7 +1150,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsCursed = true,
+                mBlessStatus = BlessOption.CURSED,
                 mIsAddOne = true,
             )
         Assert.assertEquals(percentageWins, calculator.calculate(), EPS)
@@ -1216,7 +1184,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsCursed = true,
+                mBlessStatus = BlessOption.CURSED,
                 mIsShotgun = true,
                 mIsAddOne = true,
             )
@@ -1257,7 +1225,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsBlessed = true,
+                mBlessStatus = BlessOption.BLESSED,
                 mIsRerollOnes = true,
                 mIsAddOne = true,
             )
@@ -1296,7 +1264,7 @@ class TestCalculator {
                 requiredDice,
                 requiredSuccesses,
                 mNumberOfChances = 1,
-                mIsCursed = true,
+                mBlessStatus = BlessOption.CURSED,
                 mIsMandy = true,
                 mIsAddOne = true,
             )

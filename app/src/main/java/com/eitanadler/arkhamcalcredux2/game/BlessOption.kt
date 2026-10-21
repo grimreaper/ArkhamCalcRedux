@@ -4,6 +4,6 @@ internal enum class BlessOption(
     val text: String,
 ) {
     NORMAL("Normal"),
-    BLESS("Blessed"),
+    BLESSED("Blessed"),
     CURSED("Cursed"),
 }
