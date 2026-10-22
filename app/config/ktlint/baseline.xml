@@ -10,7 +10,7 @@
         <error line="19" column="14" source="standard:function-naming" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/MainArkhamTab.kt">
-        <error line="42" column="14" source="standard:function-naming" />
+        <error line="43" column="14" source="standard:function-naming" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ui/theme/Theme.kt">
         <error line="37" column="14" source="standard:function-naming" />
