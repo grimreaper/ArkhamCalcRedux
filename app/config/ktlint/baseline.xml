@@ -3,9 +3,6 @@
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/AboutLibrariesTab.kt">
         <error line="12" column="14" source="standard:function-naming" />
     </file>
-    <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ArkhamCalc.kt">
-        <error line="61" column="18" source="standard:function-naming" />
-    </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ArkhamCalcHelp.kt">
         <error line="40" column="14" source="standard:function-naming" />
     </file>
@@ -13,10 +10,13 @@
         <error line="19" column="14" source="standard:function-naming" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/MainArkhamTab.kt">
-        <error line="43" column="14" source="standard:function-naming" />
+        <error line="42" column="14" source="standard:function-naming" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ui/theme/Theme.kt">
         <error line="37" column="14" source="standard:function-naming" />
+    </file>
+    <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ux/ArkhamCalcOuterScaffold.kt">
+        <error line="35" column="14" source="standard:function-naming" />
     </file>
     <file name="src/main/java/com/eitanadler/arkhamcalcredux2/ux/CheckBoxWithLabel.kt">
         <error line="16" column="14" source="standard:function-naming" />

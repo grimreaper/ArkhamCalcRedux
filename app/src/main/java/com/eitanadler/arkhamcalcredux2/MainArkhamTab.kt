@@ -395,4 +395,3 @@ internal fun MainArkhamTab(
     }
     recalculate()
 }
-

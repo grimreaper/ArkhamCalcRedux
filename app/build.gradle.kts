@@ -106,7 +106,12 @@ dependencies {
     implementation(libs.androidx.ui.tooling)
     implementation(libs.kotlinx.coroutines.core)
 
+    testImplementation(libs.androidx.compose.ui.test.junit4)
     testImplementation(libs.junit)
+
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.tools.fastlane.screengrab)
 
     androidTestRuntimeOnly(libs.androidx.runner)
 
