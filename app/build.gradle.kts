@@ -105,6 +105,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.tooling)
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.nanihadesuka.lazycolumnscrollbar)
 
     testImplementation(libs.androidx.compose.ui.test.junit4)
     testImplementation(libs.junit)

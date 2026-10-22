@@ -22,6 +22,7 @@ kotlinxCoroutinesCore = "1.11.0"
 kotlinxSerializationCore = "1.12.0"
 ktlint = "14.2.0"
 ktlintComposeVersion = "0.6.8"
+lazycolumnscrollbar = "3.0.0"
 lifecycleViewmodelCompose = "2.11.0"
 lifecycleViewmodelNav3 = "2.12.0-alpha05"
 lintGradle = "1.0.0"
@@ -83,6 +84,7 @@ kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
 ktlintCompose = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktlintComposeVersion" }
+nanihadesuka-lazycolumnscrollbar = { module = "com.github.nanihadesuka.LazyColumnScrollbar:lazycolumnscrollbar", version.ref = "lazycolumnscrollbar" }
 slack-lint-checks = { module = "com.slack.lint:slack-lint-checks", version.ref = "slackLintChecks" }
 slack-lint-checks-compose = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "slackComposeLintChecks" }
 tools-fastlane-screengrab = { module = "tools.fastlane:screengrab", version.ref = "screengrab" }

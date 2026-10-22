@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,6 +34,8 @@ import androidx.compose.ui.unit.dp
 import com.eitanadler.arkhamcalcredux2.game.BlessOption
 import com.eitanadler.arkhamcalcredux2.game.InvestigatorOption
 import com.eitanadler.arkhamcalcredux2.ux.CheckboxAndLabelWithHelp
+import my.nanihadesuka.compose.LazyColumnScrollbar
+import my.nanihadesuka.compose.ScrollbarSettings
 
 private const val DICE_MAX = 16
 private const val TOUGH_MAX = 6
@@ -114,307 +117,316 @@ internal fun MainArkhamTab(
         recalculate()
     }
 
-    LazyColumn(modifier) {
-        item {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text("Result", fontWeight = FontWeight.Bold)
-                Text(calculatorResultText.value, color = calculatorResultColor.value)
-            }
-        }
-        item {
-            Column {
-                Row {
-                    Text(
-                        "Dice: ",
-                        fontWeight = FontWeight.Bold,
-                        modifier =
-                        Modifier.combinedClickable(
-                            onClick = {},
-                            onLongClickLabel = "Show Help For Dice / Difficulty",
-                            onLongClick = {
-                                goToHelpScreen("Dice / Difficulty")
-                            },
-                        ),
-                    )
-                    Text(
-                        diceCountSliderState.value.toInt().toString(),
-                    )
+    val listState = rememberLazyListState()
+    LazyColumnScrollbar(
+        state = listState,
+        settings = ScrollbarSettings.Default,
+    ) {
+        LazyColumn(
+            modifier = modifier,
+            state = listState,
+        ) {
+            item {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text("Result", fontWeight = FontWeight.Bold)
+                    Text(calculatorResultText.value, color = calculatorResultColor.value)
                 }
-                Slider(
-                    state = diceCountSliderState,
-                )
             }
-        }
-        item {
-            Column {
-                Row {
-                    Text(
-                        "Difficulty: ",
-                        fontWeight = FontWeight.Bold,
-                        modifier =
-                        Modifier.combinedClickable(
-                            onClick = {},
-                            onLongClickLabel = "Show Help For Dice / Difficulty",
-                            onLongClick = {
-                                goToHelpScreen("Dice / Difficulty")
-                            },
-                        ),
-                    )
-                    Text(
-                        difficultySliderState.value.toInt().toString(),
-                    )
-                }
-                Slider(
-                    state = difficultySliderState,
-                )
-            }
-        }
-        item {
-            Column {
-                Row {
-                    Text(
-                        "Chances: ",
-                        fontWeight = FontWeight.Bold,
-                        modifier =
-                        Modifier.combinedClickable(
-                            onClick = {},
-                            onLongClickLabel = "Show Help For Chances",
-                            onLongClick = {
-                                goToHelpScreen("Chances")
-                            },
-                        ),
-                    )
-                    Text(
-                        chancesSliderState.value.toInt().toString(),
-                    )
-                }
-                Slider(
-                    state = chancesSliderState,
-                )
-            }
-        }
-        item {
-            HorizontalDivider()
-        }
-        item {
-            ListItem(
-                overlineContent = {
-                    Text(
-                        "Blessed / Cursed",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier =
-                        Modifier.combinedClickable(
-                            onClick = {},
-                            onLongClickLabel =
-                            stringResource(
-                                R.string.go_to_help_screen_by_label,
-                                "Blessed / Cursed",
+            item {
+                Column {
+                    Row {
+                        Text(
+                            "Dice: ",
+                            fontWeight = FontWeight.Bold,
+                            modifier =
+                            Modifier.combinedClickable(
+                                onClick = {},
+                                onLongClickLabel = "Show Help For Dice / Difficulty",
+                                onLongClick = {
+                                    goToHelpScreen("Dice / Difficulty")
+                                },
                             ),
-                            onLongClick = {
-                                goToHelpScreen("Blessed / Cursed")
-                            },
-                        ),
+                        )
+                        Text(
+                            diceCountSliderState.value.toInt().toString(),
+                        )
+                    }
+                    Slider(
+                        state = diceCountSliderState,
                     )
-                },
-                headlineContent = {
-                    Column(modifier = Modifier.selectableGroup()) {
-                        BlessOption.entries.forEach { option ->
-                            Row(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .selectable(
+                }
+            }
+            item {
+                Column {
+                    Row {
+                        Text(
+                            "Difficulty: ",
+                            fontWeight = FontWeight.Bold,
+                            modifier =
+                            Modifier.combinedClickable(
+                                onClick = {},
+                                onLongClickLabel = "Show Help For Dice / Difficulty",
+                                onLongClick = {
+                                    goToHelpScreen("Dice / Difficulty")
+                                },
+                            ),
+                        )
+                        Text(
+                            difficultySliderState.value.toInt().toString(),
+                        )
+                    }
+                    Slider(
+                        state = difficultySliderState,
+                    )
+                }
+            }
+            item {
+                Column {
+                    Row {
+                        Text(
+                            "Chances: ",
+                            fontWeight = FontWeight.Bold,
+                            modifier =
+                            Modifier.combinedClickable(
+                                onClick = {},
+                                onLongClickLabel = "Show Help For Chances",
+                                onLongClick = {
+                                    goToHelpScreen("Chances")
+                                },
+                            ),
+                        )
+                        Text(
+                            chancesSliderState.value.toInt().toString(),
+                        )
+                    }
+                    Slider(
+                        state = chancesSliderState,
+                    )
+                }
+            }
+            item {
+                HorizontalDivider()
+            }
+            item {
+                ListItem(
+                    overlineContent = {
+                        Text(
+                            "Blessed / Cursed",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier =
+                            Modifier.combinedClickable(
+                                onClick = {},
+                                onLongClickLabel =
+                                stringResource(
+                                    R.string.go_to_help_screen_by_label,
+                                    "Blessed / Cursed",
+                                ),
+                                onLongClick = {
+                                    goToHelpScreen("Blessed / Cursed")
+                                },
+                            ),
+                        )
+                    },
+                    headlineContent = {
+                        Column(modifier = Modifier.selectableGroup()) {
+                            BlessOption.entries.forEach { option ->
+                                Row(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .selectable(
+                                            selected = (option == selectedBlessOption),
+                                            onClick = {},
+                                            role = Role.RadioButton,
+                                        ).combinedClickable(
+                                            onClick = {
+                                                onBlessOptionSelected(option)
+                                                recalculate()
+                                            },
+                                            onLongClick = {
+                                                goToHelpScreen("Blessed / Cursed")
+                                            },
+                                        ).padding(horizontal = 16.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    RadioButton(
                                         selected = (option == selectedBlessOption),
-                                        onClick = {},
-                                        role = Role.RadioButton,
-                                    ).combinedClickable(
-                                        onClick = {
-                                            onBlessOptionSelected(option)
-                                            recalculate()
-                                        },
-                                        onLongClick = {
-                                            goToHelpScreen("Blessed / Cursed")
-                                        },
-                                    ).padding(horizontal = 16.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                RadioButton(
-                                    selected = (option == selectedBlessOption),
-                                    onClick = null, // null recommended for accessibility with screen readers
-                                )
-                                Text(
-                                    text = option.text,
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    modifier = Modifier.padding(start = 16.dp),
-                                )
+                                        onClick = null,
+                                    )
+                                    Text(
+                                        text = option.text,
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        modifier = Modifier.padding(start = 16.dp),
+                                    )
+                                }
                             }
                         }
-                    }
-                },
-            )
-        }
-        item {
-            HorizontalDivider()
-        }
-        item {
-            ListItem(
-                overlineContent = {
-                    Text(
-                        "Investigator",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier =
-                        Modifier.combinedClickable(
-                            onClick = {},
-                            onLongClickLabel =
-                            stringResource(
-                                R.string.go_to_help_screen_by_label,
-                                "Investigator",
+                    },
+                )
+            }
+            item {
+                HorizontalDivider()
+            }
+            item {
+                ListItem(
+                    overlineContent = {
+                        Text(
+                            "Investigator",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier =
+                            Modifier.combinedClickable(
+                                onClick = {},
+                                onLongClickLabel =
+                                stringResource(
+                                    R.string.go_to_help_screen_by_label,
+                                    "Investigator",
+                                ),
+                                onLongClick = {
+                                    // TODO: consider making this useful
+                                    goToHelpScreen("Investigator")
+                                },
                             ),
-                            onLongClick = {
-                                // TODO: consider making this useful
-                                goToHelpScreen("Investigator")
-                            },
-                        ),
-                    )
-                },
-                headlineContent = {
-                    Column(Modifier.selectableGroup()) {
-                        InvestigatorOption.entries.forEach { option ->
-                            Row(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .selectable(
+                        )
+                    },
+                    headlineContent = {
+                        Column(Modifier.selectableGroup()) {
+                            InvestigatorOption.entries.forEach { option ->
+                                Row(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .selectable(
+                                            selected = (option == selectedInvestigatorOption),
+                                            onClick = { },
+                                            role = Role.RadioButton,
+                                        ).combinedClickable(
+                                            onClick = {
+                                                if (option != InvestigatorOption.NORMAL) {
+                                                    isRerollOnesChecked = false
+                                                    isRerollOnesEnabled = false
+                                                } else {
+                                                    isRerollOnesEnabled = true
+                                                }
+                                                onInvestigatorOptionSelected(option)
+                                                recalculate()
+                                            },
+                                            onLongClick = {
+                                                goToHelpScreen(option.helpLabel)
+                                            },
+                                        ).padding(horizontal = 16.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    RadioButton(
                                         selected = (option == selectedInvestigatorOption),
-                                        onClick = { },
-                                        role = Role.RadioButton,
-                                    ).combinedClickable(
-                                        onClick = {
-                                            if (option != InvestigatorOption.NORMAL) {
-                                                isRerollOnesChecked = false
-                                                isRerollOnesEnabled = false
-                                            } else {
-                                                isRerollOnesEnabled = true
-                                            }
-                                            onInvestigatorOptionSelected(option)
-                                            recalculate()
-                                        },
-                                        onLongClick = {
-                                            goToHelpScreen(option.helpLabel)
-                                        },
-                                    ).padding(horizontal = 16.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                RadioButton(
-                                    selected = (option == selectedInvestigatorOption),
-                                    onClick = null, // null recommended for accessibility with screen readers
-                                )
-                                Text(
-                                    text = option.textLabel,
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    modifier = Modifier.padding(start = 16.dp),
-                                )
+                                        onClick = null,
+                                    )
+                                    Text(
+                                        text = option.textLabel,
+                                        style = MaterialTheme.typography.bodyLarge,
+                                        modifier = Modifier.padding(start = 16.dp),
+                                    )
+                                }
                             }
                         }
-                    }
-                },
-                supportingContent = {
-                    if (
-                        selectedInvestigatorOption.singleUseChanceNotice != null &&
-                        chancesSliderState.value.toInt() > 1
-                    ) {
-                        Text(stringResource(selectedInvestigatorOption.singleUseChanceNotice))
-                    }
-                },
-            )
-        }
-        item {
-            HorizontalDivider()
-        }
-        item {
-            ListItem(
-                overlineContent = {
-                    Text(
-                        "Skills & Weapons",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier =
-                        Modifier.combinedClickable(
-                            onClick = {},
-                            onLongClickLabel =
-                            stringResource(
-                                R.string.go_to_help_screen_by_label,
-                                "Skills & Weapons",
+                    },
+                    supportingContent = {
+                        if (
+                            selectedInvestigatorOption.singleUseChanceNotice != null &&
+                            chancesSliderState.value.toInt() > 1
+                        ) {
+                            Text(stringResource(selectedInvestigatorOption.singleUseChanceNotice))
+                        }
+                    },
+                )
+            }
+            item {
+                HorizontalDivider()
+            }
+            item {
+                ListItem(
+                    overlineContent = {
+                        Text(
+                            "Skills & Weapons",
+                            style = MaterialTheme.typography.titleMedium,
+                            modifier =
+                            Modifier.combinedClickable(
+                                onClick = {},
+                                onLongClickLabel =
+                                stringResource(
+                                    R.string.go_to_help_screen_by_label,
+                                    "Skills & Weapons",
+                                ),
+                                onLongClick = {
+                                    // TODO: consider making this useful
+                                    goToHelpScreen("Skills & Weapons")
+                                },
                             ),
-                            onLongClick = {
-                                // TODO: consider making this useful
-                                goToHelpScreen("Skills & Weapons")
+                        )
+                    },
+                    headlineContent = {
+                        CheckboxAndLabelWithHelp(
+                            enabled = isRerollOnesEnabled,
+                            checked = isRerollOnesChecked,
+                            onCheckedChange = { newValue ->
+                                isRerollOnesChecked = newValue
+                                recalculate()
                             },
-                        ),
-                    )
-                },
-                headlineContent = {
-                    CheckboxAndLabelWithHelp(
-                        enabled = isRerollOnesEnabled,
-                        checked = isRerollOnesChecked,
-                        onCheckedChange = { newValue ->
-                            isRerollOnesChecked = newValue
-                            recalculate()
-                        },
-                        goToHelpScreen = goToHelpScreen,
-                        label = "Reroll Ones",
-                    )
-                },
-                supportingContent = {
-                    if (
-                        isRerollOnesChecked &&
-                        chancesSliderState.value.toInt() > 1
-                    ) {
-                        Text(stringResource(R.string.reroll_ones_chances_message))
-                    }
-                },
-            )
-        }
-        item {
-            ListItem(
-                headlineContent = {
-                    CheckboxAndLabelWithHelp(
-                        checked = isAddOneChecked,
-                        onCheckedChange = { newValue ->
-                            isAddOneChecked = newValue
-                            recalculate()
-                        },
-                        label = "Add One",
-                        goToHelpScreen = goToHelpScreen,
-                    )
-                },
-            )
-        }
-        item {
-            ListItem(
-                headlineContent = {
-                    CheckboxAndLabelWithHelp(
-                        checked = isShotgunChecked,
-                        onCheckedChange = { newValue ->
-                            isShotgunChecked = newValue
-                            recalculate()
-                        },
-                        label = "Shotgun",
-                        goToHelpScreen = goToHelpScreen,
-                    )
-                },
-                supportingContent = {
-                    if (
-                        isShotgunChecked &&
-                        difficultySliderState.value.toInt() == 1
-                    ) {
-                        Text("Shotgun has no effect when difficulty is equal to 1.")
-                    }
-                },
-            )
-        }
-        item {
-            HorizontalDivider()
+                            goToHelpScreen = goToHelpScreen,
+                            label = "Reroll Ones",
+                        )
+                    },
+                    supportingContent = {
+                        if (
+                            isRerollOnesChecked &&
+                            chancesSliderState.value.toInt() > 1
+                        ) {
+                            Text(stringResource(R.string.reroll_ones_chances_message))
+                        }
+                    },
+                )
+            }
+            item {
+                ListItem(
+                    headlineContent = {
+                        CheckboxAndLabelWithHelp(
+                            checked = isAddOneChecked,
+                            onCheckedChange = { newValue ->
+                                isAddOneChecked = newValue
+                                recalculate()
+                            },
+                            label = "Add One",
+                            goToHelpScreen = goToHelpScreen,
+                        )
+                    },
+                )
+            }
+            item {
+                ListItem(
+                    headlineContent = {
+                        CheckboxAndLabelWithHelp(
+                            checked = isShotgunChecked,
+                            onCheckedChange = { newValue ->
+                                isShotgunChecked = newValue
+                                recalculate()
+                            },
+                            label = "Shotgun",
+                            goToHelpScreen = goToHelpScreen,
+                        )
+                    },
+                    supportingContent = {
+                        if (
+                            isShotgunChecked &&
+                            difficultySliderState.value.toInt() == 1
+                        ) {
+                            Text("Shotgun has no effect when difficulty is equal to 1.")
+                        }
+                    },
+                )
+            }
+            item {
+                HorizontalDivider()
+            }
         }
     }
     recalculate()
