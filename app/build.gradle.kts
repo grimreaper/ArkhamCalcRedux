@@ -51,6 +51,9 @@ android {
             ndk {
                 debugSymbolLevel = "FULL" // SYMBOL_TABLE - if it gets too big
             }
+            optimization {
+                enable = false
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -67,7 +70,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
     lint {
+        lintConfig = file("lint.xml")
         baseline = file("lint-baseline.xml")
+        checkDependencies = true
+        warningsAsErrors = true
+    }
+    androidResources {
+//        generateLocaleConfig = true
     }
     namespace = "com.eitanadler.arkhamcalcredux2"
 }
@@ -107,10 +116,15 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.nanihadesuka.lazycolumnscrollbar)
 
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+
     testImplementation(libs.androidx.compose.ui.test.junit4)
     testImplementation(libs.junit)
 
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.tools.fastlane.screengrab)
 
@@ -122,4 +136,10 @@ dependencies {
     lintChecks(libs.androidx.lint.gradle)
     lintChecks(libs.slack.lint.checks)
     lintChecks(libs.slack.lint.checks.compose)
+}
+
+composeCompiler {
+    includeSourceInformation = true
+    includeTraceMarkers = true
+    featureFlags = setOf()
 }

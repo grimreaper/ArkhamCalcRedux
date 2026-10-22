@@ -3,6 +3,8 @@ package com.eitanadler.arkhamcalcredux2.screenshots
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.eitanadler.arkhamcalcredux2.ArkhamCalc
 import com.eitanadler.arkhamcalcredux2.ArkhamCalcHelpTab
 import com.eitanadler.arkhamcalcredux2.ux.ArkhamCalcOuterScaffold
 import org.junit.AfterClass
@@ -10,13 +12,12 @@ import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy
 import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
-@RunWith(JUnit4::class)
+@RunWith(AndroidJUnit4::class)
 class ScreenshotGenerationTest {
     //    @get:Rule(order = 0)
 //    val activityRule = ActivityScenarioRule(ArkhamCalc::class.java)
