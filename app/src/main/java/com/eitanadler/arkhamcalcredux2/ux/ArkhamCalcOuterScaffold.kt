@@ -30,10 +30,46 @@ import com.eitanadler.arkhamcalcredux2.MainArkhamTab
 import com.eitanadler.arkhamcalcredux2.R
 import com.eitanadler.arkhamcalcredux2.ui.theme.ArkhamCalcReduxTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ArkhamCalcOuterScaffold(modifier: Modifier = Modifier) {
     val backStack = remember { mutableStateListOf<ArkhamNavigationKey>(CalculatorUXScreen) }
+    ArkhamCalcScaffold { modifier ->
+        NavDisplay(
+            modifier = modifier,
+            backStack = backStack,
+            onBack = { backStack.removeLastOrNull() },
+            entryProvider = { key ->
+                when (key) {
+                    is CalculatorUXScreen ->
+                        NavEntry(key) {
+                            MainArkhamTab(
+                                goToHelpScreen = { topic ->
+                                    backStack.add(HelpScreen(topic))
+                                },
+                            )
+                        }
+
+                    is HelpScreen ->
+                        NavEntry(key) {
+                            ArkhamCalcHelpTab(specificTopic = key.topic)
+                        }
+
+                    LibrariesScreen ->
+                        NavEntry(key) {
+                            LibrariesTab()
+                        }
+                }
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+public fun ArkhamCalcScaffold(
+    modifier: Modifier = Modifier,
+    content: @Composable (Modifier) -> Unit,
+) {
     ArkhamCalcReduxTheme {
         Surface(modifier = modifier.fillMaxSize()) {
             val snackbarHostState = remember { SnackbarHostState() }
@@ -44,60 +80,28 @@ internal fun ArkhamCalcOuterScaffold(modifier: Modifier = Modifier) {
                 topBar = {
                     CenterAlignedTopAppBar(
                         colors =
-                        TopAppBarDefaults.topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            titleContentColor = MaterialTheme.colorScheme.primary,
-                        ),
+                            TopAppBarDefaults.topAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                titleContentColor = MaterialTheme.colorScheme.primary,
+                            ),
                         title = { Text(stringResource(R.string.arkham_horror_calculator)) },
                         scrollBehavior =
-                        TopAppBarDefaults
-                            .exitUntilCollapsedScrollBehavior(
-                                rememberTopAppBarState(),
-                            ),
+                            TopAppBarDefaults
+                                .exitUntilCollapsedScrollBehavior(
+                                    rememberTopAppBarState(),
+                                ),
                         actions = {
                             ArkhamDropdown(
                                 goToHelpMenu = {
-                                    if (backStack.last() !is HelpScreen) {
-                                        backStack.add(HelpScreen())
-                                    }
                                 },
                                 goToAboutScreen = {
-                                    if (backStack.last() !is LibrariesScreen) {
-                                        backStack.add(LibrariesScreen)
-                                    }
                                 },
                             )
                         },
                     )
                 },
             ) { paddingValues ->
-                NavDisplay(
-                    modifier = Modifier.padding(paddingValues),
-                    backStack = backStack,
-                    onBack = { backStack.removeLastOrNull() },
-                    entryProvider = { key ->
-                        when (key) {
-                            is CalculatorUXScreen ->
-                                NavEntry(key) {
-                                    MainArkhamTab(
-                                        goToHelpScreen = { topic ->
-                                            backStack.add(HelpScreen(topic))
-                                        },
-                                    )
-                                }
-
-                            is HelpScreen ->
-                                NavEntry(key) {
-                                    ArkhamCalcHelpTab(specificTopic = key.topic)
-                                }
-
-                            LibrariesScreen ->
-                                NavEntry(key) {
-                                    LibrariesTab()
-                                }
-                        }
-                    },
-                )
+                content(Modifier.padding(paddingValues))
             }
         }
     }

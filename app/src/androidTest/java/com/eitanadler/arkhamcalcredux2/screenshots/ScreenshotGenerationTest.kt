@@ -4,10 +4,12 @@ import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.eitanadler.arkhamcalcredux2.ArkhamCalc
 import com.eitanadler.arkhamcalcredux2.ArkhamCalcHelpTab
-import com.eitanadler.arkhamcalcredux2.ux.ArkhamCalcOuterScaffold
+import com.eitanadler.arkhamcalcredux2.MainArkhamTab
+import com.eitanadler.arkhamcalcredux2.ux.ArkhamCalcScaffold
+import org.junit.After
 import org.junit.AfterClass
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.Test
@@ -30,12 +32,26 @@ class ScreenshotGenerationTest {
     val composeTestRule: ComposeContentTestRule =
         createAndroidComposeRule<ComponentActivity>()
 
+    @Before
+    fun setUp() {
+        CleanStatusBar.enableWithDefaults()
+    }
+
+    @After
+    fun cleanUp() {
+        CleanStatusBar.disable()
+    }
+
     @Test
     fun takeScreenshotOfMainScreen() {
         Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
 
         composeTestRule.setContent {
-            ArkhamCalcOuterScaffold()
+            // not sure why ArkhamCalcScaffold isn't helping here
+            MainArkhamTab(
+                goToHelpScreen = {
+                },
+            )
         }
         composeTestRule.waitForIdle()
         Screengrab.screenshot("calc_main_screen_screen_baseline")
@@ -46,7 +62,9 @@ class ScreenshotGenerationTest {
         Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
 
         composeTestRule.setContent {
-            ArkhamCalcHelpTab()
+            ArkhamCalcScaffold {
+                ArkhamCalcHelpTab()
+            }
         }
         composeTestRule.waitForIdle()
         Screengrab.screenshot("calc_help_screen_screen_baseline")
