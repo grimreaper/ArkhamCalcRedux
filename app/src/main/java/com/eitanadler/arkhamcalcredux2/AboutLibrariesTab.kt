@@ -14,13 +14,13 @@ internal fun LibrariesTab(modifier: Modifier = Modifier) {
     LibrariesContainer(
         modifier = modifier.fillMaxSize(),
         badges =
-            LibraryBadges(
-                version = true,
-                author = true,
-                description = true,
-                license = true,
-                funding = true,
-            ),
+        LibraryBadges(
+            version = true,
+            author = true,
+            description = true,
+            license = true,
+            funding = true,
+        ),
         libraries = libraries,
     )
 }

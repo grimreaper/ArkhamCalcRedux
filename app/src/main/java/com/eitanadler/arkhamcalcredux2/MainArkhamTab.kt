@@ -131,13 +131,13 @@ internal fun MainArkhamTab(
                         "Dice: ",
                         fontWeight = FontWeight.Bold,
                         modifier =
-                            Modifier.combinedClickable(
-                                onClick = {},
-                                onLongClickLabel = "Show Help For Dice / Difficulty",
-                                onLongClick = {
-                                    goToHelpScreen("Dice / Difficulty")
-                                },
-                            ),
+                        Modifier.combinedClickable(
+                            onClick = {},
+                            onLongClickLabel = "Show Help For Dice / Difficulty",
+                            onLongClick = {
+                                goToHelpScreen("Dice / Difficulty")
+                            },
+                        ),
                     )
                     Text(
                         diceCountSliderState.value.toInt().toString(),
@@ -155,13 +155,13 @@ internal fun MainArkhamTab(
                         "Difficulty: ",
                         fontWeight = FontWeight.Bold,
                         modifier =
-                            Modifier.combinedClickable(
-                                onClick = {},
-                                onLongClickLabel = "Show Help For Dice / Difficulty",
-                                onLongClick = {
-                                    goToHelpScreen("Dice / Difficulty")
-                                },
-                            ),
+                        Modifier.combinedClickable(
+                            onClick = {},
+                            onLongClickLabel = "Show Help For Dice / Difficulty",
+                            onLongClick = {
+                                goToHelpScreen("Dice / Difficulty")
+                            },
+                        ),
                     )
                     Text(
                         difficultySliderState.value.toInt().toString(),
@@ -179,13 +179,13 @@ internal fun MainArkhamTab(
                         "Chances: ",
                         fontWeight = FontWeight.Bold,
                         modifier =
-                            Modifier.combinedClickable(
-                                onClick = {},
-                                onLongClickLabel = "Show Help For Chances",
-                                onLongClick = {
-                                    goToHelpScreen("Chances")
-                                },
-                            ),
+                        Modifier.combinedClickable(
+                            onClick = {},
+                            onLongClickLabel = "Show Help For Chances",
+                            onLongClick = {
+                                goToHelpScreen("Chances")
+                            },
+                        ),
                     )
                     Text(
                         chancesSliderState.value.toInt().toString(),
@@ -206,17 +206,17 @@ internal fun MainArkhamTab(
                         "Blessed / Cursed",
                         style = MaterialTheme.typography.titleMedium,
                         modifier =
-                            Modifier.combinedClickable(
-                                onClick = {},
-                                onLongClickLabel =
-                                    stringResource(
-                                        R.string.go_to_help_screen_by_label,
-                                        "Blessed / Cursed",
-                                    ),
-                                onLongClick = {
-                                    goToHelpScreen("Blessed / Cursed")
-                                },
+                        Modifier.combinedClickable(
+                            onClick = {},
+                            onLongClickLabel =
+                            stringResource(
+                                R.string.go_to_help_screen_by_label,
+                                "Blessed / Cursed",
                             ),
+                            onLongClick = {
+                                goToHelpScreen("Blessed / Cursed")
+                            },
+                        ),
                     )
                 },
                 headlineContent = {
@@ -265,18 +265,18 @@ internal fun MainArkhamTab(
                         "Investigator",
                         style = MaterialTheme.typography.titleMedium,
                         modifier =
-                            Modifier.combinedClickable(
-                                onClick = {},
-                                onLongClickLabel =
-                                    stringResource(
-                                        R.string.go_to_help_screen_by_label,
-                                        "Investigator",
-                                    ),
-                                onLongClick = {
-                                    // TODO: consider making this useful
-                                    goToHelpScreen("Investigator")
-                                },
+                        Modifier.combinedClickable(
+                            onClick = {},
+                            onLongClickLabel =
+                            stringResource(
+                                R.string.go_to_help_screen_by_label,
+                                "Investigator",
                             ),
+                            onLongClick = {
+                                // TODO: consider making this useful
+                                goToHelpScreen("Investigator")
+                            },
+                        ),
                     )
                 },
                 headlineContent = {
@@ -339,18 +339,18 @@ internal fun MainArkhamTab(
                         "Skills & Weapons",
                         style = MaterialTheme.typography.titleMedium,
                         modifier =
-                            Modifier.combinedClickable(
-                                onClick = {},
-                                onLongClickLabel =
-                                    stringResource(
-                                        R.string.go_to_help_screen_by_label,
-                                        "Skills & Weapons",
-                                    ),
-                                onLongClick = {
-                                    // TODO: consider making this useful
-                                    goToHelpScreen("Skills & Weapons")
-                                },
+                        Modifier.combinedClickable(
+                            onClick = {},
+                            onLongClickLabel =
+                            stringResource(
+                                R.string.go_to_help_screen_by_label,
+                                "Skills & Weapons",
                             ),
+                            onLongClick = {
+                                // TODO: consider making this useful
+                                goToHelpScreen("Skills & Weapons")
+                            },
+                        ),
                     )
                 },
                 headlineContent = {

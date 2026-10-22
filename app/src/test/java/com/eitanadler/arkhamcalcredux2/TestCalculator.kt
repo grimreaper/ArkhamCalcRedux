@@ -18,10 +18,10 @@ package com.eitanadler.arkhamcalcredux2
 
 import com.eitanadler.arkhamcalcredux2.game.BlessOption
 import com.eitanadler.arkhamcalcredux2.game.InvestigatorOption
+import java.util.Random
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import java.util.Random
 
 class TestCalculator {
     private lateinit var random: Random
