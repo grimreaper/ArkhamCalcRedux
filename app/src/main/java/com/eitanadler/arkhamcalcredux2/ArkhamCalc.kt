@@ -16,12 +16,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
 package com.eitanadler.arkhamcalcredux2
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.datastore.preferences.preferencesDataStore
 import com.eitanadler.arkhamcalcredux2.ux.ArkhamCalcOuterScaffold
 
 /**
@@ -35,9 +33,5 @@ public class ArkhamCalc : ComponentActivity() {
         setContent {
             ArkhamCalcOuterScaffold()
         }
-    }
-
-    private companion object {
-        val Context.dataStore by preferencesDataStore(name = "settings")
     }
 }
