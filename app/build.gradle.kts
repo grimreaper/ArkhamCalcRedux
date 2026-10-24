@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.targets.js.npm.includedRange
 import java.io.IOException
 import java.util.Properties
 
@@ -78,6 +79,13 @@ android {
     androidResources {
         generateLocaleConfig = true
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
     namespace = "com.eitanadler.arkhamcalcredux2"
 }
 
