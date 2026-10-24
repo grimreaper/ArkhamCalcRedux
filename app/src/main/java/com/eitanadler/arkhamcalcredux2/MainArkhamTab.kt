@@ -26,14 +26,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.eitanadler.arkhamcalcredux2.game.BlessOption
 import com.eitanadler.arkhamcalcredux2.game.InvestigatorOption
-import com.eitanadler.arkhamcalcredux2.ui.theme.DiceChanceColoursPalette
 import com.eitanadler.arkhamcalcredux2.ui.theme.chanceColorPalette
 import com.eitanadler.arkhamcalcredux2.util.CalculateResultFormatter
 import com.eitanadler.arkhamcalcredux2.ux.CheckboxAndLabelWithHelp
@@ -50,9 +48,6 @@ internal fun MainArkhamTab(
     goToHelpScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val calculatorResultText = remember { mutableStateOf("") }
-    val calculatorResultColor = remember { mutableStateOf(Color.Unspecified) }
-
     val (selectedBlessOption, onBlessOptionSelected) = remember { mutableStateOf(BlessOption.NORMAL) }
     val (selectedInvestigatorOption, onInvestigatorOptionSelected) =
         remember {
@@ -85,41 +80,36 @@ internal fun MainArkhamTab(
             valueRange = 1f..CHANCE_MAX.toFloat(),
         )
 
-    fun recalculate(palette: DiceChanceColoursPalette) {
-        val calculator =
-            Calculator(
-                mDice = diceCountSliderState.value.toInt(),
-                mTough = difficultySliderState.value.toInt(),
-                mNumberOfChances = chancesSliderState.value.toInt(),
-                mBlessStatus = selectedBlessOption,
-                mIsShotgun = isShotgunChecked,
-                mIsRerollOnes = isRerollOnesChecked,
-                mIsAddOne = isAddOneChecked,
-                mInvestigatorOption = selectedInvestigatorOption,
-            )
-        val result = calculator.calculate()
-
-        val formatter = CalculateResultFormatter(result, palette = palette)
-
-        calculatorResultText.value = formatter.resultString
-        calculatorResultColor.value = formatter.color
-    }
-
     val palette = MaterialTheme.chanceColorPalette
+
+    val calculator =
+        Calculator(
+            mDice = diceCountSliderState.value.toInt(),
+            mTough = difficultySliderState.value.toInt(),
+            mNumberOfChances = chancesSliderState.value.toInt(),
+            mBlessStatus = selectedBlessOption,
+            mIsShotgun = isShotgunChecked,
+            mIsRerollOnes = isRerollOnesChecked,
+            mIsAddOne = isAddOneChecked,
+            mInvestigatorOption = selectedInvestigatorOption,
+        )
+    val result = calculator.calculate()
+
+    val formatter = CalculateResultFormatter(result, palette = palette)
+
+    val calculatorResultText = formatter.resultString
+    val calculatorResultColor = formatter.color
 
     diceCountSliderState.onValueChange = { v: Float ->
         diceCountSliderState.value = v
-        recalculate(palette)
     }
 
     difficultySliderState.onValueChange = { v: Float ->
         difficultySliderState.value = v
-        recalculate(palette)
     }
 
     chancesSliderState.onValueChange = { v: Float ->
         chancesSliderState.value = v
-        recalculate(palette)
     }
 
     val listState = rememberLazyListState()
@@ -137,7 +127,7 @@ internal fun MainArkhamTab(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text("Result", fontWeight = FontWeight.Bold)
-                    Text(calculatorResultText.value, color = calculatorResultColor.value)
+                    Text(calculatorResultText, color = calculatorResultColor)
                 }
             }
             item {
@@ -203,7 +193,10 @@ internal fun MainArkhamTab(
                             modifier =
                             Modifier.combinedClickable(
                                 onClick = {},
-                                onLongClickLabel = stringResource(R.string.go_to_help_screen_by_label, "Chances"),
+                                onLongClickLabel = stringResource(
+                                    R.string.go_to_help_screen_by_label,
+                                    "Chances",
+                                ),
                                 onLongClick = {
                                     goToHelpScreen("Chances")
                                 },
@@ -255,7 +248,6 @@ internal fun MainArkhamTab(
                                         .combinedClickable(
                                             onClick = {
                                                 onBlessOptionSelected(option)
-                                                recalculate(palette)
                                             },
                                             onLongClick = {
                                                 goToHelpScreen("Blessed / Cursed")
@@ -323,7 +315,6 @@ internal fun MainArkhamTab(
                                                     isRerollOnesEnabled = true
                                                 }
                                                 onInvestigatorOptionSelected(option)
-                                                recalculate(palette)
                                             },
                                             onLongClick = {
                                                 goToHelpScreen(option.helpLabel)
@@ -385,7 +376,6 @@ internal fun MainArkhamTab(
                             checked = isRerollOnesChecked,
                             onCheckedChange = { newValue ->
                                 isRerollOnesChecked = newValue
-                                recalculate(palette)
                             },
                             goToHelpScreen = goToHelpScreen,
                             label = "Reroll Ones",
@@ -408,7 +398,6 @@ internal fun MainArkhamTab(
                             checked = isAddOneChecked,
                             onCheckedChange = { newValue ->
                                 isAddOneChecked = newValue
-                                recalculate(palette)
                             },
                             label = "Add One",
                             goToHelpScreen = goToHelpScreen,
@@ -423,7 +412,6 @@ internal fun MainArkhamTab(
                             checked = isShotgunChecked,
                             onCheckedChange = { newValue ->
                                 isShotgunChecked = newValue
-                                recalculate(palette)
                             },
                             label = "Shotgun",
                             goToHelpScreen = goToHelpScreen,
@@ -444,5 +432,4 @@ internal fun MainArkhamTab(
             }
         }
     }
-    recalculate(palette)
 }
