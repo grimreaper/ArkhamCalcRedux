@@ -76,7 +76,7 @@ android {
         warningsAsErrors = true
     }
     androidResources {
-//        generateLocaleConfig = true
+        generateLocaleConfig = true
     }
     namespace = "com.eitanadler.arkhamcalcredux2"
 }
