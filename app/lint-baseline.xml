@@ -8,7 +8,7 @@
         errorLine2="               ~~~~~">
         <location
             file="../gradle/libs.versions.toml"
-            line="16"
+            line="15"
             column="16"/>
     </issue>
 

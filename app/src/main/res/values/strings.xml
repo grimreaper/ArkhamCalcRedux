@@ -10,4 +10,5 @@
     <string name="arkham_horror_calculator">Arkham Horror Calculator</string>
     <string name="go_to_help_screen_by_label">Go to %1$s</string>
     <string name="help_menu">Help Menu</string>
+    <string name="shotgun_has_no_effect_when_difficulty_is_equal_to_1">Shotgun has no effect when difficulty is equal to 1.</string>
 </resources>

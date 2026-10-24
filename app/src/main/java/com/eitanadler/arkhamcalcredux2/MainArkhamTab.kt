@@ -50,8 +50,8 @@ internal fun MainArkhamTab(
     goToHelpScreen: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val calculatorResultText = remember { mutableStateOf("Result!") }
-    val calculatorResultColor = remember { mutableStateOf(Color.Blue) }
+    val calculatorResultText = remember { mutableStateOf("") }
+    val calculatorResultColor = remember { mutableStateOf(Color.Unspecified) }
 
     val (selectedBlessOption, onBlessOptionSelected) = remember { mutableStateOf(BlessOption.NORMAL) }
     val (selectedInvestigatorOption, onInvestigatorOptionSelected) =
@@ -149,7 +149,10 @@ internal fun MainArkhamTab(
                             modifier =
                             Modifier.combinedClickable(
                                 onClick = {},
-                                onLongClickLabel = "Show Help For Dice / Difficulty",
+                                onLongClickLabel = stringResource(
+                                    R.string.go_to_help_screen_by_label,
+                                    "Dice / Difficulty",
+                                ),
                                 onLongClick = {
                                     goToHelpScreen("Dice / Difficulty")
                                 },
@@ -173,7 +176,10 @@ internal fun MainArkhamTab(
                             modifier =
                             Modifier.combinedClickable(
                                 onClick = {},
-                                onLongClickLabel = "Show Help For Dice / Difficulty",
+                                onLongClickLabel = stringResource(
+                                    R.string.go_to_help_screen_by_label,
+                                    "Dice / Difficulty",
+                                ),
                                 onLongClick = {
                                     goToHelpScreen("Dice / Difficulty")
                                 },
@@ -197,7 +203,7 @@ internal fun MainArkhamTab(
                             modifier =
                             Modifier.combinedClickable(
                                 onClick = {},
-                                onLongClickLabel = "Show Help For Chances",
+                                onLongClickLabel = stringResource(R.string.go_to_help_screen_by_label, "Chances"),
                                 onLongClick = {
                                     goToHelpScreen("Chances")
                                 },
@@ -245,7 +251,8 @@ internal fun MainArkhamTab(
                                             selected = (option == selectedBlessOption),
                                             onClick = {},
                                             role = Role.RadioButton,
-                                        ).combinedClickable(
+                                        )
+                                        .combinedClickable(
                                             onClick = {
                                                 onBlessOptionSelected(option)
                                                 recalculate(palette)
@@ -253,7 +260,8 @@ internal fun MainArkhamTab(
                                             onLongClick = {
                                                 goToHelpScreen("Blessed / Cursed")
                                             },
-                                        ).padding(horizontal = 16.dp),
+                                        )
+                                        .padding(horizontal = 16.dp),
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
                                     RadioButton(
@@ -305,7 +313,8 @@ internal fun MainArkhamTab(
                                             selected = (option == selectedInvestigatorOption),
                                             onClick = { },
                                             role = Role.RadioButton,
-                                        ).combinedClickable(
+                                        )
+                                        .combinedClickable(
                                             onClick = {
                                                 if (option != InvestigatorOption.NORMAL) {
                                                     isRerollOnesChecked = false
@@ -319,7 +328,8 @@ internal fun MainArkhamTab(
                                             onLongClick = {
                                                 goToHelpScreen(option.helpLabel)
                                             },
-                                        ).padding(horizontal = 16.dp),
+                                        )
+                                        .padding(horizontal = 16.dp),
                                     verticalAlignment = Alignment.CenterVertically,
                                 ) {
                                     RadioButton(
@@ -424,7 +434,7 @@ internal fun MainArkhamTab(
                             isShotgunChecked &&
                             difficultySliderState.value.toInt() == 1
                         ) {
-                            Text("Shotgun has no effect when difficulty is equal to 1.")
+                            Text(stringResource(R.string.shotgun_has_no_effect_when_difficulty_is_equal_to_1))
                         }
                     },
                 )
