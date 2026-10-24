@@ -1,4 +1,4 @@
-/*ArkhamCalc
+/*
 Copyright (C) 2012  Matthew Cole
 
 This program is free software; you can redistribute it and/or
@@ -41,15 +41,15 @@ internal class CalculateResultFormatter(
 
     val resultString: String
         get() {
-            if (mResult >= .9995) {
+            return if (mResult >= .9995) {
                 // show ">99.9%" instead of 100%
-                return almostOneResultString
-            }
-            if (mResult > 0 && mResult < 0.0005) {
+                almostOneResultString
+            } else if (mResult > 0 && mResult < 0.0005) {
                 // show "<0.1%" instead of 0%
-                return almostZeroResultString
+                almostZeroResultString
+            } else {
+                numberFormat.format(mResult)
             }
-            return numberFormat.format(mResult)
         }
 
     companion object {
