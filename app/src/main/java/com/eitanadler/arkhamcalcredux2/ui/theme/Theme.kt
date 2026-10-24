@@ -24,13 +24,13 @@ internal data class DiceChanceColoursPalette(
 internal val LocalDiceChanceColoursPalette = staticCompositionLocalOf { DiceChanceColoursPalette() }
 
 private val DarkDiceChanceColoursPalette = DiceChanceColoursPalette(
-    isHighChance = Color.Red,
-    isLowChance = Color.Green,
-    isMidChance = Color.Blue,
+    isHighChance = Color.Green,
+    isLowChance = Color.Red,
+    isMidChance = Color.Yellow,
 )
 private val LightDiceChanceColoursPalette = DiceChanceColoursPalette(
-    isHighChance = Color.Red,
-    isLowChance = Color.Green,
+    isHighChance = Color.Green,
+    isLowChance = Color.Red,
     isMidChance = Color.Blue,
 )
 
