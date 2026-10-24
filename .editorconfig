@@ -33,7 +33,7 @@ ktlint_standard_trailing-comma-on-call-site = enabled
 ktlint_standard_trailing-comma-on-declaration-site = enabled
 
 # https://mrmans0n.github.io/compose-rules/ktlint/
-compose_allowed_composition_locals = LocalSnackbarHostState,LocalBottomSheetContent
+compose_allowed_composition_locals = LocalSnackbarHostState,LocalBottomSheetContent,LocalDiceChanceColoursPalette
 compose_disallow_material2 = true
 compose_disallow_unstable_collections = true
 compose_preview_naming_enabled = true

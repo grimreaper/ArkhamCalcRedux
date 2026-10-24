@@ -59,7 +59,7 @@ internal fun ArkhamCalcOuterScaffold(modifier: Modifier = Modifier) {
                             LibrariesTab()
                         }
                 }
-            }
+            },
         )
     }
 }
@@ -80,16 +80,16 @@ public fun ArkhamCalcScaffold(
                 topBar = {
                     CenterAlignedTopAppBar(
                         colors =
-                            TopAppBarDefaults.topAppBarColors(
-                                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                                titleContentColor = MaterialTheme.colorScheme.primary,
-                            ),
+                        TopAppBarDefaults.topAppBarColors(
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            titleContentColor = MaterialTheme.colorScheme.primary,
+                        ),
                         title = { Text(stringResource(R.string.arkham_horror_calculator)) },
                         scrollBehavior =
-                            TopAppBarDefaults
-                                .exitUntilCollapsedScrollBehavior(
-                                    rememberTopAppBarState(),
-                                ),
+                        TopAppBarDefaults
+                            .exitUntilCollapsedScrollBehavior(
+                                rememberTopAppBarState(),
+                            ),
                         actions = {
                             ArkhamDropdown(
                                 goToHelpMenu = {

@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="6" by="lint 9.5.0-rc01" type="baseline" client="gradle" dependencies="false" name="AGP (9.5.0-rc01)" variant="all" version="9.5.0-rc01">
+<issues format="6" by="lint 9.5.0-rc01" type="baseline" client="gradle" dependencies="true" name="AGP (9.5.0-rc01)" variant="all" version="9.5.0-rc01">
+
+    <issue
+        id="NewerVersionAvailable"
+        message="A newer version of org.hamcrest:hamcrest-core than 1.3 is available: 3.0"
+        errorLine1="hamcrestCore = &quot;1.3&quot;"
+        errorLine2="               ~~~~~">
+        <location
+            file="../gradle/libs.versions.toml"
+            line="16"
+            column="16"/>
+    </issue>
 
 </issues>

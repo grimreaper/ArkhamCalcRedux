@@ -14,9 +14,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.*/
-package com.eitanadler.arkhamcalcredux2
+package com.eitanadler.arkhamcalcredux2.util
 
 import androidx.compose.ui.graphics.Color
+import com.eitanadler.arkhamcalcredux2.ui.theme.DiceChanceColoursPalette
 import java.text.NumberFormat
 
 /**
@@ -25,18 +26,17 @@ import java.text.NumberFormat
  */
 internal class CalculateResultFormatter(
     private val mResult: Double,
+    private val palette: DiceChanceColoursPalette,
 ) {
     val color: Color
         get() {
-            if (mResult > .66) {
-                return Color.Green
+            return if (mResult > .66) {
+                palette.isHighChance
+            } else if (mResult > .33) {
+                palette.isMidChance
+            } else {
+                palette.isLowChance
             }
-            if (mResult > .33) {
-                // TODO: yellow(?)
-                // TODO: theme(?)
-                return Color.Blue
-            }
-            return Color.Red
         }
 
     val resultString: String

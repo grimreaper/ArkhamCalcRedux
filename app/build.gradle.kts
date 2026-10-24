@@ -98,6 +98,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.compose.animation)
     implementation(libs.androidx.compose.animation.core)
+    implementation(libs.androidx.compose.runtime.annotation)
     implementation(libs.androidx.compose.runtime.saveable)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.text)
@@ -116,18 +117,19 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.nanihadesuka.lazycolumnscrollbar)
 
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    debugRuntimeOnly(libs.androidx.compose.ui.test.manifest)
 
     testImplementation(libs.androidx.compose.ui.test.junit4)
+    testImplementation(libs.hamcrest.core)
     testImplementation(libs.junit)
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.tools.fastlane.screengrab)
 
+    androidTestRuntimeOnly(libs.androidx.espresso.core)
     androidTestRuntimeOnly(libs.androidx.runner)
 
     ktlintRuleset(libs.ktlintCompose)
