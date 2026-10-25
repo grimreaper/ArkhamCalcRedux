@@ -58,7 +58,10 @@ internal fun ArkhamCalcHelpTab(
         }
     }
 
-    LazyColumn(state = listState) {
+    LazyColumn(
+        modifier = modifier,
+        state = listState
+    ) {
         helpTopics.forEachIndexed { index, topic ->
             item(key = topic) {
                 val initialValueForOpenClose =

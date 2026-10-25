@@ -33,9 +33,8 @@ import com.eitanadler.arkhamcalcredux2.ui.theme.ArkhamCalcReduxTheme
 @Composable
 internal fun ArkhamCalcOuterScaffold(modifier: Modifier = Modifier) {
     val backStack = remember { mutableStateListOf<ArkhamNavigationKey>(CalculatorUXScreen) }
-    ArkhamCalcScaffold { modifier ->
+    ArkhamCalcScaffold(modifier=modifier) {
         NavDisplay(
-            modifier = modifier,
             backStack = backStack,
             onBack = { backStack.removeLastOrNull() },
             entryProvider = { key ->
