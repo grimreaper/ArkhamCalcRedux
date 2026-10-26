@@ -33,7 +33,7 @@ screengrab = "2.1.1"
 slackComposeLintChecks = "1.6.1"
 slackLintChecks = "0.11.1"
 sortDependencies = "0.21.0"
-versionCatalogUpdate = "1.1.1"
+versionCatalogUpdate = "1.1.2"
 
 [libraries]
 aboutlibraries-compose-core = { module = "com.mikepenz:aboutlibraries-compose-core", version.ref = "aboutLibraries" }
