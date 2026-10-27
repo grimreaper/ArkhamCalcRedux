@@ -60,7 +60,7 @@ internal fun ArkhamCalcHelpTab(
 
     LazyColumn(
         modifier = modifier,
-        state = listState
+        state = listState,
     ) {
         helpTopics.forEachIndexed { index, topic ->
             item(key = topic) {
