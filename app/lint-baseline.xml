@@ -157,30 +157,8 @@
 
     <issue
         id="GradleDependency"
-        message="A newer version of androidx.lifecycle:lifecycle-viewmodel-compose than 2.11.0 is available: 2.11.1"
-        errorLine1="lifecycleViewmodelCompose = &quot;2.11.0&quot;"
-        errorLine2="                            ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="24"
-            column="29"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.lifecycle:lifecycle-viewmodel-navigation3 than 2.12.0-alpha05 is available: 2.12.0-alpha06"
-        errorLine1="lifecycleViewmodelNav3 = &quot;2.12.0-alpha05&quot;"
-        errorLine2="                         ~~~~~~~~~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="25"
-            column="26"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
         message="A newer version of androidx.compose.material3:material3 than 1.5.0-beta02 is available: 1.5.0"
-        errorLine1="material3 = &quot;1.5.0-beta02&quot;"
+        errorLine1="material3 = &quot;1.5.0&quot;"
         errorLine2="            ~~~~~~~~~~~~~~">
         <location
             file="../gradle/libs.versions.toml"
@@ -189,42 +167,9 @@
     </issue>
 
     <issue
-        id="GradleDependency"
-        message="A newer version of androidx.navigation3:navigation3-runtime than 1.2.0 is available: 1.2.2"
-        errorLine1="nav3Core = &quot;1.2.0&quot;"
-        errorLine2="           ~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="29"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.navigation3:navigation3-ui than 1.2.0 is available: 1.2.2"
-        errorLine1="nav3Core = &quot;1.2.0&quot;"
-        errorLine2="           ~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="29"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="NewerVersionAvailable"
-        message="A newer version of com.autonomousapps.dependency-analysis than 3.20.1 is available: 3.20.4"
-        errorLine1="dependencyAnalysis = &quot;3.20.1&quot;"
-        errorLine2="                     ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="11"
-            column="22"/>
-    </issue>
-
-    <issue
         id="NewerVersionAvailable"
         message="A newer version of org.jetbrains.kotlinx:kotlinx-serialization-core than 1.12.0 is available: 1.13.0"
-        errorLine1="kotlinxSerializationCore = &quot;1.12.0&quot;"
+        errorLine1="kotlinxSerializationCore = &quot;1.13.0&quot;"
         errorLine2="                           ~~~~~~~~">
         <location
             file="../gradle/libs.versions.toml"
