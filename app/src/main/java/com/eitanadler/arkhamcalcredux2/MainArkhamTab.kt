@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
@@ -42,7 +41,6 @@ private const val DICE_MAX = 16
 private const val TOUGH_MAX = 6
 private const val CHANCE_MAX = 6
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MainArkhamTab(
     goToHelpScreen: (String) -> Unit,
@@ -65,19 +63,19 @@ internal fun MainArkhamTab(
         rememberSliderState(
             value = 1.0f,
             steps = DICE_MAX - 2,
-            valueRange = 1f..DICE_MAX.toFloat(),
+            trackRange = 1f..DICE_MAX.toFloat(),
         )
     val difficultySliderState =
         rememberSliderState(
             value = 1.0f,
             steps = TOUGH_MAX - 2,
-            valueRange = 1f..TOUGH_MAX.toFloat(),
+            trackRange = 1f..TOUGH_MAX.toFloat(),
         )
     val chancesSliderState: SliderState =
         rememberSliderState(
             value = 1.0f,
             steps = CHANCE_MAX - 2,
-            valueRange = 1f..CHANCE_MAX.toFloat(),
+            trackRange = 1f..CHANCE_MAX.toFloat(),
         )
 
     val palette = MaterialTheme.chanceColorPalette
@@ -100,34 +98,31 @@ internal fun MainArkhamTab(
     val calculatorResultText = formatter.resultString
     val calculatorResultColor = formatter.color
 
-    diceCountSliderState.onValueChange = { v: Float ->
-        diceCountSliderState.value = v
-    }
-
-    difficultySliderState.onValueChange = { v: Float ->
-        difficultySliderState.value = v
-    }
-
-    chancesSliderState.onValueChange = { v: Float ->
-        chancesSliderState.value = v
-    }
-
     val listState = rememberLazyListState()
     LazyColumnScrollbar(
         state = listState,
         settings = ScrollbarSettings.Default,
+        modifier = modifier,
     ) {
         LazyColumn(
-            modifier = modifier,
             state = listState,
         ) {
+            // not sure why these two are required.
             item {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Text("Result", fontWeight = FontWeight.Bold)
-                    Text(calculatorResultText, color = calculatorResultColor)
+                ListItem { }
+            }
+            item {
+                ListItem { }
+            }
+            item {
+                ListItem {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text("Result", fontWeight = FontWeight.Bold)
+                        Text(calculatorResultText, color = calculatorResultColor)
+                    }
                 }
             }
             item {
@@ -154,6 +149,9 @@ internal fun MainArkhamTab(
                     }
                     Slider(
                         state = diceCountSliderState,
+                        onValueChange = { v ->
+                            diceCountSliderState.value = v
+                        },
                     )
                 }
             }
@@ -181,6 +179,9 @@ internal fun MainArkhamTab(
                     }
                     Slider(
                         state = difficultySliderState,
+                        onValueChange = { v ->
+                            difficultySliderState.value = v
+                        },
                     )
                 }
             }
@@ -208,6 +209,9 @@ internal fun MainArkhamTab(
                     }
                     Slider(
                         state = chancesSliderState,
+                        onValueChange = { v ->
+                            chancesSliderState.value = v
+                        },
                     )
                 }
             }
@@ -234,42 +238,41 @@ internal fun MainArkhamTab(
                             ),
                         )
                     },
-                    headlineContent = {
-                        Column(modifier = Modifier.selectableGroup()) {
-                            BlessOption.entries.forEach { option ->
-                                Row(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .selectable(
-                                            selected = (option == selectedBlessOption),
-                                            onClick = {},
-                                            role = Role.RadioButton,
-                                        )
-                                        .combinedClickable(
-                                            onClick = {
-                                                onBlessOptionSelected(option)
-                                            },
-                                            onLongClick = {
-                                                goToHelpScreen("Blessed / Cursed")
-                                            },
-                                        )
-                                        .padding(horizontal = 16.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    RadioButton(
+                ) {
+                    Column(modifier = Modifier.selectableGroup()) {
+                        BlessOption.entries.forEach { option ->
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .selectable(
                                         selected = (option == selectedBlessOption),
-                                        onClick = null,
+                                        onClick = {},
+                                        role = Role.RadioButton,
                                     )
-                                    Text(
-                                        text = option.text,
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        modifier = Modifier.padding(start = 16.dp),
+                                    .combinedClickable(
+                                        onClick = {
+                                            onBlessOptionSelected(option)
+                                        },
+                                        onLongClick = {
+                                            goToHelpScreen("Blessed / Cursed")
+                                        },
                                     )
-                                }
+                                    .padding(horizontal = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                RadioButton(
+                                    selected = (option == selectedBlessOption),
+                                    onClick = null,
+                                )
+                                Text(
+                                    text = option.text,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(start = 16.dp),
+                                )
                             }
                         }
-                    },
-                )
+                    }
+                }
             }
             item {
                 HorizontalDivider()
@@ -295,47 +298,6 @@ internal fun MainArkhamTab(
                             ),
                         )
                     },
-                    headlineContent = {
-                        Column(Modifier.selectableGroup()) {
-                            InvestigatorOption.entries.forEach { option ->
-                                Row(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .selectable(
-                                            selected = (option == selectedInvestigatorOption),
-                                            onClick = { },
-                                            role = Role.RadioButton,
-                                        )
-                                        .combinedClickable(
-                                            onClick = {
-                                                if (option != InvestigatorOption.NORMAL) {
-                                                    isRerollOnesChecked = false
-                                                    isRerollOnesEnabled = false
-                                                } else {
-                                                    isRerollOnesEnabled = true
-                                                }
-                                                onInvestigatorOptionSelected(option)
-                                            },
-                                            onLongClick = {
-                                                goToHelpScreen(option.helpLabel)
-                                            },
-                                        )
-                                        .padding(horizontal = 16.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                ) {
-                                    RadioButton(
-                                        selected = (option == selectedInvestigatorOption),
-                                        onClick = null,
-                                    )
-                                    Text(
-                                        text = option.textLabel,
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        modifier = Modifier.padding(start = 16.dp),
-                                    )
-                                }
-                            }
-                        }
-                    },
                     supportingContent = {
                         if (
                             selectedInvestigatorOption.singleUseChanceNotice != null &&
@@ -344,8 +306,50 @@ internal fun MainArkhamTab(
                             Text(stringResource(selectedInvestigatorOption.singleUseChanceNotice))
                         }
                     },
-                )
+
+                ) {
+                    Column(Modifier.selectableGroup()) {
+                        InvestigatorOption.entries.forEach { option ->
+                            Row(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .selectable(
+                                        selected = (option == selectedInvestigatorOption),
+                                        onClick = { },
+                                        role = Role.RadioButton,
+                                    )
+                                    .combinedClickable(
+                                        onClick = {
+                                            if (option != InvestigatorOption.NORMAL) {
+                                                isRerollOnesChecked = false
+                                                isRerollOnesEnabled = false
+                                            } else {
+                                                isRerollOnesEnabled = true
+                                            }
+                                            onInvestigatorOptionSelected(option)
+                                        },
+                                        onLongClick = {
+                                            goToHelpScreen(option.helpLabel)
+                                        },
+                                    )
+                                    .padding(horizontal = 16.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                RadioButton(
+                                    selected = (option == selectedInvestigatorOption),
+                                    onClick = null,
+                                )
+                                Text(
+                                    text = option.textLabel,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    modifier = Modifier.padding(start = 16.dp),
+                                )
+                            }
+                        }
+                    }
+                }
             }
+
             item {
                 HorizontalDivider()
             }
@@ -370,17 +374,6 @@ internal fun MainArkhamTab(
                             ),
                         )
                     },
-                    headlineContent = {
-                        CheckboxAndLabelWithHelp(
-                            enabled = isRerollOnesEnabled,
-                            checked = isRerollOnesChecked,
-                            onCheckedChange = { newValue ->
-                                isRerollOnesChecked = newValue
-                            },
-                            goToHelpScreen = goToHelpScreen,
-                            label = "Reroll Ones",
-                        )
-                    },
                     supportingContent = {
                         if (
                             isRerollOnesChecked &&
@@ -389,34 +382,32 @@ internal fun MainArkhamTab(
                             Text(stringResource(R.string.reroll_ones_chances_message))
                         }
                     },
-                )
+                ) {
+                    CheckboxAndLabelWithHelp(
+                        enabled = isRerollOnesEnabled,
+                        checked = isRerollOnesChecked,
+                        onCheckedChange = { newValue ->
+                            isRerollOnesChecked = newValue
+                        },
+                        goToHelpScreen = goToHelpScreen,
+                        label = "Reroll Ones",
+                    )
+                }
+            }
+            item {
+                ListItem {
+                    CheckboxAndLabelWithHelp(
+                        checked = isAddOneChecked,
+                        onCheckedChange = { newValue ->
+                            isAddOneChecked = newValue
+                        },
+                        label = "Add One",
+                        goToHelpScreen = goToHelpScreen,
+                    )
+                }
             }
             item {
                 ListItem(
-                    headlineContent = {
-                        CheckboxAndLabelWithHelp(
-                            checked = isAddOneChecked,
-                            onCheckedChange = { newValue ->
-                                isAddOneChecked = newValue
-                            },
-                            label = "Add One",
-                            goToHelpScreen = goToHelpScreen,
-                        )
-                    },
-                )
-            }
-            item {
-                ListItem(
-                    headlineContent = {
-                        CheckboxAndLabelWithHelp(
-                            checked = isShotgunChecked,
-                            onCheckedChange = { newValue ->
-                                isShotgunChecked = newValue
-                            },
-                            label = "Shotgun",
-                            goToHelpScreen = goToHelpScreen,
-                        )
-                    },
                     supportingContent = {
                         if (
                             isShotgunChecked &&
@@ -425,7 +416,16 @@ internal fun MainArkhamTab(
                             Text(stringResource(R.string.shotgun_has_no_effect_when_difficulty_is_equal_to_1))
                         }
                     },
-                )
+                ) {
+                    CheckboxAndLabelWithHelp(
+                        checked = isShotgunChecked,
+                        onCheckedChange = { newValue ->
+                            isShotgunChecked = newValue
+                        },
+                        label = "Shotgun",
+                        goToHelpScreen = goToHelpScreen,
+                    )
+                }
             }
             item {
                 HorizontalDivider()

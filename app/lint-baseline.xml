@@ -2,179 +2,36 @@
 <issues format="6" by="lint 9.5.2" type="baseline" client="gradle" dependencies="true" name="AGP (9.5.2)" variant="all" version="9.5.2">
 
     <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.animation:animation than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
+        id="DeprecatedCall"
+        message="androidx.compose.material3.SliderKt.Slider is deprecated; consider using an alternative."
+        errorLine1="                    Slider("
+        errorLine2="                    ^">
         <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
+            file="src/main/java/com/eitanadler/arkhamcalcredux2/MainArkhamTab.kt"
+            line="150"
+            column="21"/>
     </issue>
 
     <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.animation:animation-core than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
+        id="DeprecatedCall"
+        message="androidx.compose.material3.SliderKt.Slider is deprecated; consider using an alternative."
+        errorLine1="                    Slider("
+        errorLine2="                    ^">
         <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
+            file="src/main/java/com/eitanadler/arkhamcalcredux2/MainArkhamTab.kt"
+            line="180"
+            column="21"/>
     </issue>
 
     <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.runtime:runtime than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
+        id="DeprecatedCall"
+        message="androidx.compose.material3.SliderKt.Slider is deprecated; consider using an alternative."
+        errorLine1="                    Slider("
+        errorLine2="                    ^">
         <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.runtime:runtime-annotation than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.runtime:runtime-saveable than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.ui:ui than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.ui:ui-graphics than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.ui:ui-test-junit4 than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.ui:ui-test-manifest than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.ui:ui-text than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.ui:ui-tooling than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.ui:ui-unit than 1.12.1 is available: 1.13.0"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="Upgrade `androidx.compose.foundation` for keyboard and mouse support"
-        errorLine1="compose = &quot;1.12.1&quot;"
-        errorLine2="          ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="8"
-            column="11"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose:compose-bom than 2026.09.00 is available: 2026.11.01"
-        errorLine1="composeBom = &quot;2026.09.00&quot;"
-        errorLine2="             ~~~~~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="9"
-            column="14"/>
-    </issue>
-
-    <issue
-        id="GradleDependency"
-        message="A newer version of androidx.compose.material3:material3 than 1.5.0-beta02 is available: 1.5.0"
-        errorLine1="material3 = &quot;1.5.0&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="27"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="NewerVersionAvailable"
-        message="A newer version of org.jetbrains.kotlinx:kotlinx-serialization-core than 1.12.0 is available: 1.13.0"
-        errorLine1="kotlinxSerializationCore = &quot;1.13.0&quot;"
-        errorLine2="                           ~~~~~~~~">
-        <location
-            file="../gradle/libs.versions.toml"
-            line="20"
-            column="28"/>
+            file="src/main/java/com/eitanadler/arkhamcalcredux2/MainArkhamTab.kt"
+            line="210"
+            column="21"/>
     </issue>
 
 </issues>

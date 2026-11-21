@@ -22,7 +22,11 @@ try {
 }
 
 android {
-    compileSdk = 37
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 1
+        }
+    }
     defaultConfig {
         applicationId = "com.eitanadler.arkhamcalcredux2"
         minSdk = 26
@@ -117,7 +121,7 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.runtime)
     implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.tooling)
+//    implementation(libs.androidx.ui.tooling)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.nanihadesuka.lazycolumnscrollbar)
 
