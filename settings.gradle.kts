@@ -9,7 +9,6 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
-        maven { url = 'https://jitpack.io' }
     }
 }
 plugins {
@@ -17,7 +16,7 @@ plugins {
     id("com.autonomousapps.build-health") version "3.20.4"
     id("org.jetbrains.kotlin.jvm") version "2.4.21" apply false
 
-    id("com.android.application") version '9.5.2' apply false
+    id("com.android.application") version "9.5.2" apply false
     id("org.jetbrains.kotlin.android") version "2.4.21" apply false
 }
 
@@ -37,7 +36,7 @@ dependencyAnalysis {
 
 rootProject.name = "ArkhamCalc"
 
-include(':app')
+include(":app")
 
 enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
