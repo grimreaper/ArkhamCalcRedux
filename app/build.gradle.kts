@@ -14,7 +14,7 @@ plugins {
 val keystoreProperties: Properties = Properties()
 var successfulLoadProperties: Boolean = false
 try {
-    rootProject.file("keystore.properties").inputStream().use { it ->
+    rootProject.file("keystore.properties").inputStream().use {
         keystoreProperties.load(it)
     }
     successfulLoadProperties = true

@@ -62,7 +62,7 @@ class ScreenshotGenerationTest {
         Screengrab.setDefaultScreenshotStrategy(UiAutomatorScreenshotStrategy())
 
         composeTestRule.setContent {
-            ArkhamCalcScaffold {
+            ArkhamCalcScaffold(goTo = {}) {
                 ArkhamCalcHelpTab()
             }
         }
