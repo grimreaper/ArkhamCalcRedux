@@ -22,9 +22,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.eitanadler.arkhamcalcredux2.ux.ArkhamCalcOuterScaffold
 
-/**
- * The main activity. Routes user input to Calculator and prints its results.
- */
 public class ArkhamCalc : ComponentActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
