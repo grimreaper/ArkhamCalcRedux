@@ -18,6 +18,7 @@ package com.eitanadler.arkhamcalcredux2
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Icon
@@ -59,9 +60,14 @@ internal fun ArkhamCalcHelpTab(
     }
 
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         state = listState,
     ) {
+        item {
+            // still trying to figure wtf this is needed
+            ListItem { }
+            ListItem { }
+        }
         helpTopics.forEachIndexed { index, topic ->
             item(key = topic) {
                 val initialValueForOpenClose =
@@ -82,14 +88,15 @@ internal fun ArkhamCalcHelpTab(
                             )
                         }
                     },
-                    headlineContent = { Text(topic) },
                     supportingContent = {
                         AnimatedVisibility(visible = isExpanded) {
                             Text(helpContent[index])
                         }
                     },
                     modifier = Modifier.clickable { isExpanded = !isExpanded },
-                )
+                ) {
+                    Text(topic)
+                }
             }
         }
     }
