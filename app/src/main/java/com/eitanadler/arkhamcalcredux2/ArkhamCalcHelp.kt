@@ -63,11 +63,6 @@ internal fun ArkhamCalcHelpTab(
         modifier = modifier.fillMaxSize(),
         state = listState,
     ) {
-        item {
-            // still trying to figure wtf this is needed
-            ListItem { }
-            ListItem { }
-        }
         helpTopics.forEachIndexed { index, topic ->
             item(key = topic) {
                 val initialValueForOpenClose =

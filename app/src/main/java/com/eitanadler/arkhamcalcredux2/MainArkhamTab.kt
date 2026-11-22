@@ -107,13 +107,6 @@ internal fun MainArkhamTab(
         LazyColumn(
             state = listState,
         ) {
-            // not sure why these two are required.
-            item {
-                ListItem { }
-            }
-            item {
-                ListItem { }
-            }
             item {
                 ListItem {
                     Column(

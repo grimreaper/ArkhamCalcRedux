@@ -1,5 +1,6 @@
 package com.eitanadler.arkhamcalcredux2.ux
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -7,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -74,34 +74,39 @@ internal fun ArkhamCalcScaffold(
     content: @Composable (Modifier) -> Unit,
 ) {
     ArkhamCalcReduxTheme {
-        Surface(modifier = modifier.fillMaxSize()) {
-            val snackbarHostState = remember { SnackbarHostState() }
-            Scaffold(
-                snackbarHost = {
-                    SnackbarHost(hostState = snackbarHostState)
-                },
-                topBar = {
-                    CenterAlignedTopAppBar(
-                        colors =
-                        TopAppBarDefaults.topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.primaryContainer,
-                            titleContentColor = MaterialTheme.colorScheme.primary,
+        val snackbarHostState = remember { SnackbarHostState() }
+        Scaffold(
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState)
+            },
+            topBar = {
+                CenterAlignedTopAppBar(
+                    colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    title = { Text(stringResource(R.string.arkham_horror_calculator)) },
+                    scrollBehavior =
+                    TopAppBarDefaults
+                        .exitUntilCollapsedScrollBehavior(
+                            rememberTopAppBarState(),
                         ),
-                        title = { Text(stringResource(R.string.arkham_horror_calculator)) },
-                        scrollBehavior =
-                        TopAppBarDefaults
-                            .exitUntilCollapsedScrollBehavior(
-                                rememberTopAppBarState(),
-                            ),
-                        actions = {
-                            ArkhamDropdown(
-                                goTo = goTo,
-                            )
-                        },
-                    )
-                },
-            ) { paddingValues ->
-                content(Modifier.padding(paddingValues))
+                    actions = {
+                        ArkhamDropdown(
+                            goTo = goTo,
+                        )
+                    },
+                )
+            },
+            modifier = modifier,
+        ) { paddingValues ->
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+            ) {
+                content(Modifier)
             }
         }
     }

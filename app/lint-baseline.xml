@@ -8,7 +8,7 @@
         errorLine2="                    ^">
         <location
             file="src/main/java/com/eitanadler/arkhamcalcredux2/MainArkhamTab.kt"
-            line="150"
+            line="143"
             column="21"/>
     </issue>
 
@@ -19,7 +19,7 @@
         errorLine2="                    ^">
         <location
             file="src/main/java/com/eitanadler/arkhamcalcredux2/MainArkhamTab.kt"
-            line="180"
+            line="173"
             column="21"/>
     </issue>
 
@@ -30,7 +30,7 @@
         errorLine2="                    ^">
         <location
             file="src/main/java/com/eitanadler/arkhamcalcredux2/MainArkhamTab.kt"
-            line="210"
+            line="203"
             column="21"/>
     </issue>
 
